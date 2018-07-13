@@ -6,9 +6,15 @@ struct
 	{
 		return { AudioEventSpecification(spec.get_filename()) };
 	}
-	std::vector<EventSpecification> operator()(const AudioEventSpecification& spec)
+
+	std::vector<EventSpecification> operator()(const AudioEventSpecification&)
 	{
 		return {};
+	}
+
+	std::vector<EventSpecification> operator()(const WriteEventSpecification& spec)
+	{
+		return { BeatEventSpecification(spec.get_input_filename(), 0.f) };
 	}
 
 } _dependency_resolver;

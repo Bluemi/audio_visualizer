@@ -24,7 +24,7 @@ EventList EventListBuilder::build()
 	std::vector<EventSpecification> targets = get_specification_dependencies(_targets);
 	std::vector<Generator> generators = build_generators(targets);
 	compute_generators(&generators);
-	return EventList();
+	return data_to_event_list();
 }
 
 const unsigned int EMERGENCY_BREAK_SIZE = 10000;
@@ -73,4 +73,19 @@ void EventListBuilder::compute_generators(std::vector<Generator>* generators)
 	{
 		compute_generator(i);
 	}
+}
+
+EventList EventListBuilder::data_to_event_list() const
+{
+	EventList event_list;
+	std::vector<essentia::Real> ticks =  _pool.value<std::vector<essentia::Real>>("highlevel.tick_positions");
+	for (const auto& i : ticks)
+	{
+		Event e(BeatEvent(1.f), i-0.01f);
+		event_list.push_back(e);
+	}
+
+	// TODO sort event list
+
+	return event_list;
 }

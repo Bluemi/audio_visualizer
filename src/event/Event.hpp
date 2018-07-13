@@ -13,6 +13,8 @@ class Event
 	public:
 		template<typename Ev>
 		Event(const Ev& event, double time) : _event(event), _time(time) {}
+
+		double get_time() const { return _time; }
 	private:
 		_EventVar _event;
 		double _time;

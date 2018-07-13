@@ -24,6 +24,7 @@ class EventListBuilder
 		std::vector<EventSpecification> get_specification_dependencies(const std::vector<EventSpecification>& specifications) const;
 		std::vector<Generator> build_generators(const std::vector<EventSpecification>& specifications);
 		void compute_generators(std::vector<Generator>* generators);
+		EventList data_to_event_list() const;
 
 		std::vector<EventSpecification> _targets;
 		essentia::standard::AlgorithmFactory* _algorithm_factory;

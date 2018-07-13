@@ -13,10 +13,13 @@ class AudioVisualizer
 		AudioVisualizer();
 		EventList generate_events();
 		void setup_objects();
-		void run();
+		void run(const EventList& event_list);
 	private:
+		EventList get_current_events(const EventList& event_list);
+
 		visualizer::Visualizer _visualizer;
 		EventListBuilder _event_list_builder;
+		unsigned int _event_index;
 };
 
 #endif

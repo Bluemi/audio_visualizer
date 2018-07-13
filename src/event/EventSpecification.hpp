@@ -37,7 +37,18 @@ class AudioEventSpecification : public EventSpecificationOperators<AudioEventSpe
 		std::string _filename;
 };
 
-using EventSpecification = std::variant<AudioEventSpecification, BeatEventSpecification>;
+class WriteEventSpecification : public EventSpecificationOperators<WriteEventSpecification>
+{
+	public:
+		WriteEventSpecification(const std::string& input_filename, const std::string& output_filename) : _input_filename(input_filename), _output_filename(output_filename) {}
+		std::string get_input_filename() const { return _input_filename; }
+		std::string get_output_filename() const { return _output_filename; }
+	private:
+		std::string _input_filename;
+		std::string _output_filename;
+};
+
+using EventSpecification = std::variant<AudioEventSpecification, BeatEventSpecification, WriteEventSpecification>;
 
 std::vector<EventSpecification> get_dependencies(const EventSpecification& specification);
 

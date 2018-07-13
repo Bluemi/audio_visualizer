@@ -16,6 +16,11 @@ class GeneratorExtractor
 		{
 			return AudioDataGenerator(_pool, _algorithm_factory, spec.get_filename());
 		}
+
+		Generator operator()(const WriteEventSpecification& spec)
+		{
+			return WriteDataGenerator(_pool, _algorithm_factory, spec.get_output_filename());
+		}
 	private:
 		essentia::Pool* _pool;
 		essentia::standard::AlgorithmFactory* _algorithm_factory;

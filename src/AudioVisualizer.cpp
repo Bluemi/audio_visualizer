@@ -18,7 +18,7 @@ void AudioVisualizer::init()
 }
 
 AudioVisualizer::AudioVisualizer()
-	: _visualizer(*v::Visualizer::create(800, 600))
+	: _visualizer(*v::Visualizer::create(800, 600)), _event_index(0)
 {}
 
 EventList AudioVisualizer::generate_events()
@@ -50,14 +50,12 @@ void AudioVisualizer::setup_objects()
 	v::EntityGroup cubes = _visualizer.get_entities().query_group(cube_query);
 
 	v::Movement cube_circle(new v::Circle(glm::vec3(), 5.f));
-	v::Movement cube_drag(new v::SimpleDrag(0.3f));
-	v::Movement cube_random(new v::RandomAcceleration(0.08f, 60));
+	v::Movement cube_drag(new v::SimpleDrag(0.2f));
 
 	for (v::Movable* m : cubes)
 	{
 		m->add_movement(cube_circle);
 		m->add_movement(cube_drag);
-		m->add_movement(cube_random);
 	}
 
 	v::Query sphere_query = v::Query().with_shape(v::ShapeType::SPHERE);
@@ -65,23 +63,52 @@ void AudioVisualizer::setup_objects()
 
 	v::Movement sphere_circle(new v::Circle(glm::vec3(0.f, 1.f, 0.f), 3.f));
 	v::Movement sphere_drag(new v::SimpleDrag(0.2f));
-	v::Movement sphere_random(new v::RandomAcceleration(0.18f, 30));
 
 	for (v::Movable* m : spheres)
 	{
 		m->add_movement(sphere_circle);
 		m->add_movement(sphere_drag);
-		m->add_movement(sphere_random);
 	}
 }
 
-void AudioVisualizer::run()
+void AudioVisualizer::run(const EventList& event_list)
 {
+	system("cvlc input.wav &");
+
 	while (!_visualizer.should_close())
 	{
+		EventList current_events = get_current_events(event_list);
+
+		if (current_events.size())
+		{
+			v::Movement r_acc(new v::RandomAcceleration(.1f));
+			for (auto it = _visualizer.get_entities().begin(); it != _visualizer.get_entities().end(); ++it)
+			{
+				(*it).add_movement(r_acc);
+			}
+		}
+
 		_visualizer.tick();
 		_visualizer.render();
 	}
 
+	system("pkill vlc");
+
 	_visualizer.close();
+}
+
+EventList AudioVisualizer::get_current_events(const EventList& event_list)
+{
+	EventList el;
+	double current_time = _visualizer.get_time();
+	for (unsigned int i = _event_index; i < event_list.size(); i++)
+	{
+		if (event_list[i].get_time() < current_time)
+		{
+			el.push_back(event_list[i]);
+			_event_index = i+1;
+		} else break;
+	}
+
+	return el;
 }

@@ -6,9 +6,9 @@ int main()
 {
 	AudioVisualizer::init();
 	AudioVisualizer av;
-	av.generate_events();
+	EventList el = av.generate_events();
 	av.setup_objects();
-	av.run();
+	av.run(el);
 
 	return 0;
 }
