@@ -12,12 +12,11 @@ class AudioVisualizer
 
 		AudioVisualizer();
 		EventList generate_events();
-		void setup_objects();
+		void setup_objects(visualizer::Visualizer* visualizer);
 		void run(const EventList& event_list);
 	private:
-		EventList get_current_events(const EventList& event_list);
+		EventList get_current_events(const EventList& event_list, double current_time);
 
-		visualizer::Visualizer _visualizer;
 		unsigned int _event_index;
 };
 

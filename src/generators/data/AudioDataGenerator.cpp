@@ -14,8 +14,14 @@ void AudioDataGenerator::compute()
 
 	std::vector<essentia::Real> audio_data;
 	audio_loader->output("audio").set(audio_data);
+
+	std::cout << "Loading Audio Data... " << std::flush;
+
 	audio_loader->compute();
+
 	_pool->set("lowlevel.audio", audio_data);
+
+	std::cout << "Done." << std::endl;
 
 	delete audio_loader;
 }

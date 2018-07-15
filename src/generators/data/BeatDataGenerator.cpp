@@ -19,9 +19,12 @@ void BeatDataGenerator::compute()
 	rhythm_extractor->output("estimates").set(estimates);
 	rhythm_extractor->output("bpmIntervals").set(bpmIntervals);
 
+	std::cout << "Generating Beat Events... " << std::flush;
 	rhythm_extractor->compute();
 
 	_pool->set("highlevel.tick_positions", ticks);
+
+	std::cout << "Done." << std::endl;
 
 	delete rhythm_extractor;
 }
