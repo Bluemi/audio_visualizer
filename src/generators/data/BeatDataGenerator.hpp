@@ -4,8 +4,6 @@
 #include <essentia/algorithmfactory.h>
 #include <essentia/pool.h>
 
-#include "../event/Event.hpp"
-
 class BeatDataGenerator
 {
 	public:

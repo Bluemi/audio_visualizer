@@ -2,24 +2,13 @@
 
 struct
 {
-	std::vector<EventSpecification> operator()(const BeatEventSpecification& spec)
+	std::vector<DataSpecification> operator()(const BeatEventSpecification& bes)
 	{
-		return { AudioEventSpecification(spec.get_filename()) };
+		return { BeatDataSpecification(bes.get_min_amplitude()) };
 	}
+} _needed_data_extractor;
 
-	std::vector<EventSpecification> operator()(const AudioEventSpecification&)
-	{
-		return {};
-	}
-
-	std::vector<EventSpecification> operator()(const WriteEventSpecification& spec)
-	{
-		return { BeatEventSpecification(spec.get_input_filename(), 0.f) };
-	}
-
-} _dependency_resolver;
-
-std::vector<EventSpecification> get_dependencies(const EventSpecification& specification)
+std::vector<DataSpecification> get_needed_data_specifications(const EventSpecification& event_specification)
 {
-	return std::visit(_dependency_resolver, specification);
+	return std::visit(_needed_data_extractor, event_specification);
 }

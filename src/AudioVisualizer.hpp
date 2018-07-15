@@ -18,7 +18,6 @@ class AudioVisualizer
 		EventList get_current_events(const EventList& event_list);
 
 		visualizer::Visualizer _visualizer;
-		EventListBuilder _event_list_builder;
 		unsigned int _event_index;
 };
 

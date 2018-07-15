@@ -24,11 +24,12 @@ AudioVisualizer::AudioVisualizer()
 EventList AudioVisualizer::generate_events()
 {
 	std::vector<EventSpecification> targets = {
-		BeatEventSpecification("input.wav", 0.f)
+		BeatEventSpecification(0.f)
 	};
-	_event_list_builder.with_targets(targets);
+	EventListBuilder event_list_builder("input.wav");
+	event_list_builder.with_targets(targets);
 
-	return _event_list_builder.build();
+	return event_list_builder.build();
 }
 
 void AudioVisualizer::setup_objects()

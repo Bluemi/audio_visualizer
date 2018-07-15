@@ -1,7 +1,7 @@
 #include "AudioDataGenerator.hpp"
 
-AudioDataGenerator::AudioDataGenerator(essentia::Pool* pool, essentia::standard::AlgorithmFactory* algorithm_factory, const std::string& filename)
-	: _pool(pool), _algorithm_factory(algorithm_factory), _filename(filename)
+AudioDataGenerator::AudioDataGenerator(essentia::Pool* pool, essentia::standard::AlgorithmFactory* algorithm_factory)
+	: _pool(pool), _algorithm_factory(algorithm_factory)
 {}
 
 unsigned int SAMPLERATE = 44100;
@@ -18,4 +18,9 @@ void AudioDataGenerator::compute()
 	_pool->set("lowlevel.audio", audio_data);
 
 	delete audio_loader;
+}
+
+void AudioDataGenerator::set_filename(const std::string& filename)
+{
+	_filename = filename;
 }

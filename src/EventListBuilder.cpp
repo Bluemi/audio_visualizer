@@ -1,8 +1,10 @@
 #include "EventListBuilder.hpp"
 
 #include "misc/Misc.hpp"
+#include "data/DataGeneratorParameterProvider.hpp"
 
-EventListBuilder::EventListBuilder()
+EventListBuilder::EventListBuilder(const std::string& filename)
+	: _filename(filename)
 {
 	essentia::init();
 	_algorithm_factory = &essentia::standard::AlgorithmFactory::instance();
@@ -21,21 +23,42 @@ EventListBuilder& EventListBuilder::with_targets(const std::vector<EventSpecific
 
 EventList EventListBuilder::build()
 {
-	std::vector<EventSpecification> targets = get_specification_dependencies(_targets);
-	std::vector<Generator> generators = build_generators(targets);
-	compute_generators(&generators);
-	return data_to_event_list();
+	// generate DataSpecifications
+	std::vector<DataSpecification> data_specifications = get_event_specification_dependencies(_targets);
+	data_specifications = get_data_specification_dependencies(data_specifications);
+
+	// generate DataGenerators
+	std::vector<DataGenerator> data_generators = create_data_generators(data_specifications);
+	provide_data_generator_parameters(&data_generators);
+	compute_data_generators(&data_generators);
+
+	std::vector<EventGenerator> event_generators = create_event_generators(_targets);
+	// provide parameters for event_generators?
+	EventList event_list = compute_event_generators(event_generators);
+	return event_list;
+}
+
+std::vector<DataSpecification> EventListBuilder::get_event_specification_dependencies(const std::vector<EventSpecification>& event_specifications) const
+{
+	std::vector<DataSpecification> data_specifications;
+	for (const EventSpecification& event_spec : event_specifications)
+	{
+		std::vector<DataSpecification> tmp = get_needed_data_specifications(event_spec);
+		data_specifications.insert(data_specifications.end(), tmp.cbegin(), tmp.cend());
+	}
+
+	return data_specifications;
 }
 
 const unsigned int EMERGENCY_BREAK_SIZE = 10000;
 
-std::vector<EventSpecification> EventListBuilder::get_specification_dependencies(const std::vector<EventSpecification>& specifications) const
+std::vector<DataSpecification> EventListBuilder::get_data_specification_dependencies(const std::vector<DataSpecification>& data_specifications) const
 {
-	std::vector<EventSpecification> reverse_dependencies = specifications;
+	std::vector<DataSpecification> reverse_dependencies = data_specifications;
 
 	for (unsigned int i = 0; i < reverse_dependencies.size(); i++)
 	{
-		std::vector<EventSpecification> tmp = get_dependencies(reverse_dependencies[i]);
+		std::vector<DataSpecification> tmp = get_dependencies(reverse_dependencies[i]);
 		reverse_dependencies.insert(reverse_dependencies.end(), tmp.cbegin(), tmp.cend());
 
 		if (reverse_dependencies.size() > EMERGENCY_BREAK_SIZE)
@@ -44,7 +67,7 @@ std::vector<EventSpecification> EventListBuilder::get_specification_dependencies
 		}
 	}
 
-	std::vector<EventSpecification> dependencies;
+	std::vector<DataSpecification> dependencies;
 
 	for (auto it = reverse_dependencies.crbegin(); it != reverse_dependencies.crend(); ++it)
 	{
@@ -57,35 +80,48 @@ std::vector<EventSpecification> EventListBuilder::get_specification_dependencies
 	return dependencies;
 }
 
-std::vector<Generator> EventListBuilder::build_generators(const std::vector<EventSpecification>& specifications)
+std::vector<DataGenerator> EventListBuilder::create_data_generators(const std::vector<DataSpecification>& data_specifications)
 {
-	std::vector<Generator> generators;
-	for (const auto& spec : specifications)
+	std::vector<DataGenerator> generators;
+	for (const auto& spec : data_specifications)
 	{
-		generators.push_back(build_generator(&_pool, _algorithm_factory, spec));
+		generators.push_back(create_generator(&_pool, _algorithm_factory, spec));
 	}
 	return generators;
 }
 
-void EventListBuilder::compute_generators(std::vector<Generator>* generators)
+void EventListBuilder::provide_data_generator_parameters(std::vector<DataGenerator>* data_generators) const
 {
-	for (auto& i : *generators)
-	{
-		compute_generator(i);
-	}
+	DataGeneratorParameterProvider dgpp(_filename);
+
+	for (DataGenerator& dg : *data_generators)
+		dgpp.provide(&dg);
 }
 
-EventList EventListBuilder::data_to_event_list() const
+void EventListBuilder::compute_data_generators(std::vector<DataGenerator>* generators)
+{
+	for (auto& g : *generators)
+		compute_generator(g);
+}
+
+std::vector<EventGenerator> EventListBuilder::create_event_generators(const std::vector<EventSpecification>& event_specifications) const
+{
+	std::vector<EventGenerator> event_generators;
+
+	for (const EventSpecification& event_spec : event_specifications)
+		event_generators.push_back(create_event_generator(event_spec));
+
+	return event_generators;
+}
+
+EventList EventListBuilder::compute_event_generators(const std::vector<EventGenerator>& event_generators) const
 {
 	EventList event_list;
-	std::vector<essentia::Real> ticks =  _pool.value<std::vector<essentia::Real>>("highlevel.tick_positions");
-	for (const auto& i : ticks)
+	for (const EventGenerator& eg : event_generators)
 	{
-		Event e(BeatEvent(1.f), i-0.01f);
-		event_list.push_back(e);
+		EventList tmp = compute_event_generator(eg, _pool);
+		event_list.insert(event_list.end(), tmp.cbegin(), tmp.cend());
 	}
-
-	// TODO sort event list
 
 	return event_list;
 }
