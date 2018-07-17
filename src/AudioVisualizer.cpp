@@ -37,13 +37,17 @@ void AudioVisualizer::setup_objects(visualizer::Visualizer* visualizer)
 	v::VectorGenerator pos_gen = v::VectorGenerator().with_stddev(glm::vec3(5.f, 5.f, 5.f));
 	v::VectorGenerator size_gen = v::VectorGenerator(glm::vec3(0.05f, 0.05f, 0.05f)).with_stddev(glm::vec3(0.01f));
 	v::VectorGenerator speed_gen = v::VectorGenerator().with_stddev(glm::vec3(1.f, 1.f, 1.f));
+	float brightness = 0.05f;
+	float color_var = 0.03f;
+	v::VectorGenerator color_gen = v::VectorGenerator(glm::vec3(brightness*3, brightness, brightness)).with_stddev(glm::vec3(color_var*2, color_var, color_var));
 	v::ShapeGenerator shape_gen = v::ShapeGenerator(v::SphereSpecification(2), 1.f).with_shape(v::CubeSpecification(), 1.f);
 
 	v::Creation creation = v::Creation(shape_gen)
 		.with_quantity(2000)
 		.with_position(pos_gen)
 		.with_size(size_gen)
-		.with_velocity(speed_gen);
+		.with_velocity(speed_gen)
+		.with_color(color_gen);
 
 	visualizer->create_entities(creation);
 
