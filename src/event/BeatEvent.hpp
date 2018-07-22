@@ -4,9 +4,10 @@
 class BeatEvent
 {
 	public:
-		BeatEvent(float amplitude);
+		BeatEvent(float relative_amplitude);
+		float get_relative_amplitude() const;
 	private:
-		float _amplitude;
+		float _relative_amplitude;
 };
 
 #endif

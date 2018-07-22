@@ -4,7 +4,7 @@ DataGeneratorParameterProvider::DataGeneratorParameterProvider(const std::string
 	: _filename(filename)
 {}
 
-void DataGeneratorParameterProvider::operator()(BeatDataGenerator&)
+void DataGeneratorParameterProvider::operator()(TickDataGenerator&)
 {}
 
 void DataGeneratorParameterProvider::operator()(AudioDataGenerator& adg)
@@ -13,6 +13,18 @@ void DataGeneratorParameterProvider::operator()(AudioDataGenerator& adg)
 }
 
 void DataGeneratorParameterProvider::operator()(WriteDataGenerator&)
+{}
+
+void DataGeneratorParameterProvider::operator()(FrameDataGenerator&)
+{}
+
+void DataGeneratorParameterProvider::operator()(WindowedFrameDataGenerator&)
+{}
+
+void DataGeneratorParameterProvider::operator()(BarkBandsDataGenerator&)
+{}
+
+void DataGeneratorParameterProvider::operator()(SpectrumDataGenerator&)
 {}
 
 void DataGeneratorParameterProvider::provide(DataGenerator* data_generator)

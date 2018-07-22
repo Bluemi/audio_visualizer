@@ -2,19 +2,39 @@
 
 struct
 {
-	std::vector<DataSpecification> operator()(const BeatDataSpecification&)
-	{
-		return { AudioDataSpecification() };
-	}
-
 	std::vector<DataSpecification> operator()(const AudioDataSpecification&)
 	{
 		return {};
 	}
 
+	std::vector<DataSpecification> operator()(const FrameDataSpecification&)
+	{
+		return { AudioDataSpecification() };
+	}
+
+	std::vector<DataSpecification> operator()(const WindowedFrameDataSpecification&)
+	{
+		return { FrameDataSpecification() };
+	}
+
+	std::vector<DataSpecification> operator()(const SpectrumDataSpecification&)
+	{
+		return { WindowedFrameDataSpecification() };
+	}
+
+	std::vector<DataSpecification> operator()(const BarkBandsDataSpecification&)
+	{
+		return { SpectrumDataSpecification() };
+	}
+
+	std::vector<DataSpecification> operator()(const TickDataSpecification&)
+	{
+		return { AudioDataSpecification() };
+	}
+
 	std::vector<DataSpecification> operator()(const WriteDataSpecification&)
 	{
-		return { BeatDataSpecification(0.f) };
+		return { TickDataSpecification(0.f) };
 	}
 } _dependency_resolver;
 

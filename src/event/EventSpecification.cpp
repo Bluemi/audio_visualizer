@@ -2,9 +2,14 @@
 
 struct
 {
-	std::vector<DataSpecification> operator()(const BeatEventSpecification& bes)
+	std::vector<DataSpecification> operator()(const TickEventSpecification& bes)
 	{
-		return { BeatDataSpecification(bes.get_min_amplitude()) };
+		return { TickDataSpecification(bes.get_min_amplitude()) };
+	}
+
+	std::vector<DataSpecification> operator()(const BeatEventSpecification&)
+	{
+		return { BarkBandsDataSpecification() };
 	}
 } _needed_data_extractor;
 

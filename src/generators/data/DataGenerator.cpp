@@ -7,14 +7,34 @@ class GeneratorCreator
 			: _pool(pool), _algorithm_factory(algorithm_factory)
 		{}
 
-		DataGenerator operator()(const BeatDataSpecification& spec)
-		{
-			return BeatDataGenerator(_pool, _algorithm_factory, spec.get_min_amplitude());
-		}
-
 		DataGenerator operator()(const AudioDataSpecification&)
 		{
 			return AudioDataGenerator(_pool, _algorithm_factory);
+		}
+
+		DataGenerator operator()(const FrameDataSpecification&)
+		{
+			return FrameDataGenerator(_pool, _algorithm_factory);
+		}
+
+		DataGenerator operator()(const WindowedFrameDataSpecification&)
+		{
+			return WindowedFrameDataGenerator(_pool, _algorithm_factory);
+		}
+
+		DataGenerator operator()(const SpectrumDataSpecification&)
+		{
+			return SpectrumDataGenerator(_pool, _algorithm_factory);
+		}
+
+		DataGenerator operator()(const BarkBandsDataSpecification&)
+		{
+			return BarkBandsDataGenerator(_pool, _algorithm_factory);
+		}
+
+		DataGenerator operator()(const TickDataSpecification& spec)
+		{
+			return TickDataGenerator(_pool, _algorithm_factory, spec.get_min_amplitude());
 		}
 
 		DataGenerator operator()(const WriteDataSpecification& spec)
@@ -31,21 +51,6 @@ DataGenerator create_generator(essentia::Pool* pool, essentia::standard::Algorit
 	GeneratorCreator generator_creator(pool, algorithm_factory);
 	return std::visit(generator_creator, specification);
 }
-
-/*
-class
-{
-	public:
-		void operator()(BeatDataGenerator& generator)
-		{
-			generator.compute();
-		}
-		void operator()(AudioDataGenerator& generator)
-		{
-			generator.compute();
-		}
-} _generator_computer;
-*/
 
 void compute_generator(DataGenerator& generator)
 {

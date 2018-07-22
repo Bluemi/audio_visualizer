@@ -5,16 +5,20 @@
 
 #include "../data/DataSpecification.hpp"
 
-class BeatEventSpecification
+class TickEventSpecification
 {
 	public:
-		BeatEventSpecification(float min_amplitude) : _min_amplitude(min_amplitude) {}
+		TickEventSpecification(float min_amplitude) : _min_amplitude(min_amplitude) {}
 		float get_min_amplitude() const { return _min_amplitude; }
 	private:
 		float _min_amplitude;
 };
 
-using EventSpecification = std::variant<BeatEventSpecification>;
+class BeatEventSpecification
+{
+};
+
+using EventSpecification = std::variant<TickEventSpecification, BeatEventSpecification>;
 
 std::vector<DataSpecification> get_needed_data_specifications(const EventSpecification& event_specification);
 

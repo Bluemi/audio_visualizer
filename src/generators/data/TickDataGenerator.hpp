@@ -1,13 +1,13 @@
-#ifndef __BEATDATAGENERATOR_CLASS__
-#define __BEATDATAGENERATOR_CLASS__
+#ifndef __TICKDATAGENERATOR_CLASS__
+#define __TICKDATAGENERATOR_CLASS__
 
 #include <essentia/algorithmfactory.h>
 #include <essentia/pool.h>
 
-class BeatDataGenerator
+class TickDataGenerator
 {
 	public:
-		BeatDataGenerator(essentia::Pool* pool, essentia::standard::AlgorithmFactory* algorithm_factory, float min_amplitude);
+		TickDataGenerator(essentia::Pool* pool, essentia::standard::AlgorithmFactory* algorithm_factory, float min_amplitude);
 		void compute();
 	private:
 		essentia::Pool* _pool;

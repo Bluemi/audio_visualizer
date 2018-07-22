@@ -4,6 +4,11 @@
 
 struct
 {
+	EventGenerator operator()(const TickEventSpecification&)
+	{
+		return TickEventGenerator();
+	}
+
 	EventGenerator operator()(const BeatEventSpecification&)
 	{
 		return BeatEventGenerator();

@@ -1,5 +1,7 @@
 #include "AudioDataGenerator.hpp"
 
+#include "../../data/DataIdentifier.hpp"
+
 AudioDataGenerator::AudioDataGenerator(essentia::Pool* pool, essentia::standard::AlgorithmFactory* algorithm_factory)
 	: _pool(pool), _algorithm_factory(algorithm_factory)
 {}
@@ -19,7 +21,7 @@ void AudioDataGenerator::compute()
 
 	audio_loader->compute();
 
-	_pool->set("lowlevel.audio", audio_data);
+	_pool->set(data_identifier::AUDIO, audio_data);
 
 	std::cout << "Done." << std::endl;
 

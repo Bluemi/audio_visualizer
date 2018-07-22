@@ -17,20 +17,11 @@ class DataSpecificationOperators
 		bool operator>=(const Specification&) const { return true; }
 };
 
-class BeatDataSpecification : public DataSpecificationOperators<BeatDataSpecification>
-{
-	public:
-		BeatDataSpecification(float min_amplitude) : _min_amplitude(min_amplitude) {}
-		float get_min_amplitude() const { return _min_amplitude; }
-	private:
-		float _min_amplitude;
-};
-
-class AudioDataSpecification : public DataSpecificationOperators<AudioDataSpecification>
-{
-	public:
-		AudioDataSpecification() {}
-};
+class AudioDataSpecification : public DataSpecificationOperators<AudioDataSpecification> {};
+class FrameDataSpecification : public DataSpecificationOperators<FrameDataSpecification> {};
+class WindowedFrameDataSpecification : public DataSpecificationOperators<WindowedFrameDataSpecification> {};
+class SpectrumDataSpecification : public DataSpecificationOperators<SpectrumDataSpecification> {};
+class BarkBandsDataSpecification : public DataSpecificationOperators<BarkBandsDataSpecification> {};
 
 class WriteDataSpecification : public DataSpecificationOperators<WriteDataSpecification>
 {
@@ -42,7 +33,22 @@ class WriteDataSpecification : public DataSpecificationOperators<WriteDataSpecif
 		std::string _output_filename;
 };
 
-using DataSpecification = std::variant<AudioDataSpecification, BeatDataSpecification, WriteDataSpecification>;
+class TickDataSpecification : public DataSpecificationOperators<TickDataSpecification>
+{
+	public:
+		TickDataSpecification(float min_amplitude) : _min_amplitude(min_amplitude) {}
+		float get_min_amplitude() const { return _min_amplitude; }
+	private:
+		float _min_amplitude;
+};
+
+using DataSpecification = std::variant<AudioDataSpecification,
+									   TickDataSpecification,
+									   WriteDataSpecification,
+									   BarkBandsDataSpecification,
+									   SpectrumDataSpecification,
+									   FrameDataSpecification,
+									   WindowedFrameDataSpecification>;
 
 std::vector<DataSpecification> get_dependencies(const DataSpecification& specification);
 

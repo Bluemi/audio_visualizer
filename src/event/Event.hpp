@@ -4,9 +4,10 @@
 #include <variant>
 #include <vector>
 
+#include "TickEvent.hpp"
 #include "BeatEvent.hpp"
 
-using _EventVar = std::variant<BeatEvent>;
+using _EventVar = std::variant<TickEvent, BeatEvent>;
 
 class Event
 {
