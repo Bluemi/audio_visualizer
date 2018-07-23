@@ -16,6 +16,11 @@ class Event
 		Event(const Ev& event, double time) : _event(event), _time(time) {}
 
 		double get_time() const { return _time; }
+		_EventVar get_event() const { return _event; }
+		bool operator<(const Event& e)
+		{
+			return _time < e._time;
+		}
 	private:
 		_EventVar _event;
 		double _time;

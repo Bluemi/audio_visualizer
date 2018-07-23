@@ -35,6 +35,8 @@ EventList EventListBuilder::build()
 	std::vector<EventGenerator> event_generators = create_event_generators(_targets);
 	// provide parameters for event_generators?
 	EventList event_list = compute_event_generators(event_generators);
+	std::sort(event_list.begin(), event_list.end());
+
 	return event_list;
 }
 

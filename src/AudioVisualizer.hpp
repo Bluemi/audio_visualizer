@@ -16,6 +16,7 @@ class AudioVisualizer
 		void run(const EventList& event_list);
 	private:
 		EventList get_current_events(const EventList& event_list, double current_time);
+		void handle_events(const EventList& event_list, visualizer::Visualizer* visualizer);
 
 		unsigned int _event_index;
 };

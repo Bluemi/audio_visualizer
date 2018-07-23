@@ -106,19 +106,41 @@ void AudioVisualizer::run(const EventList& event_list)
 
 	setup_objects(&visualizer);
 
-	float b = 0.02f;
-	float v = 0.02f;
-	visualizer::Movement sphere_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(b*3, -b, -b)).with_stddev(glm::vec3(v, v, v))));
-	visualizer::Movement cube_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(b*3, b*3, -b)).with_stddev(glm::vec3(v, v, v))));
-
 	while (!visualizer.should_close())
 	{
 		EventList current_events = get_current_events(event_list, visualizer.get_time());
 
-		if (current_events.size())
+		handle_events(current_events, &visualizer);
+
+		visualizer.tick();
+		visualizer.render();
+	}
+
+	system("pkill vlc");
+
+	visualizer.close();
+}
+
+class EventHandler
+{
+	public:
+		EventHandler(visualizer::Visualizer* visualizer) : _visualizer(visualizer) {}
+
+		void operator()(const TickEvent&)
 		{
-			v::Movement r_acc(new v::RandomAcceleration(.1f));
-			for (auto it = visualizer.get_entities().begin(); it != visualizer.get_entities().end(); ++it)
+		}
+
+		void operator()(const BeatEvent& beat_event)
+		{
+			float value = std::pow(beat_event.get_relative_amplitude(), 1.0/3.0);
+
+			float b = 0.04f*value;
+			float v = 0.04f*value;
+			visualizer::Movement sphere_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(b*3, -b, -b)).with_stddev(glm::vec3(v, v, v))));
+			visualizer::Movement cube_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(b*3, b*3, -b)).with_stddev(glm::vec3(v, v, v))));
+
+			v::Movement r_acc(new v::RandomAcceleration(.2f*value));
+			for (auto it = _visualizer->get_entities().begin(); it != _visualizer->get_entities().end(); ++it)
 			{
 				(*it).add_movement(r_acc);
 				if ((*it).get_shape_specification() == visualizer::ShapeType::CUBE)
@@ -129,14 +151,18 @@ void AudioVisualizer::run(const EventList& event_list)
 				}
 			}
 		}
+	private:
+		visualizer::Visualizer* _visualizer;
+};
 
-		visualizer.tick();
-		visualizer.render();
+void AudioVisualizer::handle_events(const EventList& event_list, visualizer::Visualizer* visualizer)
+{
+	EventHandler event_handler(visualizer);
+
+	for (const Event& event : event_list)
+	{
+		std::visit(event_handler, event.get_event());
 	}
-
-	system("pkill vlc");
-
-	visualizer.close();
 }
 
 EventList AudioVisualizer::get_current_events(const EventList& event_list, double current_time)
