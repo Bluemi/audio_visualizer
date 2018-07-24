@@ -28,7 +28,8 @@ EventList AudioVisualizer::generate_events()
 {
 	std::vector<EventSpecification> targets = {
 		//TickEventSpecification(0.f),
-		BeatEventSpecification()
+		BeatEventSpecification(),
+		ArousalEventSpecification()
 	};
 	EventListBuilder event_list_builder("input.wav");
 	event_list_builder.with_targets(targets);
@@ -134,21 +135,41 @@ class EventHandler
 		{
 			float value = std::pow(beat_event.get_relative_amplitude(), 1.0/3.0);
 
-			float b = 0.04f*value;
-			float v = 0.04f*value;
-			visualizer::Movement sphere_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(b*3, -b, -b)).with_stddev(glm::vec3(v, v, v))));
-			visualizer::Movement cube_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(b*3, b*3, -b)).with_stddev(glm::vec3(v, v, v))));
-
 			v::Movement r_acc(new v::RandomAcceleration(.2f*value));
 			for (auto it = _visualizer->get_entities().begin(); it != _visualizer->get_entities().end(); ++it)
 			{
-				(*it).add_movement(r_acc);
 				if ((*it).get_shape_specification() == visualizer::ShapeType::CUBE)
 				{
-					(*it).add_movement(cube_random_color);
-				} else {
-					(*it).add_movement(sphere_random_color);
+					(*it).add_movement(r_acc);
 				}
+			}
+		}
+
+		void operator()(const ArousalEvent& arousal_event)
+		{
+			float value = arousal_event.get_value()*0.5f;
+
+			float b = 0.01f*value;
+			float v = 0.01f*value;
+
+			visualizer::Movement sphere_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(b*3, -b, -b)).with_stddev(glm::vec3(v, v, v))));
+			visualizer::Movement cube_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(b*3, b*3, -b)).with_stddev(glm::vec3(v, v, v))));
+
+			bool flip = false;
+
+			for (auto it = _visualizer->get_entities().begin(); it != _visualizer->get_entities().end(); ++it)
+			{
+				if ((*it).get_shape_specification() == visualizer::ShapeType::SPHERE)
+				{
+					(*it).add_movement(cube_random_color);
+					if (flip)
+					{
+						glm::vec3 position = (*it).get_position();
+						position.y = 1 + value*2;
+						(*it).set_position(position);
+					}
+				}
+				flip = !flip;
 			}
 		}
 	private:

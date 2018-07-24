@@ -13,6 +13,11 @@ struct
 	{
 		return BeatEventGenerator();
 	}
+
+	EventGenerator operator()(const ArousalEventSpecification&)
+	{
+		return ArousalEventGenerator();
+	}
 } _generator_creator;
 
 EventGenerator create_event_generator(const EventSpecification& event_specification)

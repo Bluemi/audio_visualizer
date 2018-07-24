@@ -11,6 +11,11 @@ struct
 	{
 		return { BarkBandsDifferenceDataSpecification() };
 	}
+
+	std::vector<DataSpecification> operator()(const ArousalEventSpecification&)
+	{
+		return { ArousalDataSpecification() };
+	}
 } _needed_data_extractor;
 
 std::vector<DataSpecification> get_needed_data_specifications(const EventSpecification& event_specification)

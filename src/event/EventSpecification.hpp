@@ -14,11 +14,11 @@ class TickEventSpecification
 		float _min_amplitude;
 };
 
-class BeatEventSpecification
-{
-};
+class BeatEventSpecification {};
 
-using EventSpecification = std::variant<TickEventSpecification, BeatEventSpecification>;
+class ArousalEventSpecification {};
+
+using EventSpecification = std::variant<TickEventSpecification, BeatEventSpecification, ArousalEventSpecification>;
 
 std::vector<DataSpecification> get_needed_data_specifications(const EventSpecification& event_specification);
 

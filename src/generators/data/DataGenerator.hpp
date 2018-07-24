@@ -6,14 +6,15 @@
 #include <essentia/pool.h>
 
 #include "../../data/DataSpecification.hpp"
-#include "TickDataGenerator.hpp"
 #include "AudioDataGenerator.hpp"
-#include "WriteDataGenerator.hpp"
-#include "BarkBandsDataGenerator.hpp"
-#include "SpectrumDataGenerator.hpp"
 #include "FrameDataGenerator.hpp"
 #include "WindowedFrameDataGenerator.hpp"
+#include "SpectrumDataGenerator.hpp"
+#include "BarkBandsDataGenerator.hpp"
 #include "BarkBandsDifferenceDataGenerator.hpp"
+#include "ArousalDataGenerator.hpp"
+#include "TickDataGenerator.hpp"
+#include "WriteDataGenerator.hpp"
 
 using DataGenerator = std::variant<AudioDataGenerator,
 								   FrameDataGenerator,
@@ -21,6 +22,7 @@ using DataGenerator = std::variant<AudioDataGenerator,
 								   SpectrumDataGenerator,
 								   BarkBandsDataGenerator,
 								   BarkBandsDifferenceDataGenerator,
+								   ArousalDataGenerator,
 	  							   TickDataGenerator,
 								   WriteDataGenerator>;
 

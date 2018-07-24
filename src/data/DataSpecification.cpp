@@ -32,6 +32,11 @@ struct
 		return { BarkBandsDataSpecification() };
 	}
 
+	std::vector<DataSpecification> operator()(const ArousalDataSpecification&)
+	{
+		return { BarkBandsDifferenceDataSpecification() };
+	}
+
 	std::vector<DataSpecification> operator()(const TickDataSpecification&)
 	{
 		return { AudioDataSpecification() };

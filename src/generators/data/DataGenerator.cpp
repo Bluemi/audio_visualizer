@@ -37,6 +37,11 @@ class GeneratorCreator
 			return BarkBandsDifferenceDataGenerator(_pool, _algorithm_factory);
 		}
 
+		DataGenerator operator()(const ArousalDataSpecification&)
+		{
+			return ArousalDataGenerator(_pool, _algorithm_factory);
+		}
+
 		DataGenerator operator()(const TickDataSpecification& spec)
 		{
 			return TickDataGenerator(_pool, _algorithm_factory, spec.get_min_amplitude());

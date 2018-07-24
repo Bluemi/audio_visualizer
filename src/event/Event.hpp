@@ -6,8 +6,9 @@
 
 #include "TickEvent.hpp"
 #include "BeatEvent.hpp"
+#include "ArousalEvent.hpp"
 
-using _EventVar = std::variant<TickEvent, BeatEvent>;
+using _EventVar = std::variant<TickEvent, BeatEvent, ArousalEvent>;
 
 class Event
 {
