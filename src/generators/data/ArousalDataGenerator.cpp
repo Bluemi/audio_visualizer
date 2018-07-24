@@ -37,9 +37,7 @@ std::vector<float> calc_arousal(const std::vector<float>& time_line)
 	{
 		x = x*0.98f;
 		if (x < loudness_change)
-		{
 			x = loudness_change;
-		}
 
 		float arousal = 0.f;
 		if (loudness_change > 0.f)
@@ -48,9 +46,7 @@ std::vector<float> calc_arousal(const std::vector<float>& time_line)
 			arousal = x * -loudness_change * 20.f;
 		
 		if (max < arousal)
-		{
 			max = arousal;
-		}
 		arousals.push_back(arousal);
 	}
 
