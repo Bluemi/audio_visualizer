@@ -11,6 +11,7 @@ namespace data_identifier
 	const std::string SPECTRUM = "spectrum";
 	const std::string BARK_BANDS = "bark_bands";
 	const std::string TICK_POSITIONS = "tick_positions";
+	const std::string BARK_BANDS_DIFFERENCES = "bark_bands_differences";
 }
 
 #endif

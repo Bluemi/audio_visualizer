@@ -9,7 +9,7 @@ struct
 
 	std::vector<DataSpecification> operator()(const BeatEventSpecification&)
 	{
-		return { BarkBandsDataSpecification() };
+		return { BarkBandsDifferenceDataSpecification() };
 	}
 } _needed_data_extractor;
 

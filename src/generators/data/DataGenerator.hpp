@@ -13,14 +13,16 @@
 #include "SpectrumDataGenerator.hpp"
 #include "FrameDataGenerator.hpp"
 #include "WindowedFrameDataGenerator.hpp"
+#include "BarkBandsDifferenceDataGenerator.hpp"
 
 using DataGenerator = std::variant<AudioDataGenerator,
-	  							   TickDataGenerator,
-								   WriteDataGenerator,
-								   BarkBandsDataGenerator,
-								   SpectrumDataGenerator,
 								   FrameDataGenerator,
-								   WindowedFrameDataGenerator>;
+								   WindowedFrameDataGenerator,
+								   SpectrumDataGenerator,
+								   BarkBandsDataGenerator,
+								   BarkBandsDifferenceDataGenerator,
+	  							   TickDataGenerator,
+								   WriteDataGenerator>;
 
 DataGenerator create_generator(essentia::Pool* pool, essentia::standard::AlgorithmFactory* algorithm_factory, const DataSpecification& specification);
 void compute_generator(DataGenerator& generator);

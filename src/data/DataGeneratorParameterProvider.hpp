@@ -11,13 +11,11 @@ class DataGeneratorParameterProvider
 		DataGeneratorParameterProvider(const std::string& filename);
 		void provide(DataGenerator* data_generator);
 
-		void operator()(TickDataGenerator& dg);
+		template<typename DataGeneratorType>
+		void operator()(DataGeneratorType&)
+		{}
+
 		void operator()(AudioDataGenerator& dg);
-		void operator()(WriteDataGenerator& dg);
-		void operator()(FrameDataGenerator& dg);
-		void operator()(WindowedFrameDataGenerator& dg);
-		void operator()(BarkBandsDataGenerator& dg);
-		void operator()(SpectrumDataGenerator& dg);
 	private:
 		std::string _filename;
 };

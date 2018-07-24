@@ -13,6 +13,13 @@ namespace misc
 				return true;
 		return false;
 	}
+
+	// if using this Matrix definition the inner
+	// vectors should all have the same size.
+	using Matrix = std::vector<std::vector<float>>;
+
+	Matrix transpose(const Matrix& input);
+	Matrix calculate_changes(const Matrix& input);
 }
 
 #endif

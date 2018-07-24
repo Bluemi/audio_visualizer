@@ -7,44 +7,6 @@
 #include "../../data/DataIdentifier.hpp"
 #include "../../misc/Misc.hpp"
 
-std::vector<std::vector<float>> spin(const std::vector<std::vector<essentia::Real>>& vec)
-{
-	std::vector<std::vector<float>> spinned(vec[0].size());
-
-	for (std::vector<float>& v : spinned)
-	{
-		v = std::vector<float>(vec.size());
-	}
-
-	for (unsigned int band_index = 0; band_index < vec.size(); band_index++)
-	{
-		for (unsigned int f_index = 0; f_index < vec[band_index].size(); f_index++)
-		{
-			spinned[f_index][band_index] = vec[band_index][f_index];
-		}
-	}
-
-	return spinned;
-}
-
-std::vector<std::vector<float>> calculate_changes(const std::vector<std::vector<essentia::Real>>& bark_bands)
-{
-	std::vector<std::vector<float>> spinned = spin(bark_bands);
-	std::vector<std::vector<float>> changes;
-
-	for (const std::vector<float>& time_line : spinned)
-	{
-		std::vector<float> time_line_changes { 0.f };
-		for (unsigned int i = 1; i < time_line.size(); i++)
-		{
-			time_line_changes.push_back(time_line[i] - time_line[i-1]);
-		}
-		changes.push_back(time_line_changes);
-	}
-
-	return changes;
-}
-
 class Threshold
 {
 	public:
@@ -156,8 +118,7 @@ std::vector<BeatPosition> filter_positions(std::vector<BeatPosition> positions)
 
 EventList BeatEventGenerator::compute(const essentia::Pool& pool) const
 {
-	std::vector<std::vector<essentia::Real>> bark_bands = pool.value<std::vector<std::vector<essentia::Real>>>(data_identifier::BARK_BANDS);
-	std::vector<std::vector<float>> changes = calculate_changes(bark_bands);
+	std::vector<std::vector<float>> changes = pool.value<std::vector<std::vector<essentia::Real>>>(data_identifier::BARK_BANDS_DIFFERENCES);
 
 	std::vector<BeatPosition> positions;
 

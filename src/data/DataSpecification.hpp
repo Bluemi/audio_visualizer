@@ -22,6 +22,7 @@ class FrameDataSpecification : public DataSpecificationOperators<FrameDataSpecif
 class WindowedFrameDataSpecification : public DataSpecificationOperators<WindowedFrameDataSpecification> {};
 class SpectrumDataSpecification : public DataSpecificationOperators<SpectrumDataSpecification> {};
 class BarkBandsDataSpecification : public DataSpecificationOperators<BarkBandsDataSpecification> {};
+class BarkBandsDifferenceDataSpecification : public DataSpecificationOperators<BarkBandsDifferenceDataSpecification> {};
 
 class WriteDataSpecification : public DataSpecificationOperators<WriteDataSpecification>
 {
@@ -43,12 +44,13 @@ class TickDataSpecification : public DataSpecificationOperators<TickDataSpecific
 };
 
 using DataSpecification = std::variant<AudioDataSpecification,
-									   TickDataSpecification,
-									   WriteDataSpecification,
-									   BarkBandsDataSpecification,
-									   SpectrumDataSpecification,
 									   FrameDataSpecification,
-									   WindowedFrameDataSpecification>;
+									   WindowedFrameDataSpecification,
+									   SpectrumDataSpecification,
+									   BarkBandsDataSpecification,
+									   BarkBandsDifferenceDataSpecification,
+									   TickDataSpecification,
+									   WriteDataSpecification>;
 
 std::vector<DataSpecification> get_dependencies(const DataSpecification& specification);
 
