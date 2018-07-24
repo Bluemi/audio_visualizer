@@ -135,25 +135,29 @@ class EventHandler
 		{
 			float value = std::pow(beat_event.get_relative_amplitude(), 1.0/3.0);
 
+			float b = 0.01f*value;
+			float v = 0.01f*value;
 			v::Movement r_acc(new v::RandomAcceleration(.2f*value));
+			visualizer::Movement cube_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(b*3, -b, -b)).with_stddev(glm::vec3(v, v, v))));
+
 			for (auto it = _visualizer->get_entities().begin(); it != _visualizer->get_entities().end(); ++it)
 			{
 				if ((*it).get_shape_specification() == visualizer::ShapeType::CUBE)
 				{
 					(*it).add_movement(r_acc);
+					(*it).add_movement(cube_random_color);
 				}
 			}
 		}
 
 		void operator()(const ArousalEvent& arousal_event)
 		{
-			float value = arousal_event.get_value()*0.5f;
+			float value = arousal_event.get_value();
 
 			float b = 0.01f*value;
 			float v = 0.01f*value;
 
-			visualizer::Movement sphere_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(b*3, -b, -b)).with_stddev(glm::vec3(v, v, v))));
-			visualizer::Movement cube_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(b*3, b*3, -b)).with_stddev(glm::vec3(v, v, v))));
+			visualizer::Movement sphere_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(b*3, b*3, -b)).with_stddev(glm::vec3(v, v, v))));
 
 			bool flip = false;
 
@@ -161,7 +165,7 @@ class EventHandler
 			{
 				if ((*it).get_shape_specification() == visualizer::ShapeType::SPHERE)
 				{
-					(*it).add_movement(cube_random_color);
+					(*it).add_movement(sphere_random_color);
 					if (flip)
 					{
 						glm::vec3 position = (*it).get_position();
