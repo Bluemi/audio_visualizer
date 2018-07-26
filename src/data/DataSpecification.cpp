@@ -32,9 +32,29 @@ struct
 		return { BarkBandsDataSpecification() };
 	}
 
+	std::vector<DataSpecification> operator()(const SpectrumPeakDataSpecification&)
+	{
+		return { SpectrumDataSpecification() };
+	}
+
+	std::vector<DataSpecification> operator()(const PitchClassProfileDataSpecification&)
+	{
+		return { SpectrumPeakDataSpecification() };
+	}
+
+	std::vector<DataSpecification> operator()(const ChordDataSpecification&)
+	{
+		return { PitchClassProfileDataSpecification() };
+	}
+
 	std::vector<DataSpecification> operator()(const ArousalDataSpecification&)
 	{
 		return { BarkBandsDifferenceDataSpecification() };
+	}
+
+	std::vector<DataSpecification> operator()(const ValenceDataSpecification&)
+	{
+		return { ChordDataSpecification(), PitchClassProfileDataSpecification() };
 	}
 
 	std::vector<DataSpecification> operator()(const TickDataSpecification&)

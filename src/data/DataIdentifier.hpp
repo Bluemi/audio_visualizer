@@ -13,6 +13,12 @@ namespace data_identifier
 	const std::string BARK_BANDS_DIFFERENCES = "bark_bands_differences";
 	const std::string AROUSAL_TIMELINE = "arousal_timeline";
 	const std::string TICK_POSITIONS = "tick_positions";
+	const std::string SPECTRUM_PEAKS_FREQUENCIES = "spectrum_peaks_frequencies";
+	const std::string SPECTRUM_PEAKS_MAGNITUDES = "spectrum_peaks_magnitudes";
+	const std::string PITCH_CLASS_PROFILES = "pitch_class_profiles";
+	const std::string CHORDS = "chords";
+	const std::string CHORD_STRENGTHS = "chord_strengths";
+	const std::string VALENCE_TIMELINE = "valence_timeline";
 }
 
 #endif

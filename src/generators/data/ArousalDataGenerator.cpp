@@ -29,7 +29,6 @@ std::vector<float> calculate_loudness_time_line(const misc::Matrix& bark_bands_d
 std::vector<float> calc_arousal(const std::vector<float>& time_line)
 {
 	float x = 0.f;
-	float max = 0.f;
 
 	std::vector<float> arousals;
 
@@ -44,9 +43,6 @@ std::vector<float> calc_arousal(const std::vector<float>& time_line)
 			arousal = loudness_change;
 		else
 			arousal = x * -loudness_change * 20.f;
-		
-		if (max < arousal)
-			max = arousal;
 		arousals.push_back(arousal);
 	}
 
@@ -86,8 +82,6 @@ std::vector<float> calculate_arousal(misc::Matrix bark_bands_differences)
 	std::vector<float> arousals;
 	float arousal = 0.f;
 
-	float max = 0.f;
-
 	for (float f : merged_arousals)
 	{
 		f = std::pow(f, 1.0/2.0);
@@ -96,8 +90,6 @@ std::vector<float> calculate_arousal(misc::Matrix bark_bands_differences)
 		arousal += arousal_acceleration;
 		arousals.push_back(arousal);
 	}
-
-	std::cout << "max: " << max << std::endl;
 
 	return arousals;
 }

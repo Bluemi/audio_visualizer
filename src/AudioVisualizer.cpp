@@ -29,7 +29,8 @@ EventList AudioVisualizer::generate_events()
 	std::vector<EventSpecification> targets = {
 		//TickEventSpecification(0.f),
 		BeatEventSpecification(),
-		ArousalEventSpecification()
+		ArousalEventSpecification(),
+		ValenceEventSpecification()
 	};
 	EventListBuilder event_list_builder("input.wav");
 	event_list_builder.with_targets(targets);
@@ -159,21 +160,48 @@ class EventHandler
 
 			visualizer::Movement sphere_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(b*3, b*3, -b)).with_stddev(glm::vec3(v, v, v))));
 
-			bool flip = false;
+			unsigned int c = 1;
 
 			for (auto it = _visualizer->get_entities().begin(); it != _visualizer->get_entities().end(); ++it)
 			{
 				if ((*it).get_shape_specification() == visualizer::ShapeType::SPHERE)
 				{
-					(*it).add_movement(sphere_random_color);
-					if (flip)
+					if (c == 0)
 					{
+						(*it).add_movement(sphere_random_color);
 						glm::vec3 position = (*it).get_position();
 						position.y = 1 + value*2;
 						(*it).set_position(position);
 					}
 				}
-				flip = !flip;
+				c = (c+1) % 3;
+			}
+		}
+
+		void operator()(const ValenceEvent& valence_event)
+		{
+			float value = valence_event.get_value();
+
+			float b = 0.01f*value;
+			float v = 0.01f*value;
+
+			visualizer::Movement sphere_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(-b, b*3, b)).with_stddev(glm::vec3(v, v, v))));
+
+			unsigned int c = 0;
+
+			for (auto it = _visualizer->get_entities().begin(); it != _visualizer->get_entities().end(); ++it)
+			{
+				if ((*it).get_shape_specification() == visualizer::ShapeType::SPHERE)
+				{
+					if (c == 0)
+					{
+						(*it).add_movement(sphere_random_color);
+						glm::vec3 position = (*it).get_position();
+						position.y = 1 + value*2;
+						(*it).set_position(position);
+					}
+				}
+				c = (c+1) % 3;
 			}
 		}
 	private:

@@ -16,6 +16,11 @@ struct
 	{
 		return { ArousalDataSpecification() };
 	}
+
+	std::vector<DataSpecification> operator()(const ValenceEventSpecification&)
+	{
+		return { ValenceDataSpecification() };
+	}
 } _needed_data_extractor;
 
 std::vector<DataSpecification> get_needed_data_specifications(const EventSpecification& event_specification)

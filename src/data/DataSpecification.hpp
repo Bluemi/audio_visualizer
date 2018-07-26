@@ -23,7 +23,12 @@ class WindowedFrameDataSpecification : public DataSpecificationOperators<Windowe
 class SpectrumDataSpecification : public DataSpecificationOperators<SpectrumDataSpecification> {};
 class BarkBandsDataSpecification : public DataSpecificationOperators<BarkBandsDataSpecification> {};
 class BarkBandsDifferenceDataSpecification : public DataSpecificationOperators<BarkBandsDifferenceDataSpecification> {};
+class SpectrumPeakDataSpecification : public DataSpecificationOperators<SpectrumPeakDataSpecification> {};
+class PitchClassProfileDataSpecification : public DataSpecificationOperators<PitchClassProfileDataSpecification> {};
+class ChordDataSpecification : public DataSpecificationOperators<ChordDataSpecification> {};
+
 class ArousalDataSpecification : public DataSpecificationOperators<ArousalDataSpecification> {};
+class ValenceDataSpecification : public DataSpecificationOperators<ValenceDataSpecification> {};
 
 class WriteDataSpecification : public DataSpecificationOperators<WriteDataSpecification>
 {
@@ -50,7 +55,11 @@ using DataSpecification = std::variant<AudioDataSpecification,
 									   SpectrumDataSpecification,
 									   BarkBandsDataSpecification,
 									   BarkBandsDifferenceDataSpecification,
+									   SpectrumPeakDataSpecification,
+									   PitchClassProfileDataSpecification,
+									   ChordDataSpecification,
 									   ArousalDataSpecification,
+									   ValenceDataSpecification,
 									   TickDataSpecification,
 									   WriteDataSpecification>;
 

@@ -37,9 +37,29 @@ class GeneratorCreator
 			return BarkBandsDifferenceDataGenerator(_pool, _algorithm_factory);
 		}
 
+		DataGenerator operator()(const SpectrumPeakDataSpecification&)
+		{
+			return SpectrumPeakDataGenerator(_pool, _algorithm_factory);
+		}
+
+		DataGenerator operator()(const PitchClassProfileDataSpecification&)
+		{
+			return PitchClassProfileDataGenerator(_pool, _algorithm_factory);
+		}
+
+		DataGenerator operator()(const ChordDataSpecification&)
+		{
+			return ChordDataGenerator(_pool, _algorithm_factory);
+		}
+
 		DataGenerator operator()(const ArousalDataSpecification&)
 		{
 			return ArousalDataGenerator(_pool, _algorithm_factory);
+		}
+
+		DataGenerator operator()(const ValenceDataSpecification&)
+		{
+			return ValenceDataGenerator(_pool, _algorithm_factory);
 		}
 
 		DataGenerator operator()(const TickDataSpecification& spec)

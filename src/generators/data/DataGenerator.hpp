@@ -12,7 +12,11 @@
 #include "SpectrumDataGenerator.hpp"
 #include "BarkBandsDataGenerator.hpp"
 #include "BarkBandsDifferenceDataGenerator.hpp"
+#include "SpectrumPeakDataGenerator.hpp"
+#include "PitchClassProfileDataGenerator.hpp"
+#include "ChordDataGenerator.hpp"
 #include "ArousalDataGenerator.hpp"
+#include "ValenceDataGenerator.hpp"
 #include "TickDataGenerator.hpp"
 #include "WriteDataGenerator.hpp"
 
@@ -22,7 +26,11 @@ using DataGenerator = std::variant<AudioDataGenerator,
 								   SpectrumDataGenerator,
 								   BarkBandsDataGenerator,
 								   BarkBandsDifferenceDataGenerator,
+								   SpectrumPeakDataGenerator,
+								   PitchClassProfileDataGenerator,
+								   ChordDataGenerator,
 								   ArousalDataGenerator,
+								   ValenceDataGenerator,
 	  							   TickDataGenerator,
 								   WriteDataGenerator>;
 

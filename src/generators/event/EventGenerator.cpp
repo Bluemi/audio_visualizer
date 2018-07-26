@@ -18,6 +18,11 @@ struct
 	{
 		return ArousalEventGenerator();
 	}
+
+	EventGenerator operator()(const ValenceEventSpecification&)
+	{
+		return ValenceEventGenerator();
+	}
 } _generator_creator;
 
 EventGenerator create_event_generator(const EventSpecification& event_specification)

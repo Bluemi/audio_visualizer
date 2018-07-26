@@ -15,10 +15,10 @@ class TickEventSpecification
 };
 
 class BeatEventSpecification {};
-
 class ArousalEventSpecification {};
+class ValenceEventSpecification {};
 
-using EventSpecification = std::variant<TickEventSpecification, BeatEventSpecification, ArousalEventSpecification>;
+using EventSpecification = std::variant<TickEventSpecification, BeatEventSpecification, ArousalEventSpecification, ValenceEventSpecification>;
 
 std::vector<DataSpecification> get_needed_data_specifications(const EventSpecification& event_specification);
 
