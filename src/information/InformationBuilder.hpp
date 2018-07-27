@@ -4,20 +4,22 @@
 #include <essentia/pool.h>
 #include <essentia/algorithmfactory.h>
 
-#include "event/Event.hpp"
-#include "data/DataSpecification.hpp"
-#include "event/EventSpecification.hpp"
-#include "generators/data/DataGenerator.hpp"
-#include "generators/event/EventGenerator.hpp"
+#include "InformationContainer.hpp"
+#include "../event/Event.hpp"
+#include "../data/DataSpecification.hpp"
+#include "../event/EventSpecification.hpp"
+#include "../generators/data/DataGenerator.hpp"
+#include "../generators/event/EventGenerator.hpp"
 
 class InformationBuilder
 {
 	public:
 		InformationBuilder(const std::string& filename);
 		~InformationBuilder();
-		InformationBuilder& with_targets(const std::vector<EventSpecification>& targets);
+		InformationBuilder& with_events(const std::vector<EventSpecification>& targets);
+		InformationBuilder& with_data(const std::vector<DataSpecification>& targets);
 
-		EventList build();
+		InformationContainer build();
 	private:
 		std::vector<DataSpecification> get_event_specification_dependencies(const std::vector<EventSpecification>& event_specifications) const;
 
@@ -33,7 +35,8 @@ class InformationBuilder
 		std::vector<EventGenerator> create_event_generators(const std::vector<EventSpecification>& event_specifications) const;
 		EventList compute_event_generators(const std::vector<EventGenerator>& event_generators) const;
 
-		std::vector<EventSpecification> _targets;
+		std::vector<EventSpecification> _target_events;
+		std::vector<DataSpecification> _target_data;
 		essentia::standard::AlgorithmFactory* _algorithm_factory;
 		essentia::Pool _pool;
 		std::string _filename;

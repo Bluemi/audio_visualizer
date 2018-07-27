@@ -24,18 +24,23 @@ AudioVisualizer::AudioVisualizer()
 	: _event_index(0)
 {}
 
-EventList AudioVisualizer::generate_events()
+InformationContainer AudioVisualizer::generate_information()
 {
-	std::vector<EventSpecification> targets = {
-		//TickEventSpecification(0.f),
+	std::vector<EventSpecification> target_events = {
 		BeatEventSpecification(),
 		ArousalEventSpecification(),
 		ValenceEventSpecification()
 	};
-	InformationBuilder event_list_builder("input.wav");
-	event_list_builder.with_targets(targets);
 
-	return event_list_builder.build();
+	std::vector<DataSpecification> target_data = {
+		ArousalDataSpecification(),
+		ValenceDataSpecification()
+	};
+	InformationBuilder information_builder("input.wav");
+	information_builder.with_events(target_events);
+	information_builder.with_data(target_data);
+
+	return information_builder.build();
 }
 
 void AudioVisualizer::setup_objects(visualizer::Visualizer* visualizer)
@@ -95,7 +100,7 @@ void play_song(const std::string& audio_path)
 	system(system_command.c_str());
 }
 
-void AudioVisualizer::run(const EventList& event_list)
+void AudioVisualizer::run(const InformationContainer& information_container)
 {
 	play_song("input.wav");
 
@@ -110,7 +115,7 @@ void AudioVisualizer::run(const EventList& event_list)
 
 	while (!visualizer.should_close())
 	{
-		EventList current_events = get_current_events(event_list, visualizer.get_time());
+		EventList current_events = get_current_events(information_container.get_event_list(), visualizer.get_time());
 
 		handle_events(current_events, &visualizer);
 

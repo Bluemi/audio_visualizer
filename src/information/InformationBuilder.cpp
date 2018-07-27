@@ -1,7 +1,7 @@
 #include "InformationBuilder.hpp"
 
-#include "misc/Misc.hpp"
-#include "data/DataGeneratorParameterProvider.hpp"
+#include "../misc/Misc.hpp"
+#include "../data/DataGeneratorParameterProvider.hpp"
 
 InformationBuilder::InformationBuilder(const std::string& filename)
 	: _filename(filename)
@@ -15,16 +15,23 @@ InformationBuilder::~InformationBuilder()
 	essentia::shutdown();
 }
 
-InformationBuilder& InformationBuilder::with_targets(const std::vector<EventSpecification>& targets)
+InformationBuilder& InformationBuilder::with_events(const std::vector<EventSpecification>& targets)
 {
-	_targets.insert(_targets.end(), targets.cbegin(), targets.cend());
+	_target_events.insert(_target_events.end(), targets.cbegin(), targets.cend());
 	return *this;
 }
 
-EventList InformationBuilder::build()
+InformationBuilder& InformationBuilder::with_data(const std::vector<DataSpecification>& targets)
+{
+	_target_data.insert(_target_data.end(), targets.cbegin(), targets.cend());
+	return *this;
+}
+
+InformationContainer InformationBuilder::build()
 {
 	// generate DataSpecifications
-	std::vector<DataSpecification> data_specifications = get_event_specification_dependencies(_targets);
+	std::vector<DataSpecification> data_specifications = get_event_specification_dependencies(_target_events);
+	data_specifications.insert(data_specifications.end(), _target_data.cbegin(), _target_data.cend());
 	data_specifications = get_data_specification_dependencies(data_specifications);
 
 	// generate DataGenerators
@@ -32,12 +39,12 @@ EventList InformationBuilder::build()
 	provide_data_generator_parameters(&data_generators);
 	compute_data_generators(&data_generators);
 
-	std::vector<EventGenerator> event_generators = create_event_generators(_targets);
+	std::vector<EventGenerator> event_generators = create_event_generators(_target_events);
 	// provide parameters for event_generators?
 	EventList event_list = compute_event_generators(event_generators);
 	std::sort(event_list.begin(), event_list.end());
 
-	return event_list;
+	return InformationContainer(event_list, _pool);
 }
 
 std::vector<DataSpecification> InformationBuilder::get_event_specification_dependencies(const std::vector<EventSpecification>& event_specifications) const

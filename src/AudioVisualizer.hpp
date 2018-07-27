@@ -3,7 +3,8 @@
 
 #include <visualizer/Visualizer.hpp>
 
-#include "InformationBuilder.hpp"
+#include "information/InformationBuilder.hpp"
+#include "information/InformationContainer.hpp"
 
 class AudioVisualizer
 {
@@ -11,9 +12,9 @@ class AudioVisualizer
 		static void init();
 
 		AudioVisualizer();
-		EventList generate_events();
+		InformationContainer generate_information();
 		void setup_objects(visualizer::Visualizer* visualizer);
-		void run(const EventList& event_list);
+		void run(const InformationContainer& information_container);
 	private:
 		EventList get_current_events(const EventList& event_list, double current_time);
 		void handle_events(const EventList& event_list, visualizer::Visualizer* visualizer);

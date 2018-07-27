@@ -6,8 +6,8 @@ int main()
 {
 	AudioVisualizer::init();
 	AudioVisualizer av;
-	EventList el = av.generate_events();
-	av.run(el);
+	InformationContainer info = av.generate_information();
+	av.run(info);
 
 	return 0;
 }
