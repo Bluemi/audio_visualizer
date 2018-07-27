@@ -1,27 +1,27 @@
-#include "EventListBuilder.hpp"
+#include "InformationBuilder.hpp"
 
 #include "misc/Misc.hpp"
 #include "data/DataGeneratorParameterProvider.hpp"
 
-EventListBuilder::EventListBuilder(const std::string& filename)
+InformationBuilder::InformationBuilder(const std::string& filename)
 	: _filename(filename)
 {
 	essentia::init();
 	_algorithm_factory = &essentia::standard::AlgorithmFactory::instance();
 }
 
-EventListBuilder::~EventListBuilder()
+InformationBuilder::~InformationBuilder()
 {
 	essentia::shutdown();
 }
 
-EventListBuilder& EventListBuilder::with_targets(const std::vector<EventSpecification>& targets)
+InformationBuilder& InformationBuilder::with_targets(const std::vector<EventSpecification>& targets)
 {
 	_targets.insert(_targets.end(), targets.cbegin(), targets.cend());
 	return *this;
 }
 
-EventList EventListBuilder::build()
+EventList InformationBuilder::build()
 {
 	// generate DataSpecifications
 	std::vector<DataSpecification> data_specifications = get_event_specification_dependencies(_targets);
@@ -40,7 +40,7 @@ EventList EventListBuilder::build()
 	return event_list;
 }
 
-std::vector<DataSpecification> EventListBuilder::get_event_specification_dependencies(const std::vector<EventSpecification>& event_specifications) const
+std::vector<DataSpecification> InformationBuilder::get_event_specification_dependencies(const std::vector<EventSpecification>& event_specifications) const
 {
 	std::vector<DataSpecification> data_specifications;
 	for (const EventSpecification& event_spec : event_specifications)
@@ -54,7 +54,7 @@ std::vector<DataSpecification> EventListBuilder::get_event_specification_depende
 
 const unsigned int EMERGENCY_BREAK_SIZE = 10000;
 
-std::vector<DataSpecification> EventListBuilder::get_data_specification_dependencies(const std::vector<DataSpecification>& data_specifications) const
+std::vector<DataSpecification> InformationBuilder::get_data_specification_dependencies(const std::vector<DataSpecification>& data_specifications) const
 {
 	std::vector<DataSpecification> reverse_dependencies = data_specifications;
 
@@ -82,7 +82,7 @@ std::vector<DataSpecification> EventListBuilder::get_data_specification_dependen
 	return dependencies;
 }
 
-std::vector<DataGenerator> EventListBuilder::create_data_generators(const std::vector<DataSpecification>& data_specifications)
+std::vector<DataGenerator> InformationBuilder::create_data_generators(const std::vector<DataSpecification>& data_specifications)
 {
 	std::vector<DataGenerator> generators;
 	for (const auto& spec : data_specifications)
@@ -92,7 +92,7 @@ std::vector<DataGenerator> EventListBuilder::create_data_generators(const std::v
 	return generators;
 }
 
-void EventListBuilder::provide_data_generator_parameters(std::vector<DataGenerator>* data_generators) const
+void InformationBuilder::provide_data_generator_parameters(std::vector<DataGenerator>* data_generators) const
 {
 	DataGeneratorParameterProvider dgpp(_filename);
 
@@ -100,13 +100,13 @@ void EventListBuilder::provide_data_generator_parameters(std::vector<DataGenerat
 		dgpp.provide(&dg);
 }
 
-void EventListBuilder::compute_data_generators(std::vector<DataGenerator>* generators)
+void InformationBuilder::compute_data_generators(std::vector<DataGenerator>* generators)
 {
 	for (auto& g : *generators)
 		compute_generator(g);
 }
 
-std::vector<EventGenerator> EventListBuilder::create_event_generators(const std::vector<EventSpecification>& event_specifications) const
+std::vector<EventGenerator> InformationBuilder::create_event_generators(const std::vector<EventSpecification>& event_specifications) const
 {
 	std::vector<EventGenerator> event_generators;
 
@@ -116,7 +116,7 @@ std::vector<EventGenerator> EventListBuilder::create_event_generators(const std:
 	return event_generators;
 }
 
-EventList EventListBuilder::compute_event_generators(const std::vector<EventGenerator>& event_generators) const
+EventList InformationBuilder::compute_event_generators(const std::vector<EventGenerator>& event_generators) const
 {
 	EventList event_list;
 	for (const EventGenerator& eg : event_generators)

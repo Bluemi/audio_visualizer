@@ -1,5 +1,5 @@
-#ifndef __EVENTLISTBUILDER_CLASS__
-#define __EVENTLISTBUILDER_CLASS__
+#ifndef __INFORMATIONBUILDER_CLASS__
+#define __INFORMATIONBUILDER_CLASS__
 
 #include <essentia/pool.h>
 #include <essentia/algorithmfactory.h>
@@ -10,12 +10,12 @@
 #include "generators/data/DataGenerator.hpp"
 #include "generators/event/EventGenerator.hpp"
 
-class EventListBuilder
+class InformationBuilder
 {
 	public:
-		EventListBuilder(const std::string& filename);
-		~EventListBuilder();
-		EventListBuilder& with_targets(const std::vector<EventSpecification>& targets);
+		InformationBuilder(const std::string& filename);
+		~InformationBuilder();
+		InformationBuilder& with_targets(const std::vector<EventSpecification>& targets);
 
 		EventList build();
 	private:

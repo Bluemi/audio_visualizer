@@ -32,7 +32,7 @@ EventList AudioVisualizer::generate_events()
 		ArousalEventSpecification(),
 		ValenceEventSpecification()
 	};
-	EventListBuilder event_list_builder("input.wav");
+	InformationBuilder event_list_builder("input.wav");
 	event_list_builder.with_targets(targets);
 
 	return event_list_builder.build();

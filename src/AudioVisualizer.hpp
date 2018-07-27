@@ -3,7 +3,7 @@
 
 #include <visualizer/Visualizer.hpp>
 
-#include "EventListBuilder.hpp"
+#include "InformationBuilder.hpp"
 
 class AudioVisualizer
 {
