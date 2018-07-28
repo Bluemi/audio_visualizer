@@ -85,20 +85,25 @@ void AudioVisualizer::run(const InformationContainer& information_container)
 {
 	play_song("input.wav");
 
-	std::optional<v::Visualizer> opt_visualizer = *v::Visualizer::create(800, 600);
+	std::optional<v::Visualizer> opt_visualizer = v::Visualizer::create(800, 600);
 	if (!opt_visualizer)
 	{
 		std::cout << "ERROR: couldn't create visualizer" << std::endl;
 	}
 	v::Visualizer visualizer = *opt_visualizer;
 
+	setup_handlers(&visualizer);
 	setup_objects(&visualizer);
 
 	while (!visualizer.should_close())
 	{
-		EventList current_events = get_current_events(information_container.get_event_list(), visualizer.get_time());
+		double current_time = visualizer.get_time();
+		unsigned int frame_counter = static_cast<int>((current_time * 44100.0) / 1024.0);
+		set_handler_frame_counter(frame_counter);
 
-		handle_events(current_events, &visualizer);
+		EventList current_events = get_current_events(information_container.get_event_list(), current_time);
+
+		handle_events(current_events, information_container.get_pool());
 
 		visualizer.tick();
 		visualizer.render();
@@ -109,99 +114,34 @@ void AudioVisualizer::run(const InformationContainer& information_container)
 	visualizer.close();
 }
 
-class EventHandler
+void AudioVisualizer::add_handlers(const HandlerList& handler_list)
 {
-	public:
-		EventHandler(visualizer::Visualizer* visualizer) : _visualizer(visualizer) {}
+	_handlers.insert(_handlers.end(), handler_list.cbegin(), handler_list.cend());
+}
 
-		void operator()(const TickEvent&)
-		{
-		}
-
-		void operator()(const BeatEvent& beat_event)
-		{
-			float value = std::pow(beat_event.get_relative_amplitude(), 1.0/3.0);
-
-			float b = 0.01f*value;
-			float v = 0.01f*value;
-			v::Movement r_acc(new v::RandomAcceleration(.2f*value));
-			visualizer::Movement cube_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(b*3, -b, -b)).with_stddev(glm::vec3(v, v, v))));
-
-			for (auto it = _visualizer->get_entities().begin(); it != _visualizer->get_entities().end(); ++it)
-			{
-				if ((*it).get_shape_specification() == visualizer::ShapeType::CUBE)
-				{
-					(*it).add_movement(r_acc);
-					(*it).add_movement(cube_random_color);
-				}
-			}
-		}
-
-		void operator()(const ArousalEvent& arousal_event)
-		{
-			float value = arousal_event.get_value();
-
-			float b = 0.01f*value;
-			float v = 0.01f*value;
-
-			visualizer::Movement sphere_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(b*3, b*3, -b)).with_stddev(glm::vec3(v, v, v))));
-
-			unsigned int c = 1;
-
-			for (auto it = _visualizer->get_entities().begin(); it != _visualizer->get_entities().end(); ++it)
-			{
-				if ((*it).get_shape_specification() == visualizer::ShapeType::SPHERE)
-				{
-					if (c == 0)
-					{
-						(*it).add_movement(sphere_random_color);
-						glm::vec3 position = (*it).get_position();
-						position.y = 1 + value*2;
-						(*it).set_position(position);
-					}
-				}
-				c = (c+1) % 3;
-			}
-		}
-
-		void operator()(const ValenceEvent& valence_event)
-		{
-			float value = valence_event.get_value();
-
-			float b = 0.01f*value;
-			float v = 0.01f*value;
-
-			visualizer::Movement sphere_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(-b, b*3, b)).with_stddev(glm::vec3(v, v, v))));
-
-			unsigned int c = 0;
-
-			for (auto it = _visualizer->get_entities().begin(); it != _visualizer->get_entities().end(); ++it)
-			{
-				if ((*it).get_shape_specification() == visualizer::ShapeType::SPHERE)
-				{
-					if (c == 0)
-					{
-						(*it).add_movement(sphere_random_color);
-						glm::vec3 position = (*it).get_position();
-						position.y = 1 + value*2;
-						(*it).set_position(position);
-					}
-				}
-				c = (c+1) % 3;
-			}
-		}
-	private:
-		visualizer::Visualizer* _visualizer;
-};
-
-void AudioVisualizer::handle_events(const EventList& event_list, visualizer::Visualizer* visualizer)
+void AudioVisualizer::handle_events(const EventList& event_list, const essentia::Pool& pool)
 {
-	EventHandler event_handler(visualizer);
-
-	for (const Event& event : event_list)
+	for (Handler& h: _handlers)
 	{
-		std::visit(event_handler, event.get_event());
+		for (const Event& event : event_list)
+		{
+			std::visit([&event](auto& handler) { std::visit(handler, event.get_event()); }, h);
+		}
+
+		std::visit([&pool](auto& handler) { handler.update(pool); }, h);
 	}
+}
+
+void AudioVisualizer::setup_handlers(visualizer::Visualizer* visualizer)
+{
+	for (Handler& h : _handlers)
+		std::visit([&visualizer](auto& handler) { handler.set_visualizer(visualizer); }, h);
+}
+
+void AudioVisualizer::set_handler_frame_counter(unsigned int frame_counter)
+{
+	for (Handler& h : _handlers)
+		std::visit([frame_counter](auto& handler) { handler.set_frame_counter(frame_counter); }, h);
 }
 
 EventList AudioVisualizer::get_current_events(const EventList& event_list, double current_time)

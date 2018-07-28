@@ -2,6 +2,10 @@
 
 #include "AudioVisualizer.hpp"
 
+#include "handler/BeatEventHandler.hpp"
+#include "handler/ValenceHandler.hpp"
+#include "handler/ArousalHandler.hpp"
+
 int main()
 {
 	AudioVisualizer::init();
@@ -21,6 +25,8 @@ int main()
 		});
 
 	InformationContainer information_container = information_builder.build();
+
+	av.add_handlers({ BeatEventHandler(), ArousalHandler(), ValenceHandler() });
 
 	av.run(information_container);
 
