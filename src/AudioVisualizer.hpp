@@ -12,7 +12,6 @@ class AudioVisualizer
 		static void init();
 
 		AudioVisualizer();
-		InformationContainer generate_information();
 		void setup_objects(visualizer::Visualizer* visualizer);
 		void run(const InformationContainer& information_container);
 	private:

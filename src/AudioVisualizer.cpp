@@ -24,25 +24,6 @@ AudioVisualizer::AudioVisualizer()
 	: _event_index(0)
 {}
 
-InformationContainer AudioVisualizer::generate_information()
-{
-	std::vector<EventSpecification> target_events = {
-		BeatEventSpecification(),
-		ArousalEventSpecification(),
-		ValenceEventSpecification()
-	};
-
-	std::vector<DataSpecification> target_data = {
-		ArousalDataSpecification(),
-		ValenceDataSpecification()
-	};
-	InformationBuilder information_builder("input.wav");
-	information_builder.with_events(target_events);
-	information_builder.with_data(target_data);
-
-	return information_builder.build();
-}
-
 void AudioVisualizer::setup_objects(visualizer::Visualizer* visualizer)
 {
 	v::VectorGenerator pos_gen = v::VectorGenerator().with_stddev(glm::vec3(5.f, 5.f, 5.f));
