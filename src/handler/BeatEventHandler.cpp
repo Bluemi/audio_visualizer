@@ -7,6 +7,7 @@
 #include <visualizer/shape/ShapeType.hpp>
 
 #include "../event/BeatEvent.hpp"
+#include "../misc/Misc.hpp"
 
 void BeatEventHandler::operator()(const BeatEvent& beat_event)
 {
@@ -19,7 +20,7 @@ void BeatEventHandler::operator()(const BeatEvent& beat_event)
 
 	for (auto it = _visualizer->get_entities().begin(); it != _visualizer->get_entities().end(); ++it)
 	{
-		if ((*it).get_shape_specification() == visualizer::ShapeType::CUBE)
+		if (!misc::contains<std::string>((*it).get_tags(), "va_debug"))
 		{
 			(*it).add_movement(r_acc);
 			(*it).add_movement(cube_random_color);

@@ -7,8 +7,10 @@
 #include "BeatEventHandler.hpp"
 #include "ValenceHandler.hpp"
 #include "ArousalHandler.hpp"
+#include "ColorHandler.hpp"
+#include "ValenceArousalDebugHandler.hpp"
 
-using Handler = std::variant<BeatEventHandler, ValenceHandler, ArousalHandler>;
+using Handler = std::variant<BeatEventHandler, ValenceHandler, ArousalHandler, ColorHandler, ValenceArousalDebugHandler>;
 using HandlerList = std::vector<Handler>;
 
 #endif

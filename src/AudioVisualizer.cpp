@@ -39,7 +39,8 @@ void AudioVisualizer::setup_objects(visualizer::Visualizer* visualizer)
 		.with_position(pos_gen)
 		.with_size(size_gen)
 		.with_velocity(speed_gen)
-		.with_color(color_gen);
+		.with_color(color_gen)
+		.with_tag("background");
 
 	visualizer->create_entities(creation);
 
@@ -73,6 +74,13 @@ void AudioVisualizer::setup_objects(visualizer::Visualizer* visualizer)
 		m->add_movement(color_drag);
 		m->add_movement(std_color);
 	}
+
+	v::Creation valence_arousal_debug_creation = v::Creation(v::SphereSpecification(2))
+		.with_quantity(5)
+		.with_size(glm::vec3(0.1f, 0.1f, 0.1f))
+		.with_tag("va_debug");
+
+	visualizer->create_entities(valence_arousal_debug_creation);
 }
 
 void play_song(const std::string& audio_path)
