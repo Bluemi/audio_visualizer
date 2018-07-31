@@ -79,6 +79,7 @@ float get_major_probability(const std::string& chord, const std::vector<float>& 
 float sqr(float v) { return v*v; }
 
 const float ACCELERATION = 0.01f;
+const float VALENCE_FACTOR = 0.8f;
 
 std::vector<float> calculate_valence(const std::vector<std::string>& chords, const std::vector<float>& chord_strengths, const std::vector<std::vector<float>>& pitch_class_profiles)
 {
@@ -102,7 +103,7 @@ std::vector<float> calculate_valence(const std::vector<std::string>& chords, con
 		}
 		acceleration *= ACCELERATION;
 		dur_ratio += acceleration;
-		const float chord_tmp = (dur_ratio+1.f)/2.f; // normalize from [-1, 1] -> [0, 1]
+		const float chord_tmp = (dur_ratio*VALENCE_FACTOR+1.f)/2.f; // normalize from [-1, 1] -> [0, 1]
 		valence_timeline.push_back(chord_tmp);
 	}
 

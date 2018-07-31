@@ -26,6 +26,8 @@ std::vector<float> calculate_loudness_time_line(const misc::Matrix& bark_bands_d
 	return loudness_time_line;
 }
 
+const float AROUSAL_FACTOR = 0.75f;
+
 std::vector<float> calc_arousal(const std::vector<float>& time_line)
 {
 	float x = 0.f;
@@ -43,7 +45,7 @@ std::vector<float> calc_arousal(const std::vector<float>& time_line)
 			arousal = loudness_change;
 		else
 			arousal = x * -loudness_change * 20.f;
-		arousals.push_back(arousal);
+		arousals.push_back(std::pow(arousal, 1.f/1.5f)*AROUSAL_FACTOR);
 	}
 
 	return arousals;
