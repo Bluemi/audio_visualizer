@@ -15,18 +15,31 @@ struct Window
 		return end - begin;
 	}
 
+	bool operator<(const Window& w) { return this->begin < w.begin; }
+	bool operator>(const Window& w) { return this->begin > w.begin; }
+	bool operator<=(const Window& w) { return this->begin <= w.begin; }
+	bool operator>=(const Window& w) { return this->begin >= w.begin; }
+
+	void print() const
+	{
+		std::cout << "Window: begin: " << begin << " end: " << end << " value: " << value << std::endl;
+	}
+
 	unsigned int begin;
 	unsigned int end;
 	float value;
 };
 
-bool should_windows_merge(const Window& w1, const Window& w2, float refinement)
+float should_windows_merge(const Window& w1, const Window& w2)
 {
 	float value_diff = std::abs(w1.value - w2.value);
 	unsigned int min_group_size = std::min(w1.get_size(), w2.get_size());
-	float v = std::sqrt(min_group_size) * std::pow(value_diff * 1000.f, 4.f);
-	// std::cout << "v: " << v << std::endl;
-	return v < refinement;
+
+	if (value_diff < std::numeric_limits<float>::min())
+		return std::numeric_limits<float>::max();
+
+	float v = std::sqrt(min_group_size) * std::pow(value_diff, 2.f);
+	return 1 / v;
 }
 
 Window merge_windows(const Window& w1, const Window& w2)
@@ -39,23 +52,116 @@ Window merge_windows(const Window& w1, const Window& w2)
 	return Window(w1.begin, w2.end, value);
 }
 
-std::vector<Window> group_windows(const std::vector<Window>& windows, float refinement)
+std::vector<float> get_merge_forces(const std::vector<Window>& windows)
 {
-	std::vector<Window> grouped_windows;
-	Window current_window = windows[0];
-
+	std::vector<float> merge_forces;
 	for (auto iter = windows.cbegin()+1; iter != windows.cend(); ++iter)
 	{
-		if (should_windows_merge(current_window, *iter, refinement))
+		merge_forces.push_back(should_windows_merge(*(iter-1), *iter));
+	}
+
+	return merge_forces;
+}
+
+/*
+ * Taken from:
+ * https://stackoverflow.com/questions/25921706/creating-a-vector-of-indices-of-a-sorted-vector
+ */
+std::vector<unsigned int> get_indices(const std::vector<float>& vec)
+{
+	std::vector<unsigned int> y(vec.size());
+	std::size_t n(0);
+	std::generate(std::begin(y), std::end(y), [&]{ return n++; });
+
+	std::sort(std::begin(y), 
+				std::end(y),
+				[&](int i1, int i2) { return vec[i1] < vec[i2]; } );
+
+	return y;
+}
+
+bool neighbour_free(const std::vector<bool>& used_windows, unsigned int index)
+{
+	bool is_valid = true;
+	if (used_windows[index])
+		is_valid = false;
+
+	if (used_windows[index+1])
+		is_valid = false;
+
+	return is_valid;
+}
+
+std::vector<unsigned int> get_max_force_indices(const std::vector<float>& forces)
+{
+	std::vector<unsigned int> indices = get_indices(forces);
+	int max_index = 0;
+	for (int i : indices)
+		if (max_index < i)
+			max_index = i;
+
+	std::vector<bool> used_windows(max_index+1);
+
+	std::vector<unsigned int> filtered_indices;
+
+	for (auto iter = indices.rbegin(); iter != indices.rend(); ++iter)
+	{
+		if (neighbour_free(used_windows, *iter))
 		{
-			current_window = merge_windows(current_window, *iter);
+			filtered_indices.push_back(*iter);
+			//std::cout << "neighbour_free" << std::endl;
+		}/*else {
+			std::cout << "not neighbour_free" << std::endl;
+		}*/
+
+		used_windows[*iter] = true;
+		if (used_windows.size() != (*iter)+1)
+			used_windows[(*iter)+1] = true;
+	}
+
+	return filtered_indices;
+}
+
+std::vector<Window> group_windows(const std::vector<Window>& windows)
+{
+	std::vector<float> merge_forces = get_merge_forces(windows);
+	std::vector<unsigned int> max_force_indices = get_max_force_indices(merge_forces);
+
+	/*
+	std::cout << "max_force_indices:" << std::endl;
+	for (unsigned int i : max_force_indices)
+		std::cout << i << std::endl;
+	*/
+
+	std::vector<Window> grouped_windows;
+
+	for (unsigned int index : max_force_indices)
+	{
+		Window new_window = merge_windows(windows[index], windows[index+1]);
+		grouped_windows.push_back(new_window);
+	}
+
+	std::sort(max_force_indices.begin(), max_force_indices.end());
+	auto index_iter = max_force_indices.cbegin();
+
+	bool skip_index_iter = false;
+	for (unsigned int i = 0; i < windows.size(); i++)
+	{
+		while (*index_iter < i)
+		{
+			++index_iter;
+			if (index_iter == max_force_indices.cend())
+				skip_index_iter = true;
+		}
+		if (!skip_index_iter && (*index_iter == i))
+		{
+			i++;
 		} else {
-			grouped_windows.push_back(current_window);
-			current_window = *iter;
+			grouped_windows.push_back(windows[i]);
 		}
 	}
 
-	grouped_windows.push_back(current_window);
+	std::sort(grouped_windows.begin(), grouped_windows.end());
 
 	return grouped_windows;
 }
@@ -73,12 +179,16 @@ void PartsDataGenerator::compute()
 		frame_counter++;
 	}
 
-	// const std::vector<float> refinements { 1.f , 2.f, /* 3.f, 4.f */};
+	// windows = std::vector<Window> { Window(0, 1, 0.3f), Window(1, 2, 0.4f), Window(2, 3, 0.4f), Window(3, 4, 0.3f), Window(4, 5, 0.3f) };
 
-	for (double refinement = 1.0; windows.size() > 10; refinement *= 2.0)
+	while (windows.size() > 50)
 	{
-		windows = group_windows(windows, refinement);
-		std::cout << "num groups: " << windows.size() << std::endl;
+	// for (const Window& w : windows)
+	// 	w.print();
+		windows = group_windows(windows);
+	// for (const Window& w : windows)
+	// 	w.print();
+		std::cout << windows.size() << std::endl;
 	}
 
 	std::vector<float> parts;
