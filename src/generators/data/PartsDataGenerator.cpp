@@ -28,16 +28,19 @@ struct Window
 float should_windows_merge(const Window& w1, const Window& w2)
 {
 	const float value_diff = std::abs(w1.value - w2.value);
+	unsigned int min_group_size = std::min(w1.get_size(), w2.get_size());
+
 	if (value_diff < std::numeric_limits<float>::min())
 		return std::numeric_limits<float>::max();
-	return 1 / value_diff;
+
+	const float v = std::log(static_cast<float>(min_group_size)) * std::pow(value_diff, 2.0);
+
+	return 1.f / v;
 }
 
 Window merge_windows(const Window& w1, const Window& w2)
 {
-	const float w1_influence = w1.get_size() / (w1.get_size() + w2.get_size());
-	const float value = w1_influence * w1.value + (1.f - w1_influence) * w2.value;
-
+	const float value = w1.get_size() > w2.get_size() ? w1.value : w2.value;
 	return Window(w1.begin, w2.end, value);
 }
 
@@ -98,11 +101,12 @@ std::vector<unsigned int> get_max_force_indices(const std::vector<float>& forces
 		if (neighbour_free(used_windows, *iter))
 		{
 			filtered_indices.push_back(*iter);
+
+			used_windows[*iter] = true;
+			if (used_windows.size() != (*iter)+1)
+				used_windows[(*iter)+1] = true;
 		}
 
-		used_windows[*iter] = true;
-		if (used_windows.size() != (*iter)+1)
-			used_windows[(*iter)+1] = true;
 	}
 
 	return filtered_indices;
@@ -133,7 +137,7 @@ std::vector<Window> group_windows(const std::vector<Window>& windows)
 			if (index_iter == max_force_indices.cend())
 				skip_index_iter = true;
 		}
-		if (!skip_index_iter && (*index_iter == i))
+		if ((not skip_index_iter) && (*index_iter == i))
 		{
 			i++;
 		} else {
@@ -146,21 +150,31 @@ std::vector<Window> group_windows(const std::vector<Window>& windows)
 	return grouped_windows;
 }
 
+const unsigned int WINDOW_SIZE = 21;
+
 void PartsDataGenerator::compute()
 {
 	std::cout << "Calculating Parts... " << std::flush;
 	std::vector<float> arousal_timeline = _pool->value<std::vector<float>>(data_identifier::AROUSAL_TIMELINE);
 
-	unsigned int frame_counter = 0;
 	std::vector<Window> windows;
-
-	for (auto iter = arousal_timeline.cbegin(); iter != arousal_timeline.cend(); ++iter)
+	Window current_window(0, 1, 0.f);
+	float sum = 0.f;
+	for (unsigned int frame_counter = 0; frame_counter < arousal_timeline.size(); frame_counter++)
 	{
-		windows.push_back(Window(frame_counter, frame_counter+1, *iter));
-		frame_counter++;
+		sum += arousal_timeline[frame_counter];
+
+		if (frame_counter % WINDOW_SIZE == 0)
+		{
+			current_window.end = frame_counter;
+			current_window.value = sum / WINDOW_SIZE;
+			windows.push_back(current_window);
+			current_window.begin = frame_counter;
+			sum = 0.f;
+		}
 	}
 
-	while (windows.size() > 50)
+	while (windows.size() > 25)
 	{
 		windows = group_windows(windows);
 	}
