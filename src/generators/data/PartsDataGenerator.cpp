@@ -27,20 +27,16 @@ struct Window
 
 float should_windows_merge(const Window& w1, const Window& w2)
 {
-	float value_diff = std::abs(w1.value - w2.value);
-	unsigned int min_group_size = std::min(w1.get_size(), w2.get_size());
-
+	const float value_diff = std::abs(w1.value - w2.value);
 	if (value_diff < std::numeric_limits<float>::min())
 		return std::numeric_limits<float>::max();
-
-	float v = std::sqrt(min_group_size) * std::pow(value_diff, 2.f);
-	return 1 / v;
+	return 1 / value_diff;
 }
 
 Window merge_windows(const Window& w1, const Window& w2)
 {
-	float w1_influence = w1.get_size() / (w1.get_size() + w2.get_size());
-	float value = w1_influence * w1.value + (1.f - w1_influence) * w2.value;
+	const float w1_influence = w1.get_size() / (w1.get_size() + w2.get_size());
+	const float value = w1_influence * w1.value + (1.f - w1_influence) * w2.value;
 
 	return Window(w1.begin, w2.end, value);
 }
