@@ -47,8 +47,6 @@ Window merge_windows(const Window& w1, const Window& w2)
 	float w1_influence = w1.get_size() / (w1.get_size() + w2.get_size());
 	float value = w1_influence * w1.value + (1.f - w1_influence) * w2.value;
 
-	// std::cout << "w1.size: " << w1.get_size() << " w2.size: " << w2.get_size() << std::endl;
-	// std::cout << "w1.value: " << w1.value << " w2.value: " << w2.value << " v: " << value << std::endl;
 	return Window(w1.begin, w2.end, value);
 }
 
@@ -168,6 +166,7 @@ std::vector<Window> group_windows(const std::vector<Window>& windows)
 
 void PartsDataGenerator::compute()
 {
+	std::cout << "Calculating Parts... " << std::flush;
 	std::vector<float> arousal_timeline = _pool->value<std::vector<float>>(data_identifier::AROUSAL_TIMELINE);
 
 	unsigned int frame_counter = 0;
@@ -179,16 +178,9 @@ void PartsDataGenerator::compute()
 		frame_counter++;
 	}
 
-	// windows = std::vector<Window> { Window(0, 1, 0.3f), Window(1, 2, 0.4f), Window(2, 3, 0.4f), Window(3, 4, 0.3f), Window(4, 5, 0.3f) };
-
 	while (windows.size() > 50)
 	{
-	// for (const Window& w : windows)
-	// 	w.print();
 		windows = group_windows(windows);
-	// for (const Window& w : windows)
-	// 	w.print();
-		std::cout << windows.size() << std::endl;
 	}
 
 	std::vector<float> parts;
@@ -201,4 +193,6 @@ void PartsDataGenerator::compute()
 	}
 
 	_pool->set(data_identifier::AROUSAL_DIFFS, parts);
+
+	std::cout << "Done." << std::endl;
 }
