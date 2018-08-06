@@ -20,11 +20,6 @@ struct Window
 	bool operator<=(const Window& w) { return this->begin <= w.begin; }
 	bool operator>=(const Window& w) { return this->begin >= w.begin; }
 
-	void print() const
-	{
-		std::cout << "Window: begin: " << begin << " end: " << end << " value: " << value << std::endl;
-	}
-
 	unsigned int begin;
 	unsigned int end;
 	float value;
@@ -107,10 +102,7 @@ std::vector<unsigned int> get_max_force_indices(const std::vector<float>& forces
 		if (neighbour_free(used_windows, *iter))
 		{
 			filtered_indices.push_back(*iter);
-			//std::cout << "neighbour_free" << std::endl;
-		}/*else {
-			std::cout << "not neighbour_free" << std::endl;
-		}*/
+		}
 
 		used_windows[*iter] = true;
 		if (used_windows.size() != (*iter)+1)
@@ -124,12 +116,6 @@ std::vector<Window> group_windows(const std::vector<Window>& windows)
 {
 	std::vector<float> merge_forces = get_merge_forces(windows);
 	std::vector<unsigned int> max_force_indices = get_max_force_indices(merge_forces);
-
-	/*
-	std::cout << "max_force_indices:" << std::endl;
-	for (unsigned int i : max_force_indices)
-		std::cout << i << std::endl;
-	*/
 
 	std::vector<Window> grouped_windows;
 
