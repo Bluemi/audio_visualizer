@@ -136,7 +136,7 @@ EventList BeatEventGenerator::compute(const essentia::Pool& pool) const
 	for (const BeatPosition& pos : filtered_positions)
 	// for (const BeatPosition& pos : positions)
 	{
-		Event e(BeatEvent(pos.value), pos.position*(1024.f / 44100.f));
+		Event e(BeatEvent(pos.value), pos.position*(1024.f / 44100.f)-0.04f);
 		event_list.push_back(e);
 	}
 

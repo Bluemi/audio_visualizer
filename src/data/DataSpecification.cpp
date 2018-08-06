@@ -57,6 +57,11 @@ struct
 		return { ChordDataSpecification(), PitchClassProfileDataSpecification() };
 	}
 
+	std::vector<DataSpecification> operator()(const PartsDataSpecification&)
+	{
+		return { ArousalDataSpecification() };
+	}
+
 	std::vector<DataSpecification> operator()(const TickDataSpecification&)
 	{
 		return { AudioDataSpecification() };

@@ -90,7 +90,7 @@ std::vector<float> calculate_arousal(misc::Matrix bark_bands_differences)
 
 		float arousal_acceleration = (f - arousal) * ACCELERATION;
 		arousal += arousal_acceleration;
-		arousals.push_back(std::min(arousal, 1.f));
+		arousals.push_back(arousal);
 	}
 
 	return arousals;

@@ -29,6 +29,7 @@ class ChordDataSpecification : public DataSpecificationOperators<ChordDataSpecif
 
 class ArousalDataSpecification : public DataSpecificationOperators<ArousalDataSpecification> {};
 class ValenceDataSpecification : public DataSpecificationOperators<ValenceDataSpecification> {};
+class PartsDataSpecification : public DataSpecificationOperators<PartsDataSpecification> {};
 
 class WriteDataSpecification : public DataSpecificationOperators<WriteDataSpecification>
 {
@@ -60,6 +61,7 @@ using DataSpecification = std::variant<AudioDataSpecification,
 									   ChordDataSpecification,
 									   ArousalDataSpecification,
 									   ValenceDataSpecification,
+									   PartsDataSpecification,
 									   TickDataSpecification,
 									   WriteDataSpecification>;
 

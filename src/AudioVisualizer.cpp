@@ -76,7 +76,7 @@ void AudioVisualizer::setup_objects(visualizer::Visualizer* visualizer)
 	}
 
 	v::Creation valence_arousal_debug_creation = v::Creation(v::SphereSpecification(2))
-		.with_quantity(5)
+		.with_quantity(6)
 		.with_size(glm::vec3(0.1f, 0.1f, 0.1f))
 		.with_tag("va_debug");
 

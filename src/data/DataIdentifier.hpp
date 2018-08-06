@@ -12,6 +12,7 @@ namespace data_identifier
 	const std::string BARK_BANDS = "bark_bands";
 	const std::string BARK_BANDS_DIFFERENCES = "bark_bands_differences";
 	const std::string AROUSAL_TIMELINE = "arousal_timeline";
+	const std::string AROUSAL_DIFFS = "arousal_diffs";
 	const std::string TICK_POSITIONS = "tick_positions";
 	const std::string SPECTRUM_PEAKS_FREQUENCIES = "spectrum_peaks_frequencies";
 	const std::string SPECTRUM_PEAKS_MAGNITUDES = "spectrum_peaks_magnitudes";

@@ -62,6 +62,11 @@ class GeneratorCreator
 			return ValenceDataGenerator(_pool, _algorithm_factory);
 		}
 
+		DataGenerator operator()(const PartsDataSpecification&)
+		{
+			return PartsDataGenerator(_pool, _algorithm_factory);
+		}
+
 		DataGenerator operator()(const TickDataSpecification& spec)
 		{
 			return TickDataGenerator(_pool, _algorithm_factory, spec.get_min_amplitude());

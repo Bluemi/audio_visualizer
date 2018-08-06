@@ -17,6 +17,7 @@
 #include "ChordDataGenerator.hpp"
 #include "ArousalDataGenerator.hpp"
 #include "ValenceDataGenerator.hpp"
+#include "PartsDataGenerator.hpp"
 #include "TickDataGenerator.hpp"
 #include "WriteDataGenerator.hpp"
 
@@ -31,6 +32,7 @@ using DataGenerator = std::variant<AudioDataGenerator,
 								   ChordDataGenerator,
 								   ArousalDataGenerator,
 								   ValenceDataGenerator,
+								   PartsDataGenerator,
 	  							   TickDataGenerator,
 								   WriteDataGenerator>;
 
