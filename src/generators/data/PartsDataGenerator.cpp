@@ -1,5 +1,7 @@
 #include "PartsDataGenerator.hpp"
 
+#include <curses.h>
+
 #include "../../data/DataIdentifier.hpp"
 #include <visualizer/misc/Math.hpp>
 
@@ -32,6 +34,12 @@ float should_windows_merge(const Window& w1, const Window& w2)
 
 	if (value_diff < std::numeric_limits<float>::min())
 		return std::numeric_limits<float>::max();
+
+	if (min_group_size == 1)
+		return std::numeric_limits<float>::max();
+
+	if (min_group_size > 10)
+		min_group_size = 10;
 
 	const float v = std::log(static_cast<float>(min_group_size)) * std::pow(value_diff, 2.0);
 
@@ -96,11 +104,16 @@ std::vector<unsigned int> get_max_force_indices(const std::vector<float>& forces
 
 	std::vector<unsigned int> filtered_indices;
 
+	unsigned int counter = 0;
+
 	for (auto iter = indices.rbegin(); iter != indices.rend(); ++iter)
 	{
 		if (neighbour_free(used_windows, *iter))
 		{
 			filtered_indices.push_back(*iter);
+			counter++;
+			if (counter > forces.size()/5)
+				break;
 
 			used_windows[*iter] = true;
 			if (used_windows.size() != (*iter)+1)
@@ -150,7 +163,56 @@ std::vector<Window> group_windows(const std::vector<Window>& windows)
 	return grouped_windows;
 }
 
-const unsigned int WINDOW_SIZE = 21;
+const unsigned int WINDOW_WIDTH = 180;
+const unsigned int WINDOW_HEIGHT = 57;
+
+float get_amplitude(const std::vector<Window>& windows, unsigned int position)
+{
+	unsigned int pos = 0;
+	for (const Window& w : windows)
+	{
+		pos += w.get_size();
+		if (pos >= position)
+			return w.value;
+	}
+	return windows.back().value;
+}
+
+void render_bins(const std::vector<float>& bins)
+{
+	clear();
+	for (unsigned int x = 0; x < bins.size(); x++)
+	{
+		for (int y = WINDOW_HEIGHT; y > WINDOW_HEIGHT - WINDOW_HEIGHT * bins[x]; y--)
+		{
+			mvaddch(y, x, '#');
+		}
+	}
+	refresh();
+}
+
+void render_windows(const std::vector<Window>& windows)
+{
+	std::vector<float> bins;
+	
+	unsigned int num_frames = 0;
+	for (const Window& w : windows)
+		num_frames += w.get_size();
+
+	const float frames_per_bin = num_frames / static_cast<float>(WINDOW_WIDTH);
+
+	for (unsigned int bin_index = 0; bin_index < WINDOW_WIDTH; bin_index++)
+	{
+		const unsigned int position = static_cast<unsigned int>(bin_index * frames_per_bin);
+		bins.push_back(get_amplitude(windows, position));
+	}
+
+	render_bins(bins);
+
+	getch();
+}
+
+const unsigned int WINDOW_SIZE = 1;
 
 void PartsDataGenerator::compute()
 {
@@ -174,10 +236,17 @@ void PartsDataGenerator::compute()
 		}
 	}
 
+	/*
+	initscr();
+	noecho();
+	cbreak();
+	*/
 	while (windows.size() > 25)
 	{
 		windows = group_windows(windows);
+		//render_windows(windows);
 	}
+	//endwin();
 
 	std::vector<float> parts;
 	for (const Window& w : windows)

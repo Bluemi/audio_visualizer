@@ -9,4 +9,5 @@ target_link_libraries(audio_visualizer
 	"visualizer"
 	"GLU" "glfw3" "X11" "Xxf86vm" "Xrandr" "pthread" "Xi" "dl" "Xinerama" "Xcursor"
 	"essentia" "fftw3f" "chromaprint" "avcodec" "avutil" "tag" "avformat" "avresample" "yaml" "samplerate"
+	"ncurses"
 	)
