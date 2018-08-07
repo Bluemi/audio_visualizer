@@ -38,9 +38,6 @@ float should_windows_merge(const Window& w1, const Window& w2)
 	if (min_group_size == 1)
 		return std::numeric_limits<float>::max();
 
-	if (min_group_size > 10)
-		min_group_size = 10;
-
 	const float v = std::log(static_cast<float>(min_group_size)) * std::pow(value_diff, 2.0);
 
 	return 1.f / v;
