@@ -23,16 +23,16 @@ void ArousalHandler::update(const essentia::Pool& pool)
 
 	unsigned int c = 1;
 
-	for (auto it = _visualizer->get_entities().begin(); it != _visualizer->get_entities().end(); ++it)
+	for (auto iter = _visualizer->begin(); iter != _visualizer->end(); ++iter)
 	{
-		if ((*it).get_shape_specification() == visualizer::ShapeType::SPHERE)
+		if (iter->get_shape_specification() == visualizer::ShapeType::SPHERE)
 		{
 			if (c == 0)
 			{
-				(*it).add_movement(sphere_random_color);
-				glm::vec3 position = (*it).get_position();
+				iter->add_movement(sphere_random_color);
+				glm::vec3 position = iter->get_position();
 				position.y = 1 + value*2;
-				(*it).set_position(position);
+				iter->set_position(position);
 			}
 		}
 		c = (c+1) % 3;

@@ -23,16 +23,16 @@ void ValenceHandler::update(const essentia::Pool& pool)
 
 	unsigned int c = 0;
 
-	for (auto it = _visualizer->get_entities().begin(); it != _visualizer->get_entities().end(); ++it)
+	for (visualizer::Movable& m : (*_visualizer))
 	{
-		if ((*it).get_shape_specification() == visualizer::ShapeType::SPHERE)
+		if (m.get_shape_specification() == visualizer::ShapeType::SPHERE)
 		{
 			if (c == 0)
 			{
-				(*it).add_movement(sphere_random_color);
-				glm::vec3 position = (*it).get_position();
+				m.add_movement(sphere_random_color);
+				glm::vec3 position = m.get_position();
 				position.y = 1 + value*2;
-				(*it).set_position(position);
+				m.set_position(position);
 			}
 		}
 		c = (c+1) % 3;

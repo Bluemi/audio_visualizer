@@ -1,7 +1,5 @@
 #include "BeatEventHandler.hpp"
 
-#include <iostream>
-
 #include <visualizer/entity/movement/RandomColor.hpp>
 #include <visualizer/entity/movement/RandomAcceleration.hpp>
 #include <visualizer/shape/ShapeType.hpp>
@@ -18,12 +16,12 @@ void BeatEventHandler::operator()(const BeatEvent& beat_event)
 	visualizer::Movement r_acc(new visualizer::RandomAcceleration(.2f*value));
 	visualizer::Movement cube_random_color(new visualizer::RandomColor(visualizer::VectorGenerator(glm::vec3(b*3, -b, -b)).with_stddev(glm::vec3(v, v, v))));
 
-	for (auto it = _visualizer->get_entities().begin(); it != _visualizer->get_entities().end(); ++it)
+	for (auto iter = _visualizer->begin(); iter != _visualizer->end(); ++iter)
 	{
-		if (!misc::contains<std::string>((*it).get_tags(), "va_debug"))
+		if (!misc::contains<std::string>(iter->get_tags(), "va_debug"))
 		{
-			(*it).add_movement(r_acc);
-			(*it).add_movement(cube_random_color);
+			iter->add_movement(r_acc);
+			iter->add_movement(cube_random_color);
 		}
 	}
 }

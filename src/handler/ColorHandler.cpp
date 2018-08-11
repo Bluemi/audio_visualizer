@@ -48,12 +48,12 @@ void ColorHandler::update(const essentia::Pool& pool)
 
 	_color_gen.with_mean(color);
 
-	for (auto it = _visualizer->get_entities().begin(); it != _visualizer->get_entities().end(); ++it)
+	for (visualizer::Movable& m : (*_visualizer))
 	{
-		if (!misc::contains<std::string>((*it).get_tags(), "va_debug"))
+		if (!misc::contains<std::string>(m.get_tags(), "va_debug"))
 		{
 			visualizer::Movement sphere_target_color(new visualizer::ColorTarget(_color_gen.get(), _strength));
-			(*it).add_movement(sphere_target_color);
+			m.add_movement(sphere_target_color);
 		}
 	}
 }
