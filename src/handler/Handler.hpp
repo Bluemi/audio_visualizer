@@ -13,7 +13,7 @@
 #include "DragHandler.hpp"
 
 using Handler = std::variant<BeatEventHandler,
-	  						 ValenceHandler,
+							 ValenceHandler,
 							 ArousalHandler,
 							 ColorHandler,
 							 ValenceArousalDebugHandler,
