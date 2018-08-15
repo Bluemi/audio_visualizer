@@ -27,7 +27,7 @@ int main()
 
 	AccelerationFieldHandler afh;
 	afh.set_groups({"main1", "main2"});
-	av.add_handlers({ /*BeatEventHandler(),*/ ColorHandler(0.1f, 0.03f), ValenceArousalDebugHandler(), afh, DragHandler(0.12f) });
+	av.add_handlers({ /* BeatEventHandler(),*/ ColorHandler(0.1f, 0.03f), ValenceArousalDebugHandler(), afh, DragHandler(0.12f) });
 
 	av.run(information_container);
 

@@ -17,6 +17,7 @@ class AccelerationFieldHandler : public BaseHandler
 	private:
 		visualizer::AccelerationField _acceleration_field;
 		visualizer::PlainForce _plain_force;
+		bool _beat_event_detected;
 
 		static const float TIME_UPDATE;
 		static const float AROUSAL_VALUE_SCALE;
