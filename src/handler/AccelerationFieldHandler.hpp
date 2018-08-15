@@ -22,6 +22,7 @@ class AccelerationFieldHandler : public BaseHandler
 		static const float TIME_UPDATE;
 		static const float AROUSAL_VALUE_SCALE;
 		static const float DEFAULT_PLAIN_FORCE;
+		static const float BEAT_EVENT_AMPLITUDE_SCALE;
 };
 
 #endif
