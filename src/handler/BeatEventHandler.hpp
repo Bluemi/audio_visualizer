@@ -4,9 +4,6 @@
 #include "BaseHandler.hpp"
 
 class BeatEvent;
-class TickEvent;
-class ArousalEvent;
-class ValenceEvent;
 
 class BeatEventHandler : public BaseHandler
 {

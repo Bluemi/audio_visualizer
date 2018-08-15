@@ -26,60 +26,23 @@ AudioVisualizer::AudioVisualizer()
 
 void AudioVisualizer::setup_objects(visualizer::Visualizer* visualizer)
 {
-	v::VectorGenerator pos_gen = v::VectorGenerator().with_stddev(glm::vec3(5.f, 5.f, 5.f));
+	v::ShapeGenerator shape_gen(v::SphereSpecification(2), 1.f);
+	shape_gen.with_shape(v::CubeSpecification(), 1.f);
+
+	v::VectorGenerator pos_gen = v::VectorGenerator().with_stddev(glm::vec3(5.f, 0.5f, 5.f));
 	v::VectorGenerator size_gen = v::VectorGenerator(glm::vec3(0.05f, 0.05f, 0.05f)).with_stddev(glm::vec3(0.01f));
 	v::VectorGenerator speed_gen = v::VectorGenerator().with_stddev(glm::vec3(1.f, 1.f, 1.f));
-	float brightness = 0.05f;
-	float color_var = 0.03f;
-	v::VectorGenerator color_gen = v::VectorGenerator(glm::vec3(brightness, brightness, brightness*3)).with_stddev(glm::vec3(color_var*2, color_var, color_var));
 
-	v::Creation creation = v::Creation(v::SphereSpecification(2), "main_spheres")
+	v::Creation creation = v::Creation(shape_gen, "main1")
 		.with_quantity(1000)
 		.with_position(pos_gen)
 		.with_size(size_gen)
-		.with_velocity(speed_gen)
-		.with_color(color_gen)
-		.with_tag("background");
+		.with_velocity(speed_gen);
 
 	visualizer->create_entities(creation);
 
-	creation.with_shape(v::ShapeGenerator(v::CubeSpecification()));
-	creation.with_group("main_cubes");
-
+	creation.with_group("main2");
 	visualizer->create_entities(creation);
-
-	v::Query cube_query = v::Query().with_shape(v::ShapeType::CUBE);
-	v::EntityReferences cubes = visualizer->query_entities(cube_query);
-
-	v::GroupMovement cube_circle(v::Circle(glm::vec3(), 5.f));
-	cube_circle.with_groups({"main_cubes"});
-	v::Movement cube_drag(new v::SimpleDrag(0.2f));
-
-	visualizer::Movement color_drag(new visualizer::SimpleColorDrag(0.1f));
-	visualizer::Movement std_color(new visualizer::StdColor(0.04f));
-
-	visualizer->add_group_movement(cube_circle);
-	for (v::Movable* m : cubes)
-	{
-		m->add_movement(cube_drag);
-		m->add_movement(color_drag);
-		m->add_movement(std_color);
-	}
-
-	v::Query sphere_query = v::Query().with_shape(v::ShapeType::SPHERE);
-	v::EntityReferences spheres = visualizer->query_entities(sphere_query);
-
-	v::GroupMovement sphere_circle(v::Circle(glm::vec3(0.f, 1.f, 0.f), 3.f));
-	sphere_circle.with_groups({"main_spheres"});
-	v::Movement sphere_drag(new v::SimpleDrag(0.2f));
-
-	visualizer->add_group_movement(sphere_circle);
-	for (v::Movable* m : spheres)
-	{
-		m->add_movement(sphere_drag);
-		m->add_movement(color_drag);
-		m->add_movement(std_color);
-	}
 
 	v::Creation valence_arousal_debug_creation = v::Creation(v::SphereSpecification(2), "debug")
 		.with_quantity(6)
@@ -116,6 +79,8 @@ void AudioVisualizer::run(const InformationContainer& information_container)
 		set_handler_frame_counter(frame_counter);
 
 		EventList current_events = get_current_events(information_container.get_event_list(), current_time);
+
+		_compositor.update(&(visualizer.get_entities()), _handlers, information_container, current_events, frame_counter);
 
 		handle_events(current_events, information_container.get_pool());
 

@@ -6,6 +6,7 @@
 #include "information/InformationBuilder.hpp"
 #include "information/InformationContainer.hpp"
 #include "handler/Handler.hpp"
+#include "handler/Compositor.hpp"
 
 class AudioVisualizer
 {
@@ -25,6 +26,7 @@ class AudioVisualizer
 
 		unsigned int _event_index;
 		HandlerList _handlers;
+		Compositor _compositor;
 };
 
 #endif
