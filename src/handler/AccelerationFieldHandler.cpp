@@ -8,7 +8,7 @@
 const float AccelerationFieldHandler::TIME_UPDATE = 0.03f;
 const float AccelerationFieldHandler::AROUSAL_VALUE_SCALE = 0.013f;
 const float AccelerationFieldHandler::DEFAULT_PLAIN_FORCE = 0.001f;
-const float AccelerationFieldHandler::BEAT_EVENT_AMPLITUDE_SCALE = 0.06f;
+const float AccelerationFieldHandler::BEAT_EVENT_AMPLITUDE_SCALE = 0.1f;
 
 AccelerationFieldHandler::AccelerationFieldHandler()
 	: _acceleration_field(visualizer::AccelerationField()), _plain_force(DEFAULT_PLAIN_FORCE), _beat_event_detected(false)
