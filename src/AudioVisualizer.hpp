@@ -15,7 +15,7 @@ class AudioVisualizer
 
 		AudioVisualizer();
 		void setup_objects(visualizer::Visualizer* visualizer);
-		void run(const InformationContainer& information_container);
+		void run(const InformationContainer& information_container, const std::string& audio_filename);
 
 		void add_handlers(const HandlerList& handler_list);
 	private:

@@ -58,9 +58,8 @@ void play_song(const std::string& audio_path)
 	system(system_command.c_str());
 }
 
-void AudioVisualizer::run(const InformationContainer& information_container)
+void AudioVisualizer::run(const InformationContainer& information_container, const std::string& audio_filename)
 {
-	play_song("input.wav");
 
 	std::optional<v::Visualizer> opt_visualizer = v::Visualizer::create(800, 600);
 	if (!opt_visualizer)
@@ -71,6 +70,8 @@ void AudioVisualizer::run(const InformationContainer& information_container)
 
 	setup_handlers(&visualizer);
 	setup_objects(&visualizer);
+
+	play_song(audio_filename);
 
 	while (!visualizer.should_close())
 	{

@@ -4,12 +4,18 @@
 
 #include "handler/Handler.hpp"
 
-int main()
+int main(int argc, char* argv[])
 {
-	AudioVisualizer::init();
-	AudioVisualizer av;
+	if (argc != 2) {
+		std::cout << "usage:\n" << argv[0] << " <audiofile>" << std::endl;
+		return 1;
+	}
 
-	InformationBuilder information_builder("input.wav");
+	const std::string audio_filename = argv[1];
+
+	AudioVisualizer::init();
+
+	InformationBuilder information_builder(audio_filename);
 
 	information_builder.with_events({
 			BeatEventSpecification(),
@@ -27,9 +33,10 @@ int main()
 
 	AccelerationFieldHandler afh;
 	afh.set_groups({"main1", "main2"});
-	av.add_handlers({ /* BeatEventHandler(),*/ ColorHandler(0.1f, 0.03f), ValenceArousalDebugHandler(), afh, DragHandler(0.12f) });
 
-	av.run(information_container);
+	AudioVisualizer av;
+	av.add_handlers({ /* BeatEventHandler(),*/ ColorHandler(0.1f, 0.03f), ValenceArousalDebugHandler(), afh, DragHandler(0.12f) });
+	av.run(information_container, audio_filename);
 
 	return 0;
 }
