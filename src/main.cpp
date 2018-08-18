@@ -17,13 +17,11 @@ int main(int argc, char* argv[])
 
 	InformationBuilder information_builder(audio_filename);
 
-	information_builder.with_events({
+	information_builder
+		.with_events({
 			BeatEventSpecification(),
-			// ArousalEventSpecification(),
-			// ValenceEventSpecification()
-		});
-
-	information_builder.with_data({
+		})
+		.with_data({
 			ArousalDataSpecification(),
 			ValenceDataSpecification(),
 			PartsDataSpecification()
