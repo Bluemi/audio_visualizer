@@ -10,6 +10,8 @@ unsigned int SAMPLERATE = 44100;
 
 void AudioDataGenerator::compute()
 {
+	std::cout << "Loading Audio Data... " << std::flush;
+
 	essentia::standard::Algorithm* audio_loader = _algorithm_factory->create("MonoLoader",
 																			 "filename", _filename,
 																			 "sampleRate", SAMPLERATE);
@@ -17,15 +19,13 @@ void AudioDataGenerator::compute()
 	std::vector<essentia::Real> audio_data;
 	audio_loader->output("audio").set(audio_data);
 
-	std::cout << "Loading Audio Data... " << std::flush;
-
 	audio_loader->compute();
 
 	_pool->set(data_identifier::AUDIO, audio_data);
 
-	std::cout << "Done." << std::endl;
-
 	delete audio_loader;
+
+	std::cout << "Done." << std::endl;
 }
 
 void AudioDataGenerator::set_filename(const std::string& filename)

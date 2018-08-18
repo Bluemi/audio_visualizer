@@ -8,14 +8,14 @@ BarkBandsDataGenerator::BarkBandsDataGenerator(essentia::Pool* pool, essentia::s
 
 void BarkBandsDataGenerator::compute()
 {
+	std::cout << "Calculating Bark Bands... " << std::flush;
+
 	essentia::standard::Algorithm* bark_bands = _algorithm_factory->create("BarkBands");
 
 	const std::vector<std::vector<essentia::Real>>& spectren = _pool->value<std::vector<std::vector<essentia::Real>>>(data_identifier::SPECTRUM);
 
 	std::vector<essentia::Real> bands;
 	bark_bands->output("bands").set(bands);
-
-	std::cout << "Calculating Bark Bands... " << std::flush;
 
 	for (const std::vector<essentia::Real>& spectrum : spectren)
 	{
@@ -24,7 +24,7 @@ void BarkBandsDataGenerator::compute()
 		_pool->add(data_identifier::BARK_BANDS, bands);
 	}
 
-	std::cout << "Done." << std::endl;
-
 	delete bark_bands;
+
+	std::cout << "Done." << std::endl;
 }

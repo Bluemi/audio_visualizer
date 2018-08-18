@@ -8,6 +8,8 @@ TickDataGenerator::TickDataGenerator(essentia::Pool* pool, essentia::standard::A
 
 void TickDataGenerator::compute()
 {
+	std::cout << "Generating Tick Events... " << std::flush;
+
 	essentia::standard::Algorithm* rhythm_extractor = _algorithm_factory->create("RhythmExtractor");
 	rhythm_extractor->input("signal").set(_pool->value<std::vector<essentia::Real>>(data_identifier::AUDIO));
 
@@ -21,12 +23,11 @@ void TickDataGenerator::compute()
 	rhythm_extractor->output("estimates").set(estimates);
 	rhythm_extractor->output("bpmIntervals").set(bpmIntervals);
 
-	std::cout << "Generating Tick Events... " << std::flush;
 	rhythm_extractor->compute();
 
 	_pool->set(data_identifier::TICK_POSITIONS, ticks);
 
-	std::cout << "Done." << std::endl;
-
 	delete rhythm_extractor;
+
+	std::cout << "Done." << std::endl;
 }

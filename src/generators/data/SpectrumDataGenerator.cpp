@@ -8,14 +8,14 @@ SpectrumDataGenerator::SpectrumDataGenerator(essentia::Pool* pool, essentia::sta
 
 void SpectrumDataGenerator::compute()
 {
+	std::cout << "Calculating Spectrum... " << std::flush;
+
 	essentia::standard::Algorithm* spec = _algorithm_factory->create("Spectrum");
 
 	std::vector<essentia::Real> spectrum;
 	spec->output("spectrum").set(spectrum);
 
 	const std::vector<std::vector<essentia::Real>>& windowed_frames = _pool->value<std::vector<std::vector<essentia::Real>>>(data_identifier::WINDOWED_FRAMES);
-
-	std::cout << "Calculating Spectrum... " << std::flush;
 
 	for (const std::vector<essentia::Real>& windowed_frame : windowed_frames)
 	{
@@ -24,7 +24,7 @@ void SpectrumDataGenerator::compute()
 		_pool->add(data_identifier::SPECTRUM, spectrum);
 	}
 
-	std::cout << "Done." << std::endl;
-
 	delete spec;
+
+	std::cout << "Done." << std::endl;
 }

@@ -118,6 +118,7 @@ std::vector<BeatPosition> filter_positions(std::vector<BeatPosition> positions)
 
 EventList BeatEventGenerator::compute(const essentia::Pool& pool) const
 {
+	std::cout << "Generating BeatEvents... " << std::flush;
 	std::vector<std::vector<float>> changes = pool.value<std::vector<std::vector<essentia::Real>>>(data_identifier::BARK_BANDS_DIFFERENCES);
 
 	std::vector<BeatPosition> positions;
@@ -139,6 +140,8 @@ EventList BeatEventGenerator::compute(const essentia::Pool& pool) const
 		Event e(BeatEvent(pos.value), pos.position*(1024.f / 44100.f)-0.04f);
 		event_list.push_back(e);
 	}
+
+	std::cout << "Done." << std::endl;
 
 	return event_list;
 }

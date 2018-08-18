@@ -8,6 +8,8 @@ FrameDataGenerator::FrameDataGenerator(essentia::Pool* pool, essentia::standard:
 
 void FrameDataGenerator::compute()
 {
+	std::cout << "Cutting Frames... " << std::flush;
+
 	unsigned int frame_size = 2048;
 	unsigned int hop_size = 1024;
 
@@ -20,8 +22,6 @@ void FrameDataGenerator::compute()
 	fc->input("signal").set(_pool->value<std::vector<essentia::Real>>(data_identifier::AUDIO));
 	fc->output("frame").set(frame);
 
-	std::cout << "Cutting Frames... " << std::flush;
-
 	while (true)
 	{
 		fc->compute();
@@ -29,7 +29,7 @@ void FrameDataGenerator::compute()
 		_pool->add(data_identifier::FRAMES, frame);
 	}
 
-	std::cout << "Done." << std::endl;
-
 	delete fc;
+
+	std::cout << "Done." << std::endl;
 }
