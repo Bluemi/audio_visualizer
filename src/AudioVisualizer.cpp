@@ -55,7 +55,7 @@ void AudioVisualizer::setup_objects(visualizer::Visualizer* visualizer)
 
 void play_song(const std::string& audio_path)
 {
-	std::string system_command = "cvlc " + audio_path + " --play-and-exit &>/dev/null &";
+	std::string system_command = "cvlc \"" + audio_path + "\" --play-and-exit &>/dev/null &";
 	system(system_command.c_str());
 }
 
