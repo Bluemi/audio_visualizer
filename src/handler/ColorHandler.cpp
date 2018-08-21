@@ -39,8 +39,8 @@ void ColorHandler::update(const essentia::Pool& pool)
 	if (_frame_counter < arousal_timeline.size())
 		arousal_value = arousal_timeline[_frame_counter];
 
-	if (_frame_counter < valence_timeline.size())
-		valence_value = valence_timeline[_frame_counter];
+	if (_frame_counter+10 < valence_timeline.size())
+		valence_value = valence_timeline[_frame_counter+10];
 
 	glm::vec2 emotion(arousal_value, valence_value);
 

@@ -27,7 +27,7 @@ InformationBuilder& InformationBuilder::with_data(const std::vector<DataSpecific
 	return *this;
 }
 
-InformationContainer InformationBuilder::build()
+std::optional<InformationContainer> InformationBuilder::build()
 {
 	// generate DataSpecifications
 	std::vector<DataSpecification> data_specifications = get_event_specification_dependencies(_target_events);
@@ -37,10 +37,14 @@ InformationContainer InformationBuilder::build()
 	// generate DataGenerators
 	std::vector<DataGenerator> data_generators = create_data_generators(data_specifications);
 	provide_data_generator_parameters(&data_generators);
-	compute_data_generators(&data_generators);
+	bool success = compute_data_generators(&data_generators);
+
+	if (!success)
+	{
+		return {};
+	}
 
 	std::vector<EventGenerator> event_generators = create_event_generators(_target_events);
-	// provide parameters for event_generators?
 	EventList event_list = compute_event_generators(event_generators);
 	std::sort(event_list.begin(), event_list.end());
 
@@ -107,10 +111,18 @@ void InformationBuilder::provide_data_generator_parameters(std::vector<DataGener
 		dgpp.provide(&dg);
 }
 
-void InformationBuilder::compute_data_generators(std::vector<DataGenerator>* generators)
+bool InformationBuilder::compute_data_generators(std::vector<DataGenerator>* generators)
 {
 	for (auto& g : *generators)
-		compute_generator(g);
+	{
+		try {
+			compute_generator(g);
+		} catch (essentia::EssentiaException e) {
+			std::cout << "Error.\n\n" << e.what() << std::endl;
+			return false;
+		}
+	}
+	return true;
 }
 
 std::vector<EventGenerator> InformationBuilder::create_event_generators(const std::vector<EventSpecification>& event_specifications) const

@@ -47,6 +47,7 @@ void AudioVisualizer::setup_objects(visualizer::Visualizer* visualizer)
 	v::Creation valence_arousal_debug_creation = v::Creation(v::SphereSpecification(2), "debug")
 		.with_quantity(6)
 		.with_size(glm::vec3(0.1f, 0.1f, 0.1f))
+		.with_color(glm::vec3(0.4, 0.4, 0.4))
 		.with_tag("va_debug");
 
 	visualizer->create_entities(valence_arousal_debug_creation);
@@ -60,11 +61,11 @@ void play_song(const std::string& audio_path)
 
 void AudioVisualizer::run(const InformationContainer& information_container, const std::string& audio_filename)
 {
-
-	std::optional<v::Visualizer> opt_visualizer = v::Visualizer::create(800, 600);
+	std::optional<v::Visualizer> opt_visualizer = v::Visualizer::create(800, 600, "AudioVisualizer - " + audio_filename);
 	if (!opt_visualizer)
 	{
 		std::cout << "ERROR: couldn't create visualizer" << std::endl;
+		return;
 	}
 	v::Visualizer visualizer = *opt_visualizer;
 

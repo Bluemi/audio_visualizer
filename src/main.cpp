@@ -8,6 +8,7 @@ int main(int argc, char* argv[])
 {
 	if (argc != 2) {
 		std::cout << "usage:\n" << argv[0] << " <audiofile>" << std::endl;
+		std::cout << argc << std::endl;
 		return 1;
 	}
 
@@ -27,14 +28,16 @@ int main(int argc, char* argv[])
 			PartsDataSpecification()
 		});
 
-	InformationContainer information_container = information_builder.build();
+	std::optional<InformationContainer> information_container = information_builder.build();
+	if (information_container)
+	{
+		AccelerationFieldHandler afh;
+		afh.set_groups({"main1", "main2"});
 
-	AccelerationFieldHandler afh;
-	afh.set_groups({"main1", "main2"});
-
-	AudioVisualizer av;
-	av.add_handlers({ /* BeatEventHandler(),*/ ColorHandler(0.1f, 0.03f), ValenceArousalDebugHandler(), afh, DragHandler(0.12f) });
-	av.run(information_container, audio_filename);
+		AudioVisualizer av;
+		av.add_handlers({ ColorHandler(0.1f, 0.03f), ValenceArousalDebugHandler(), afh, DragHandler(0.12f) });
+		av.run(*information_container, audio_filename);
+	}
 
 	return 0;
 }

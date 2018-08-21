@@ -12,6 +12,7 @@ std::vector<float> calculate_loudness_time_line(const misc::Matrix& bark_bands_d
 {
 	std::vector<float> loudness_time_line;
 	const unsigned int num_frames = bark_bands_differences[0].size();
+	loudness_time_line.reserve(num_frames);
 
 	for (unsigned int time_index = 0; time_index < num_frames; time_index++)
 	{
@@ -33,6 +34,7 @@ std::vector<float> calc_arousal(const std::vector<float>& time_line)
 	float x = 0.f;
 
 	std::vector<float> arousals;
+	arousals.reserve(time_line.size());
 
 	for (float loudness_change : time_line)
 	{
@@ -51,7 +53,7 @@ std::vector<float> calc_arousal(const std::vector<float>& time_line)
 	return arousals;
 }
 
-const float MIN_LOUDNESS = 0.2f;
+const float MIN_LOUDNESS = 0.15f;
 const float ACCELERATION = 0.015f;
 
 std::vector<float> calculate_arousal(misc::Matrix bark_bands_differences)
@@ -100,7 +102,7 @@ void ArousalDataGenerator::compute()
 {
 	std::cout << "Calculating Arousal Data... " << std::flush;
 
-	misc::Matrix bark_bands_differences = _pool->value<misc::Matrix>(data_identifier::BARK_BANDS_DIFFERENCES);
+	const misc::Matrix& bark_bands_differences = _pool->value<misc::Matrix>(data_identifier::BARK_BANDS_DIFFERENCES);
 	std::vector<float> arousal_timeline = calculate_arousal(bark_bands_differences);
 
 	_pool->set(data_identifier::AROUSAL_TIMELINE, arousal_timeline);

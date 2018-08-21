@@ -11,7 +11,7 @@ EventList TickEventGenerator::compute(const essentia::Pool& pool) const
 	std::vector<essentia::Real> ticks =  pool.value<std::vector<essentia::Real>>(data_identifier::TICK_POSITIONS);
 	for (const auto& i : ticks)
 	{
-		Event e(TickEvent(1.f), i-0.01f);
+		Event e(TickEvent(), i-0.01f);
 		event_list.push_back(e);
 	}
 

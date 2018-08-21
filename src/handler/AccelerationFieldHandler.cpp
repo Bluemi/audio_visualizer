@@ -28,6 +28,8 @@ void AccelerationFieldHandler::update(const essentia::Pool& pool)
 	_beat_event_detected = false;
 
 	visualizer::GroupMovement::apply_group_movement_to(&(_visualizer->get_entities()), _acceleration_field, _groups);
+
+	_plain_force.set_strength(arousal_value*0.01f);
 	visualizer::GroupMovement::apply_group_movement_to(&(_visualizer->get_entities()), _plain_force, _groups);
 }
 
