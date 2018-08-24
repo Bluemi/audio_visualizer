@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "AudioVisualizer.hpp"
-
 #include "handler/Handler.hpp"
 
 int main(int argc, char* argv[])
@@ -19,16 +18,11 @@ int main(int argc, char* argv[])
 	InformationBuilder information_builder(audio_filename);
 
 	information_builder
-		.with_events({
-			BeatEventSpecification(),
-		})
-		.with_data({
-			ArousalDataSpecification(),
-			ValenceDataSpecification(),
-			PartsDataSpecification()
-		});
+		.with_events({ BeatEventSpecification() })
+		.with_data({ ArousalDataSpecification(), ValenceDataSpecification(), PartsDataSpecification() });
 
 	std::optional<InformationContainer> information_container = information_builder.build();
+
 	if (information_container)
 	{
 		AccelerationFieldHandler afh;

@@ -6,7 +6,7 @@
 #include "../data/DataIdentifier.hpp"
 
 const float AccelerationFieldHandler::TIME_UPDATE = 0.03f;
-const float AccelerationFieldHandler::AROUSAL_VALUE_SCALE = 0.013f;
+const float AccelerationFieldHandler::AROUSAL_VALUE_SCALE = 0.02f;
 const float AccelerationFieldHandler::DEFAULT_PLAIN_FORCE = 0.001f;
 const float AccelerationFieldHandler::BEAT_EVENT_AMPLITUDE_SCALE = 0.15f;
 
