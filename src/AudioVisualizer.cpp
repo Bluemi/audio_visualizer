@@ -30,7 +30,7 @@ void AudioVisualizer::setup_objects(visualizer::Visualizer* visualizer)
 	shape_gen.with_shape(v::CubeSpecification(), 1.f);
 
 	v::VectorGenerator pos_gen = v::VectorGenerator().with_stddev(glm::vec3(5.f, 0.5f, 5.f));
-	v::VectorGenerator size_gen = v::VectorGenerator(glm::vec3(0.05f, 0.05f, 0.05f)).with_stddev(glm::vec3(0.01f));
+	v::VectorGenerator size_gen = v::VectorGenerator(glm::vec3(0.15f, 0.15f, 0.15f)).with_stddev(glm::vec3(0.01f));
 	v::VectorGenerator speed_gen = v::VectorGenerator().with_stddev(glm::vec3(1.f, 1.f, 1.f));
 
 	v::Creation creation = v::Creation(shape_gen, "main1")
@@ -50,7 +50,7 @@ void AudioVisualizer::setup_objects(visualizer::Visualizer* visualizer)
 		.with_color(glm::vec3(0.4, 0.4, 0.4))
 		.with_tag("va_debug");
 
-	visualizer->create_entities(valence_arousal_debug_creation);
+	// visualizer->create_entities(valence_arousal_debug_creation);
 }
 
 void play_song(const std::string& audio_path)
