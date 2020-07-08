@@ -3,10 +3,10 @@ file(GLOB_RECURSE audio_visualizer_sources "./*.cpp")
 add_executable(audio_visualizer ${audio_visualizer_sources})
 
 # include_directories("/usr/include")
-include_directories("/usr/local/include")
+include_directories("/usr/local/include" "/usr/include" "/usr/include/eigen3")
 
 target_link_libraries(audio_visualizer
 	"visualizer"
-	"GLU" "glfw3" "X11" "Xxf86vm" "Xrandr" "pthread" "Xi" "dl" "Xinerama" "Xcursor"
+	"GLU" "glfw" "X11" "Xrandr" "pthread" "Xi" "dl" "Xinerama" "Xcursor"
 	"essentia" "fftw3f" "chromaprint" "avcodec" "avutil" "tag" "avformat" "yaml" "samplerate" "avresample" 
 	)

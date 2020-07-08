@@ -34,7 +34,7 @@ void AudioVisualizer::setup_objects(visualizer::Visualizer* visualizer)
 	v::VectorGenerator speed_gen = v::VectorGenerator().with_stddev(glm::vec3(1.f, 1.f, 1.f));
 
 	v::Creation creation = v::Creation(shape_gen, "main1")
-		.with_quantity(1000)
+		.with_quantity(3000)
 		.with_position(pos_gen)
 		.with_size(size_gen)
 		.with_velocity(speed_gen);
