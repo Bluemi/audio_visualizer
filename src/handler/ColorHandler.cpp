@@ -28,8 +28,7 @@ ColorHandler::ColorHandler(float strength, float std_dev)
 	_color_gen.with_stddev(glm::vec3(std_dev, std_dev, std_dev));
 }
 
-void ColorHandler::update(const essentia::Pool& pool)
-{
+void ColorHandler::update(const essentia::Pool& pool) {
 	std::vector<float> arousal_timeline = pool.value<std::vector<float>>(data_identifier::AROUSAL_TIMELINE);
 	std::vector<float> valence_timeline = pool.value<std::vector<float>>(data_identifier::VALENCE_TIMELINE);
 
@@ -58,11 +57,10 @@ void ColorHandler::update(const essentia::Pool& pool)
 	}
 }
 
-glm::vec3 ColorHandler::calculate_color(const glm::vec2& emotion)
-{
+glm::vec3 ColorHandler::calculate_color(const glm::vec2& emotion) {
 	std::vector<float> influences = get_influences(emotion, _colors);
 
-	glm::vec3 color;
+	glm::vec3 color(0.f, 0.f, 0.f);
 
 	for (unsigned int i = 0; i < _colors.size(); i++)
 	{
@@ -72,15 +70,13 @@ glm::vec3 ColorHandler::calculate_color(const glm::vec2& emotion)
 	return color;
 }
 
-float _sqr(float f)
-{
+float _sqr(float f) {
 	return f*f;
 }
 
 const float MIN_DISTANCE = 0.001f;
 
-std::vector<float> ColorHandler::get_influences(const glm::vec2& emotion, const std::vector<_Color>& colors)
-{
+std::vector<float> ColorHandler::get_influences(const glm::vec2& emotion, const std::vector<_Color>& colors) {
 	std::vector<float> influences;
 	for (const _Color& color : colors)
 	{
