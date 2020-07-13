@@ -11,8 +11,7 @@
 #include "../generators/data/DataGenerator.hpp"
 #include "../generators/event/EventGenerator.hpp"
 
-class InformationBuilder
-{
+class InformationBuilder {
 	public:
 		InformationBuilder(const std::string& filename);
 		~InformationBuilder();

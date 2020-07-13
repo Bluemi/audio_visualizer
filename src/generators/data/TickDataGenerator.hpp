@@ -4,8 +4,7 @@
 #include <essentia/algorithmfactory.h>
 #include <essentia/pool.h>
 
-class TickDataGenerator
-{
+class TickDataGenerator {
 	public:
 		TickDataGenerator(essentia::Pool* pool, essentia::standard::AlgorithmFactory* algorithm_factory, float min_amplitude);
 		void compute();

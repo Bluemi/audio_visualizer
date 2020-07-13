@@ -5,8 +5,7 @@
 
 #include "../generators/data/DataGenerator.hpp"
 
-class DataGeneratorParameterProvider
-{
+class DataGeneratorParameterProvider {
 	public:
 		DataGeneratorParameterProvider(const std::string& filename);
 		void provide(DataGenerator* data_generator);

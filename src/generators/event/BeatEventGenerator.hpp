@@ -3,13 +3,11 @@
 
 #include "../../event/Event.hpp"
 
-namespace essentia
-{
+namespace essentia {
 	class Pool;
 }
 
-class BeatEventGenerator
-{
+class BeatEventGenerator {
 	public:
 		EventList compute(const essentia::Pool& pool) const;
 };

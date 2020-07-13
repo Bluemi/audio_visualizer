@@ -15,8 +15,7 @@
 
 namespace v = visualizer;
 
-void AudioVisualizer::init()
-{
+void AudioVisualizer::init() {
 	v::Visualizer::init();
 }
 
@@ -24,8 +23,7 @@ AudioVisualizer::AudioVisualizer()
 	: _event_index(0)
 {}
 
-void AudioVisualizer::setup_objects(visualizer::Visualizer* visualizer)
-{
+void AudioVisualizer::setup_objects(visualizer::Visualizer* visualizer) {
 	v::ShapeGenerator shape_gen(v::SphereSpecification(2), 1.f);
 	shape_gen.with_shape(v::CubeSpecification(), 1.f);
 
@@ -53,17 +51,14 @@ void AudioVisualizer::setup_objects(visualizer::Visualizer* visualizer)
 	// visualizer->create_entities(valence_arousal_debug_creation);
 }
 
-void play_song(const std::string& audio_path)
-{
+void play_song(const std::string& audio_path) {
 	std::string system_command = "cvlc \"" + audio_path + "\" --play-and-exit &>/dev/null &";
 	system(system_command.c_str());
 }
 
-void AudioVisualizer::run(const InformationContainer& information_container, const std::string& audio_filename)
-{
+void AudioVisualizer::run(const InformationContainer& information_container, const std::string& audio_filename) {
 	std::optional<v::Visualizer> opt_visualizer = v::Visualizer::create(800, 600, "AudioVisualizer - " + audio_filename);
-	if (!opt_visualizer)
-	{
+	if (!opt_visualizer) {
 		std::cout << "ERROR: couldn't create visualizer" << std::endl;
 		return;
 	}
@@ -74,8 +69,7 @@ void AudioVisualizer::run(const InformationContainer& information_container, con
 
 	play_song(audio_filename);
 
-	while (!visualizer.should_close())
-	{
+	while (!visualizer.should_close()) {
 		double current_time = visualizer.get_time();
 		unsigned int frame_counter = static_cast<int>((current_time * 44100.0) / 1024.0);
 		set_handler_frame_counter(frame_counter);
@@ -95,17 +89,13 @@ void AudioVisualizer::run(const InformationContainer& information_container, con
 	visualizer.close();
 }
 
-void AudioVisualizer::add_handlers(const HandlerList& handler_list)
-{
+void AudioVisualizer::add_handlers(const HandlerList& handler_list) {
 	_handlers.insert(_handlers.end(), handler_list.cbegin(), handler_list.cend());
 }
 
-void AudioVisualizer::handle_events(const EventList& event_list, const essentia::Pool& pool)
-{
-	for (Handler& h: _handlers)
-	{
-		for (const Event& event : event_list)
-		{
+void AudioVisualizer::handle_events(const EventList& event_list, const essentia::Pool& pool) {
+	for (Handler& h: _handlers) {
+		for (const Event& event : event_list) {
 			std::visit([&event](auto& handler) { std::visit(handler, event.get_event()); }, h);
 		}
 
@@ -113,25 +103,20 @@ void AudioVisualizer::handle_events(const EventList& event_list, const essentia:
 	}
 }
 
-void AudioVisualizer::setup_handlers(visualizer::Visualizer* visualizer)
-{
+void AudioVisualizer::setup_handlers(visualizer::Visualizer* visualizer) {
 	for (Handler& h : _handlers)
 		std::visit([&visualizer](auto& handler) { handler.set_visualizer(visualizer); }, h);
 }
 
-void AudioVisualizer::set_handler_frame_counter(unsigned int frame_counter)
-{
+void AudioVisualizer::set_handler_frame_counter(unsigned int frame_counter) {
 	for (Handler& h : _handlers)
 		std::visit([frame_counter](auto& handler) { handler.set_frame_counter(frame_counter); }, h);
 }
 
-EventList AudioVisualizer::get_current_events(const EventList& event_list, double current_time)
-{
+EventList AudioVisualizer::get_current_events(const EventList& event_list, double current_time) {
 	EventList el;
-	for (unsigned int i = _event_index; i < event_list.size(); i++)
-	{
-		if (event_list[i].get_time() < current_time)
-		{
+	for (unsigned int i = _event_index; i < event_list.size(); i++) {
+		if (event_list[i].get_time() < current_time) {
 			el.push_back(event_list[i]);
 			_event_index = i+1;
 		} else break;

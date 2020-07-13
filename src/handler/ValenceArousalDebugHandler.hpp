@@ -3,8 +3,7 @@
 
 #include "BaseHandler.hpp"
 
-class ValenceArousalDebugHandler : public BaseHandler
-{
+class ValenceArousalDebugHandler : public BaseHandler {
 	public:
 		void update(const essentia::Pool& pool);
 };

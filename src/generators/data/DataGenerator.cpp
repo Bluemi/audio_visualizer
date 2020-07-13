@@ -1,79 +1,64 @@
 #include "DataGenerator.hpp"
 
-class GeneratorCreator
-{
+class GeneratorCreator {
 	public:
 		GeneratorCreator(essentia::Pool* pool, essentia::standard::AlgorithmFactory* algorithm_factory)
 			: _pool(pool), _algorithm_factory(algorithm_factory)
 		{}
 
-		DataGenerator operator()(const AudioDataSpecification&)
-		{
+		DataGenerator operator()(const AudioDataSpecification&) {
 			return AudioDataGenerator(_pool, _algorithm_factory);
 		}
 
-		DataGenerator operator()(const FrameDataSpecification&)
-		{
+		DataGenerator operator()(const FrameDataSpecification&) {
 			return FrameDataGenerator(_pool, _algorithm_factory);
 		}
 
-		DataGenerator operator()(const WindowedFrameDataSpecification&)
-		{
+		DataGenerator operator()(const WindowedFrameDataSpecification&) {
 			return WindowedFrameDataGenerator(_pool, _algorithm_factory);
 		}
 
-		DataGenerator operator()(const SpectrumDataSpecification&)
-		{
+		DataGenerator operator()(const SpectrumDataSpecification&) {
 			return SpectrumDataGenerator(_pool, _algorithm_factory);
 		}
 
-		DataGenerator operator()(const BarkBandsDataSpecification&)
-		{
+		DataGenerator operator()(const BarkBandsDataSpecification&) {
 			return BarkBandsDataGenerator(_pool, _algorithm_factory);
 		}
 
-		DataGenerator operator()(const BarkBandsDifferenceDataSpecification&)
-		{
+		DataGenerator operator()(const BarkBandsDifferenceDataSpecification&) {
 			return BarkBandsDifferenceDataGenerator(_pool, _algorithm_factory);
 		}
 
-		DataGenerator operator()(const SpectrumPeakDataSpecification&)
-		{
+		DataGenerator operator()(const SpectrumPeakDataSpecification&) {
 			return SpectrumPeakDataGenerator(_pool, _algorithm_factory);
 		}
 
-		DataGenerator operator()(const PitchClassProfileDataSpecification&)
-		{
+		DataGenerator operator()(const PitchClassProfileDataSpecification&) {
 			return PitchClassProfileDataGenerator(_pool, _algorithm_factory);
 		}
 
-		DataGenerator operator()(const ChordDataSpecification&)
-		{
+		DataGenerator operator()(const ChordDataSpecification&) {
 			return ChordDataGenerator(_pool, _algorithm_factory);
 		}
 
-		DataGenerator operator()(const ArousalDataSpecification&)
-		{
+		DataGenerator operator()(const ArousalDataSpecification&) {
 			return ArousalDataGenerator(_pool, _algorithm_factory);
 		}
 
-		DataGenerator operator()(const ValenceDataSpecification&)
-		{
+		DataGenerator operator()(const ValenceDataSpecification&) {
 			return ValenceDataGenerator(_pool, _algorithm_factory);
 		}
 
-		DataGenerator operator()(const PartsDataSpecification&)
-		{
+		DataGenerator operator()(const PartsDataSpecification&) {
 			return PartsDataGenerator(_pool, _algorithm_factory);
 		}
 
-		DataGenerator operator()(const TickDataSpecification& spec)
-		{
+		DataGenerator operator()(const TickDataSpecification& spec) {
 			return TickDataGenerator(_pool, _algorithm_factory, spec.get_min_amplitude());
 		}
 
-		DataGenerator operator()(const WriteDataSpecification& spec)
-		{
+		DataGenerator operator()(const WriteDataSpecification& spec) {
 			return WriteDataGenerator(_pool, _algorithm_factory, spec.get_output_filename());
 		}
 	private:
@@ -81,13 +66,11 @@ class GeneratorCreator
 		essentia::standard::AlgorithmFactory* _algorithm_factory;
 };
 
-DataGenerator create_generator(essentia::Pool* pool, essentia::standard::AlgorithmFactory* algorithm_factory, const DataSpecification& specification)
-{
+DataGenerator create_generator(essentia::Pool* pool, essentia::standard::AlgorithmFactory* algorithm_factory, const DataSpecification& specification) {
 	GeneratorCreator generator_creator(pool, algorithm_factory);
 	return std::visit(generator_creator, specification);
 }
 
-void compute_generator(DataGenerator& generator)
-{
+void compute_generator(DataGenerator& generator) {
 	std::visit([](auto& g) { g.compute(); }, generator);
 }

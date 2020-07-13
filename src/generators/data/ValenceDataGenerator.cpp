@@ -7,11 +7,9 @@ ValenceDataGenerator::ValenceDataGenerator(essentia::Pool* pool, essentia::stand
 {}
 
 // translate a Chord Identifier into a numeric value
-unsigned int chord_to_int(const std::string& chord)
-{
+unsigned int chord_to_int(const std::string& chord) {
 	unsigned int tone = 0;
-	switch (chord[0])
-	{
+	switch (chord[0]) {
 		case 'A':
 			tone = 0;
 			break;
@@ -49,8 +47,7 @@ unsigned int chord_to_int(const std::string& chord)
 const float TERZ_PRIO = 0.7f;
 
 // Gets the probability of this chord to be a major chord
-float get_major_probability(const std::string& chord, const std::vector<float>& pcp)
-{
+float get_major_probability(const std::string& chord, const std::vector<float>& pcp) {
 	unsigned int base_tone = chord_to_int(chord);
 	unsigned int little_terz_tone = (base_tone + 3) % 12;
 	unsigned int big_terz_tone = (base_tone + 4) % 12;
@@ -81,24 +78,19 @@ float sqr(float v) { return v*v; }
 const float ACCELERATION = 0.01f;
 const float VALENCE_FACTOR = 0.8f;
 
-std::vector<float> calculate_valence(const std::vector<std::string>& chords, const std::vector<float>& chord_strengths, const std::vector<std::vector<float>>& pitch_class_profiles)
-{
+std::vector<float> calculate_valence(const std::vector<std::string>& chords, const std::vector<float>& chord_strengths, const std::vector<std::vector<float>>& pitch_class_profiles) {
 	float dur_ratio = 0.f;
 
 	std::vector<float> valence_timeline;
 
-	for (unsigned int i = 0; i < chords.size(); i++)
-	{
+	for (unsigned int i = 0; i < chords.size(); i++) {
 		const float major_propability = get_major_probability(chords[i], pitch_class_profiles[i]);
 		float acceleration = major_propability - dur_ratio;
 
 		// if chord is identifiable
-		if (chord_strengths[i] > 0)
-		{
+		if (chord_strengths[i] > 0) {
 			acceleration *= sqr(chord_strengths[i]);
-		}
-		else // move to 0.0 with lower acceleration (0.2)
-		{
+		} else { // move to 0.0 with lower acceleration (0.2)
 			acceleration = (0.0f - dur_ratio)*0.2;
 		}
 		acceleration *= ACCELERATION;
@@ -110,16 +102,14 @@ std::vector<float> calculate_valence(const std::vector<std::string>& chords, con
 	return valence_timeline;
 }
 
-void ValenceDataGenerator::compute()
-{
+void ValenceDataGenerator::compute() {
 	std::cout << "Calculating Valence Data... " << std::flush;
 
 	std::vector<std::string> chords = _pool->value<std::vector<std::string>>(data_identifier::CHORDS);
 	std::vector<float> chord_strengths = _pool->value<std::vector<float>>(data_identifier::CHORD_STRENGTHS);
 	std::vector<std::vector<float>> pitch_class_profiles = _pool->value<std::vector<std::vector<float>>>(data_identifier::PITCH_CLASS_PROFILES);
 
-	if ((chords.size() == chord_strengths.size()) && (chords.size() == pitch_class_profiles.size()))
-	{
+	if ((chords.size() == chord_strengths.size()) && (chords.size() == pitch_class_profiles.size())) {
 		std::vector<float> valence_timeline = calculate_valence(chords, chord_strengths, pitch_class_profiles);
 
 		_pool->set(data_identifier::VALENCE_TIMELINE, valence_timeline);

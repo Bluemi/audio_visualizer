@@ -5,8 +5,7 @@
 
 #include "../data/DataSpecification.hpp"
 
-class TickEventSpecification
-{
+class TickEventSpecification {
 	public:
 		TickEventSpecification(float min_amplitude) : _min_amplitude(min_amplitude) {}
 		float get_min_amplitude() const { return _min_amplitude; }

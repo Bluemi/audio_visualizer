@@ -7,14 +7,12 @@
 
 #include "BaseHandler.hpp"
 
-class ColorHandler : public BaseHandler
-{
+class ColorHandler : public BaseHandler {
 	public:
 		ColorHandler(float strength, float std_dev);
 		void update(const essentia::Pool& pool);
 	private:
-		struct _Color
-		{
+		struct _Color {
 			_Color(glm::vec3 col, glm::vec2 cen, float str) : color(col), center(cen), strength(str) {}
 
 			glm::vec3 color;

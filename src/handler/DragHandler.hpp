@@ -6,8 +6,7 @@
 
 #include "BaseHandler.hpp"
 
-class DragHandler : public BaseHandler
-{
+class DragHandler : public BaseHandler {
 	public:
 		DragHandler(float intensity);
 		void update(const essentia::Pool&);

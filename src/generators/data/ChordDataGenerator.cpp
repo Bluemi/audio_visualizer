@@ -6,8 +6,7 @@ ChordDataGenerator::ChordDataGenerator(essentia::Pool* pool, essentia::standard:
 	: _pool(pool), _algorithm_factory(algorithm_factory)
 {}
 
-void ChordDataGenerator::compute()
-{
+void ChordDataGenerator::compute() {
 	std::cout << "Analysing Chords... " << std::flush;
 
 	essentia::standard::Algorithm* chord_detection = _algorithm_factory->create("ChordsDetection");

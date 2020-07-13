@@ -4,8 +4,7 @@
 #include <essentia/algorithmfactory.h>
 #include <essentia/pool.h>
 
-class FrameDataGenerator
-{
+class FrameDataGenerator {
 	public:
 		FrameDataGenerator(essentia::Pool* pool, essentia::standard::AlgorithmFactory* algorithm_factory);
 		void compute();

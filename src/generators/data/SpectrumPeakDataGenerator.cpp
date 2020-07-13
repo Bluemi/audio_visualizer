@@ -6,8 +6,7 @@ SpectrumPeakDataGenerator::SpectrumPeakDataGenerator(essentia::Pool* pool, essen
 	: _pool(pool), _algorithm_factory(algorithm_factory)
 {}
 
-void SpectrumPeakDataGenerator::compute()
-{
+void SpectrumPeakDataGenerator::compute() {
 	std::cout << "Calculating SpectrumPeaks... " << std::flush;
 
 	std::vector<std::vector<float>> spectren = _pool->value<std::vector<std::vector<float>>>(data_identifier::SPECTRUM);
@@ -19,8 +18,7 @@ void SpectrumPeakDataGenerator::compute()
 	spec_peaks->output("frequencies").set(frequencies);
 	spec_peaks->output("magnitudes").set(magnitudes);
 
-	for (const std::vector<float>& spectrum : spectren)
-	{
+	for (const std::vector<float>& spectrum : spectren) {
 		spec_peaks->input("spectrum").set(spectrum);
 		spec_peaks->compute();
 

@@ -4,8 +4,7 @@
 #include <essentia/algorithmfactory.h>
 #include <essentia/pool.h>
 
-class ValenceDataGenerator
-{
+class ValenceDataGenerator {
 	public:
 		ValenceDataGenerator(essentia::Pool* pool, essentia::standard::AlgorithmFactory* algorithm_factory);
 		void compute();

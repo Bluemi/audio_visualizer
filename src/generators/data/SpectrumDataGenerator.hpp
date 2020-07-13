@@ -4,8 +4,7 @@
 #include <essentia/algorithmfactory.h>
 #include <essentia/pool.h>
 
-class SpectrumDataGenerator
-{
+class SpectrumDataGenerator {
 	public:
 		SpectrumDataGenerator(essentia::Pool* pool, essentia::standard::AlgorithmFactory* algorithm_factory);
 		void compute();

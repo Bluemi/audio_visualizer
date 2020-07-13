@@ -1,79 +1,63 @@
 #include "DataSpecification.hpp"
 
-struct
-{
-	std::vector<DataSpecification> operator()(const AudioDataSpecification&)
-	{
+struct {
+	std::vector<DataSpecification> operator()(const AudioDataSpecification&) {
 		return {};
 	}
 
-	std::vector<DataSpecification> operator()(const FrameDataSpecification&)
-	{
+	std::vector<DataSpecification> operator()(const FrameDataSpecification&) {
 		return { AudioDataSpecification() };
 	}
 
-	std::vector<DataSpecification> operator()(const WindowedFrameDataSpecification&)
-	{
+	std::vector<DataSpecification> operator()(const WindowedFrameDataSpecification&) {
 		return { FrameDataSpecification() };
 	}
 
-	std::vector<DataSpecification> operator()(const SpectrumDataSpecification&)
-	{
+	std::vector<DataSpecification> operator()(const SpectrumDataSpecification&) {
 		return { WindowedFrameDataSpecification() };
 	}
 
-	std::vector<DataSpecification> operator()(const BarkBandsDataSpecification&)
-	{
+	std::vector<DataSpecification> operator()(const BarkBandsDataSpecification&) {
 		return { SpectrumDataSpecification() };
 	}
 
-	std::vector<DataSpecification> operator()(const BarkBandsDifferenceDataSpecification&)
-	{
+	std::vector<DataSpecification> operator()(const BarkBandsDifferenceDataSpecification&) {
 		return { BarkBandsDataSpecification() };
 	}
 
-	std::vector<DataSpecification> operator()(const SpectrumPeakDataSpecification&)
-	{
+	std::vector<DataSpecification> operator()(const SpectrumPeakDataSpecification&) {
 		return { SpectrumDataSpecification() };
 	}
 
-	std::vector<DataSpecification> operator()(const PitchClassProfileDataSpecification&)
-	{
+	std::vector<DataSpecification> operator()(const PitchClassProfileDataSpecification&) {
 		return { SpectrumPeakDataSpecification() };
 	}
 
-	std::vector<DataSpecification> operator()(const ChordDataSpecification&)
-	{
+	std::vector<DataSpecification> operator()(const ChordDataSpecification&) {
 		return { PitchClassProfileDataSpecification() };
 	}
 
-	std::vector<DataSpecification> operator()(const ArousalDataSpecification&)
-	{
+	std::vector<DataSpecification> operator()(const ArousalDataSpecification&) {
 		return { BarkBandsDifferenceDataSpecification() };
 	}
 
-	std::vector<DataSpecification> operator()(const ValenceDataSpecification&)
-	{
+	std::vector<DataSpecification> operator()(const ValenceDataSpecification&) {
 		return { ChordDataSpecification(), PitchClassProfileDataSpecification() };
 	}
 
-	std::vector<DataSpecification> operator()(const PartsDataSpecification&)
-	{
+	std::vector<DataSpecification> operator()(const PartsDataSpecification&) {
 		return { ArousalDataSpecification() };
 	}
 
-	std::vector<DataSpecification> operator()(const TickDataSpecification&)
-	{
+	std::vector<DataSpecification> operator()(const TickDataSpecification&) {
 		return { AudioDataSpecification() };
 	}
 
-	std::vector<DataSpecification> operator()(const WriteDataSpecification&)
-	{
+	std::vector<DataSpecification> operator()(const WriteDataSpecification&) {
 		return { TickDataSpecification(0.f) };
 	}
 } _dependency_resolver;
 
-std::vector<DataSpecification> get_dependencies(const DataSpecification& specification)
-{
+std::vector<DataSpecification> get_dependencies(const DataSpecification& specification) {
 	return std::visit(_dependency_resolver, specification);
 }

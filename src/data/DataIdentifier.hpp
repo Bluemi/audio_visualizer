@@ -3,8 +3,7 @@
 
 #include <string>
 
-namespace data_identifier
-{
+namespace data_identifier {
 	const std::string AUDIO = "audio";
 	const std::string FRAMES = "frames";
 	const std::string WINDOWED_FRAMES = "windowed_frames";

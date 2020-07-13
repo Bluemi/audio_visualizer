@@ -8,8 +8,7 @@ AudioDataGenerator::AudioDataGenerator(essentia::Pool* pool, essentia::standard:
 
 unsigned int SAMPLERATE = 44100;
 
-void AudioDataGenerator::compute()
-{
+void AudioDataGenerator::compute() {
 	std::cout << "Loading Audio Data... " << std::flush;
 
 	essentia::standard::Algorithm* audio_loader = _algorithm_factory->create("MonoLoader",
@@ -28,7 +27,6 @@ void AudioDataGenerator::compute()
 	std::cout << "Done." << std::endl;
 }
 
-void AudioDataGenerator::set_filename(const std::string& filename)
-{
+void AudioDataGenerator::set_filename(const std::string& filename) {
 	_filename = filename;
 }

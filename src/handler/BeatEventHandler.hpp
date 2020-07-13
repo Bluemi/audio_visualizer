@@ -5,8 +5,7 @@
 
 class BeatEvent;
 
-class BeatEventHandler : public BaseHandler
-{
+class BeatEventHandler : public BaseHandler {
 	public:
 		void operator()(const BeatEvent& beat_event);
 		USE_BASE_OP;

@@ -5,8 +5,7 @@
 
 #include "../event/Event.hpp"
 
-class InformationContainer
-{
+class InformationContainer {
 	public:
 		InformationContainer(const EventList& event_list, const essentia::Pool& pool);
 

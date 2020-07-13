@@ -3,11 +3,9 @@
 
 #include <vector>
 
-namespace misc
-{
+namespace misc {
 	template<typename T>
-	bool contains(const std::vector<T>& vec, T item)
-	{
+	bool contains(const std::vector<T>& vec, T item) {
 		for (const auto t : vec)
 			if (item == t)
 				return true;

@@ -6,8 +6,7 @@ TickDataGenerator::TickDataGenerator(essentia::Pool* pool, essentia::standard::A
 	: _pool(pool), _algorithm_factory(algorithm_factory), _min_amplitude(min_amplitude)
 {}
 
-void TickDataGenerator::compute()
-{
+void TickDataGenerator::compute() {
 	std::cout << "Generating Tick Events... " << std::flush;
 
 	essentia::standard::Algorithm* rhythm_extractor = _algorithm_factory->create("RhythmExtractor");

@@ -6,8 +6,7 @@ BarkBandsDataGenerator::BarkBandsDataGenerator(essentia::Pool* pool, essentia::s
 	: _pool(pool), _algorithm_factory(algorithm_factory)
 {}
 
-void BarkBandsDataGenerator::compute()
-{
+void BarkBandsDataGenerator::compute() {
 	std::cout << "Calculating Bark Bands... " << std::flush;
 
 	essentia::standard::Algorithm* bark_bands = _algorithm_factory->create("BarkBands");

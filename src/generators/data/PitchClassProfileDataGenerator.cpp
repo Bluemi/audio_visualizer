@@ -6,8 +6,7 @@ PitchClassProfileDataGenerator::PitchClassProfileDataGenerator(essentia::Pool* p
 	: _pool(pool), _algorithm_factory(algorithm_factory)
 {}
 
-void PitchClassProfileDataGenerator::compute()
-{
+void PitchClassProfileDataGenerator::compute() {
 	std::cout << "Calculating PitchClassProfiles... " << std::flush;
 
 	std::vector<std::vector<float>> frequencies = _pool->value<std::vector<std::vector<float>>>(data_identifier::SPECTRUM_PEAKS_FREQUENCIES);
@@ -20,10 +19,8 @@ void PitchClassProfileDataGenerator::compute()
 
 	pitch_class_profiler->output("hpcp").set(pitch_class_profile);
 
-	if (frequencies.size() == magnitudes.size())
-	{
-		for (unsigned int i = 0; i < frequencies.size(); i++)
-		{
+	if (frequencies.size() == magnitudes.size()) {
+		for (unsigned int i = 0; i < frequencies.size(); i++) {
 			pitch_class_profiler->input("frequencies").set(frequencies[i]);
 			pitch_class_profiler->input("magnitudes").set(magnitudes[i]);
 

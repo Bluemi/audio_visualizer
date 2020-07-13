@@ -8,8 +8,7 @@
 #include "handler/Handler.hpp"
 #include "handler/Compositor.hpp"
 
-class AudioVisualizer
-{
+class AudioVisualizer {
 	public:
 		static void init();
 

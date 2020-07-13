@@ -1,8 +1,7 @@
 #ifndef __VALENCEEVENT_CLASS__
 #define __VALENCEEVENT_CLASS__
 
-class ValenceEvent
-{
+class ValenceEvent {
 	public:
 		ValenceEvent(float value);
 		float get_value() const;

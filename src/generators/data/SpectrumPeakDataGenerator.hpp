@@ -4,8 +4,7 @@
 #include <essentia/algorithmfactory.h>
 #include <essentia/pool.h>
 
-class SpectrumPeakDataGenerator
-{
+class SpectrumPeakDataGenerator {
 	public:
 		SpectrumPeakDataGenerator(essentia::Pool* pool, essentia::standard::AlgorithmFactory* algorithm_factory);
 		void compute();

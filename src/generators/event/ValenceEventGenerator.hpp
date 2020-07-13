@@ -5,8 +5,7 @@
 
 #include "../../event/Event.hpp"
 
-class ValenceEventGenerator
-{
+class ValenceEventGenerator {
 	public:
 		EventList compute(const essentia::Pool& pool) const;
 };

@@ -4,8 +4,7 @@
 
 #include "../data/DataIdentifier.hpp"
 
-void ValenceArousalDebugHandler::update(const essentia::Pool& pool)
-{
+void ValenceArousalDebugHandler::update(const essentia::Pool& pool) {
 	std::vector<float> arousal_timeline = pool.value<std::vector<float>>(data_identifier::AROUSAL_TIMELINE);
 	std::vector<float> valence_timeline = pool.value<std::vector<float>>(data_identifier::VALENCE_TIMELINE);
 	std::vector<float> arousal_diffs = pool.value <std::vector<float>>(data_identifier::AROUSAL_DIFFS);
@@ -28,8 +27,7 @@ void ValenceArousalDebugHandler::update(const essentia::Pool& pool)
 
 	unsigned int i = 0;
 
-	for (visualizer::Movable& m : (*_visualizer))
-	{
+	for (visualizer::Movable& m : (*_visualizer)) {
 		if (i == 0)
 			m.set_position(glm::vec3(0, Y_BASE, 0));
 		else if (i == 1)

@@ -14,8 +14,7 @@ AccelerationFieldHandler::AccelerationFieldHandler()
 	: _acceleration_field(visualizer::AccelerationField()), _plain_force(DEFAULT_PLAIN_FORCE), _beat_event_detected(false)
 {}
 
-void AccelerationFieldHandler::update(const essentia::Pool& pool)
-{
+void AccelerationFieldHandler::update(const essentia::Pool& pool) {
 	const std::vector<float>& arousal_timeline = pool.value<std::vector<float>>(data_identifier::AROUSAL_TIMELINE);
 
 	float arousal_value = 0.f;
@@ -33,11 +32,9 @@ void AccelerationFieldHandler::update(const essentia::Pool& pool)
 	visualizer::GroupMovement::apply_group_movement_to(&(_visualizer->get_entities()), _plain_force, _groups);
 }
 
-void AccelerationFieldHandler::operator()(const BeatEvent& beat_event)
-{
+void AccelerationFieldHandler::operator()(const BeatEvent& beat_event) {
 	const float new_force = std::sqrt(beat_event.get_relative_amplitude()) * BEAT_EVENT_AMPLITUDE_SCALE;
-	if (new_force > _acceleration_field.get_force())
-	{
+	if (new_force > _acceleration_field.get_force()) {
 		_acceleration_field.set_force(new_force);
 		_beat_event_detected = true;
 	}

@@ -7,8 +7,7 @@
 
 class BeatEvent;
 
-class AccelerationFieldHandler : public BaseHandler
-{
+class AccelerationFieldHandler : public BaseHandler {
 	public:
 		AccelerationFieldHandler();
 		void update(const essentia::Pool& pool);

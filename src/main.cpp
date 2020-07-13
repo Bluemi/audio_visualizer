@@ -3,8 +3,7 @@
 #include "AudioVisualizer.hpp"
 #include "handler/Handler.hpp"
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
 	if (argc != 2) {
 		std::cout << "usage:\n" << argv[0] << " <audiofile>" << std::endl;
 		return 1;
@@ -22,8 +21,7 @@ int main(int argc, char* argv[])
 
 	std::optional<InformationContainer> information_container = information_builder.build();
 
-	if (information_container)
-	{
+	if (information_container) {
 		AccelerationFieldHandler afh;
 		afh.set_groups({"main1", "main2"});
 

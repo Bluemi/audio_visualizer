@@ -5,8 +5,7 @@
 
 namespace essentia { class Pool; }
 
-class BaseHandler
-{
+class BaseHandler {
 	public:
 		void set_visualizer(visualizer::Visualizer* visualizer) { _visualizer = visualizer; }
 		void set_frame_counter(unsigned int frame_counter) { _frame_counter = frame_counter; }

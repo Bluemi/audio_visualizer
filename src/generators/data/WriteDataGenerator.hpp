@@ -4,8 +4,7 @@
 #include <essentia/algorithmfactory.h>
 #include <essentia/pool.h>
 
-class WriteDataGenerator
-{
+class WriteDataGenerator {
 	public:
 		WriteDataGenerator(essentia::Pool* pool, essentia::standard::AlgorithmFactory* algorithm_factory, const std::string& output_filename);
 		void compute();

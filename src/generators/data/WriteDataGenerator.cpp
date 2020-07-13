@@ -6,8 +6,7 @@ WriteDataGenerator::WriteDataGenerator(essentia::Pool* pool, essentia::standard:
 	: _pool(pool), _algorithm_factory(algorithm_factory), _output_filename(output_filename)
 {}
 
-void WriteDataGenerator::compute()
-{
+void WriteDataGenerator::compute() {
 	essentia::standard::Algorithm* output = _algorithm_factory->create("YamlOutput",
 																	   "filename", _output_filename);
 

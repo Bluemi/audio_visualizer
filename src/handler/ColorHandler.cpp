@@ -47,10 +47,8 @@ void ColorHandler::update(const essentia::Pool& pool) {
 
 	_color_gen.with_mean(color);
 
-	for (visualizer::Movable& m : (*_visualizer))
-	{
-		if (!misc::contains<std::string>(m.get_tags(), "va_debug"))
-		{
+	for (visualizer::Movable& m : (*_visualizer)) {
+		if (!misc::contains<std::string>(m.get_tags(), "va_debug")) {
 			visualizer::Movement sphere_target_color(new visualizer::ColorTarget(_color_gen.get(), _strength));
 			m.add_movement(sphere_target_color);
 		}
@@ -62,8 +60,7 @@ glm::vec3 ColorHandler::calculate_color(const glm::vec2& emotion) {
 
 	glm::vec3 color(0.f, 0.f, 0.f);
 
-	for (unsigned int i = 0; i < _colors.size(); i++)
-	{
+	for (unsigned int i = 0; i < _colors.size(); i++) {
 		color += _colors[i].color * influences[i];
 	}
 
@@ -78,8 +75,7 @@ const float MIN_DISTANCE = 0.001f;
 
 std::vector<float> ColorHandler::get_influences(const glm::vec2& emotion, const std::vector<_Color>& colors) {
 	std::vector<float> influences;
-	for (const _Color& color : colors)
-	{
+	for (const _Color& color : colors) {
 		float distance = glm::length(emotion - color.center);
 		influences.push_back(color.strength/(std::pow(distance, 5.0)+MIN_DISTANCE));
 	}

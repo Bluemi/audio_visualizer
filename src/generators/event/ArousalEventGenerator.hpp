@@ -5,8 +5,7 @@
 
 #include "../../event/Event.hpp"
 
-class ArousalEventGenerator
-{
+class ArousalEventGenerator {
 	public:
 		EventList compute(const essentia::Pool& pool) const;
 };

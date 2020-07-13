@@ -6,8 +6,7 @@ WindowedFrameDataGenerator::WindowedFrameDataGenerator(essentia::Pool* pool, ess
 	: _pool(pool), _algorithm_factory(algorithm_factory)
 {}
 
-void WindowedFrameDataGenerator::compute()
-{
+void WindowedFrameDataGenerator::compute() {
 	std::cout << "Windowing Frames... " << std::flush;
 
 	essentia::standard::Algorithm* windower = _algorithm_factory->create("Windowing",
@@ -19,8 +18,7 @@ void WindowedFrameDataGenerator::compute()
 
 	windower->output("frame").set(windowed_frame);
 
-	for (const std::vector<essentia::Real>& frame : frames)
-	{
+	for (const std::vector<essentia::Real>& frame : frames) {
 		windower->input("frame").set(frame);
 		windower->compute();
 		_pool->add(data_identifier::WINDOWED_FRAMES, windowed_frame);

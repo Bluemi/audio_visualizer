@@ -4,12 +4,10 @@ DataGeneratorParameterProvider::DataGeneratorParameterProvider(const std::string
 	: _filename(filename)
 {}
 
-void DataGeneratorParameterProvider::operator()(AudioDataGenerator& adg)
-{
+void DataGeneratorParameterProvider::operator()(AudioDataGenerator& adg) {
 	adg.set_filename(_filename);
 }
 
-void DataGeneratorParameterProvider::provide(DataGenerator* data_generator)
-{
+void DataGeneratorParameterProvider::provide(DataGenerator* data_generator) {
 	std::visit(*this, *data_generator);
 }

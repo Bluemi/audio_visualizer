@@ -9,8 +9,7 @@
  * - creating groups of entities
  * - creating/manipulating handlers
  */
-class Compositor
-{
+class Compositor {
 	public:
 		void update(visualizer::EntityBuffer* entity_buffer, HandlerList& handler_list, const InformationContainer& information_container, const EventList& current_events, unsigned int frame_counter);
 };

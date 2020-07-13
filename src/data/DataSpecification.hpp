@@ -6,8 +6,7 @@
 #include <vector>
 
 template<typename Specification>
-class DataSpecificationOperators
-{
+class DataSpecificationOperators {
 	public:
 		bool operator==(const Specification&) const { return true; }
 		bool operator!=(const Specification&) const { return false; }

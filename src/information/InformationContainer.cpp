@@ -4,12 +4,10 @@ InformationContainer::InformationContainer(const EventList& event_list, const es
 	: _event_list(event_list), _pool(pool)
 {}
 
-const EventList& InformationContainer::get_event_list() const
-{
+const EventList& InformationContainer::get_event_list() const {
 	return _event_list;
 }
 
-const essentia::Pool& InformationContainer::get_pool() const
-{
+const essentia::Pool& InformationContainer::get_pool() const {
 	return _pool;
 }
