@@ -11,8 +11,6 @@ int main(int argc, char* argv[]) {
 
 	const std::string audio_filename = argv[1];
 
-	AudioVisualizer::init();
-
 	InformationBuilder information_builder(audio_filename);
 
 	information_builder
@@ -23,7 +21,7 @@ int main(int argc, char* argv[]) {
 
 	if (information_container) {
 		AccelerationFieldHandler afh;
-		afh.set_groups({"main1", "main2"});
+		afh.groups = {"main1", "main2"};
 
 		AudioVisualizer av;
 		av.add_handlers({ ColorHandler(0.1f, 0.03f), /* ValenceArousalDebugHandler(), */ afh, DragHandler(0.12f) });

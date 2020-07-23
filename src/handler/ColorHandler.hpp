@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include <visualizer/entity/creation/VectorGenerator.hpp>
+#include "entity/creation/VectorGenerator.hpp"
 
 #include "BaseHandler.hpp"
 
@@ -25,7 +25,7 @@ class ColorHandler : public BaseHandler {
 
 		float _strength;
 		float _std_dev;
-		visualizer::VectorGenerator _color_gen;
+		VectorGenerator _color_gen;
 		static std::vector<_Color> _colors;
 };
 

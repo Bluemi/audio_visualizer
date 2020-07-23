@@ -2,8 +2,9 @@
 
 #include <essentia/pool.h>
 
-#include <visualizer/entity/movement/ColorTarget.hpp>
-#include <visualizer/shape/ShapeType.hpp>
+#include "entity/movement/ColorTarget.hpp"
+#include "entity/EntityIterator.hpp"
+#include <visualizer/shape/shape_type.hpp>
 
 #include "../data/DataIdentifier.hpp"
 #include "../misc/Misc.hpp"
@@ -35,11 +36,11 @@ void ColorHandler::update(const essentia::Pool& pool) {
 	float arousal_value = 0.f;
 	float valence_value = 0.f;
 
-	if (_frame_counter < arousal_timeline.size())
-		arousal_value = arousal_timeline[_frame_counter];
+	if (frame_counter < arousal_timeline.size())
+		arousal_value = arousal_timeline[frame_counter];
 
-	if (_frame_counter+10 < valence_timeline.size())
-		valence_value = valence_timeline[_frame_counter+10];
+	if (frame_counter+10 < valence_timeline.size())
+		valence_value = valence_timeline[frame_counter+10];
 
 	glm::vec2 emotion(arousal_value, valence_value);
 
@@ -47,9 +48,9 @@ void ColorHandler::update(const essentia::Pool& pool) {
 
 	_color_gen.with_mean(color);
 
-	for (visualizer::Movable& m : (*_visualizer)) {
+	for (Movable& m : EntityIterator::iter(entity_buffer)) {
 		if (!misc::contains<std::string>(m.get_tags(), "va_debug")) {
-			visualizer::Movement sphere_target_color(new visualizer::ColorTarget(_color_gen.get(), _strength));
+			Movement sphere_target_color(new ColorTarget(_color_gen.get(), _strength));
 			m.add_movement(sphere_target_color);
 		}
 	}

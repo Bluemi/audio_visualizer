@@ -1,7 +1,7 @@
 #ifndef __ACCELERATIONFIELDHANDLER_CLASS__
 #define __ACCELERATIONFIELDHANDLER_CLASS__
 
-#include <visualizer/entity/movement/GroupMovement.hpp>
+#include "entity/movement/GroupMovement.hpp"
 
 #include "BaseHandler.hpp"
 
@@ -14,8 +14,8 @@ class AccelerationFieldHandler : public BaseHandler {
 		void operator()(const BeatEvent& beat_event);
 		USE_BASE_OP;
 	private:
-		visualizer::AccelerationField _acceleration_field;
-		visualizer::PlainForce _plain_force;
+		AccelerationField _acceleration_field;
+		PlainForce _plain_force;
 		bool _beat_event_detected;
 
 		static const float TIME_UPDATE;

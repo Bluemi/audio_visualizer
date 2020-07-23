@@ -3,6 +3,7 @@
 #include <essentia/pool.h>
 
 #include "../data/DataIdentifier.hpp"
+#include "entity/EntityIterator.hpp"
 
 void ValenceArousalDebugHandler::update(const essentia::Pool& pool) {
 	std::vector<float> arousal_timeline = pool.value<std::vector<float>>(data_identifier::AROUSAL_TIMELINE);
@@ -13,21 +14,21 @@ void ValenceArousalDebugHandler::update(const essentia::Pool& pool) {
 	float valence_value = 0.f;
 	float arousal_diff = 0.f;
 
-	if (_frame_counter < arousal_timeline.size())
-		arousal_value = arousal_timeline[_frame_counter];
+	if (frame_counter < arousal_timeline.size())
+		arousal_value = arousal_timeline[frame_counter];
 
-	if (_frame_counter < valence_timeline.size())
-		valence_value = valence_timeline[_frame_counter];
+	if (frame_counter < valence_timeline.size())
+		valence_value = valence_timeline[frame_counter];
 
-	if (_frame_counter < arousal_diffs.size())
-		arousal_diff = arousal_diffs[_frame_counter];
+	if (frame_counter < arousal_diffs.size())
+		arousal_diff = arousal_diffs[frame_counter];
 
 	const float Y_BASE = 2.f;
 	const float SCALE = 4.f;
 
 	unsigned int i = 0;
 
-	for (visualizer::Movable& m : (*_visualizer)) {
+	for (Movable& m : EntityIterator::iter(entity_buffer)) {
 		if (i == 0)
 			m.set_position(glm::vec3(0, Y_BASE, 0));
 		else if (i == 1)

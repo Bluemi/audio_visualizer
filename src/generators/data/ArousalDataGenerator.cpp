@@ -2,7 +2,7 @@
 
 #include "../../misc/Misc.hpp"
 #include "../../data/DataIdentifier.hpp"
-#include <visualizer/misc/Math.hpp>
+#include "misc/Misc.hpp"
 
 ArousalDataGenerator::ArousalDataGenerator(essentia::Pool* pool, essentia::standard::AlgorithmFactory* algorithm_factory)
 	: _pool(pool), _algorithm_factory(algorithm_factory)
