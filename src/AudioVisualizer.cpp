@@ -8,6 +8,7 @@
 #include <visualizer/shape/shape_heap.hpp>
 #include <visualizer/shaders/shaders.hpp>
 #include <visualizer/misc/timer.hpp>
+#include <visualizer/controller/events.hpp>
 
 #include "entity/creation/Creation.hpp"
 #include "entity/EntityIterator.hpp"
@@ -80,6 +81,11 @@ void AudioVisualizer::run(const InformationContainer& information_container, con
 		return;
 	}
 
+	visualizer::events::init(window);
+
+	visualizer::events::register_resize_callback([&window_width, &window_height](int ww, int wh){ window_width=ww; window_height = wh; glViewport(0, 0, window_width, window_height); });
+	visualizer::events::register_mouse_callback([&controller](double x, double y) { controller.mouse_callback(x, y); });
+
 	std::optional<visualizer::ShaderProgram> opt_shader_program = visualizer::ShaderProgram::from_code(visualizer::Shaders::vertex_shader(), visualizer::Shaders::fragment_shader());
 	if (!opt_shader_program) {
 		std::cerr << "Failed to create shader program" << std::endl;
@@ -107,6 +113,7 @@ void AudioVisualizer::run(const InformationContainer& information_container, con
 		handle_events(current_events, information_container.get_pool());
 
 		// tick
+		controller.process_user_input(window, &camera);
 		double speed = timer.restart() * DEFAULT_SPEED;
 		camera.tick(speed);
 
@@ -130,9 +137,12 @@ void AudioVisualizer::run(const InformationContainer& information_container, con
 		}
 
 		glfwSwapBuffers(window);
+		glfwPollEvents();
 	}
 
 	system("pkill vlc");
+
+	shape_heap.close();
 
 	visualizer::close();
 }
