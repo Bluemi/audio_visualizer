@@ -59,7 +59,9 @@ void AudioVisualizer::setup_objects(EntityBuffer* entity_buffer, visualizer::Sha
 
 void play_song(const std::string& audio_path) {
 	std::string system_command = "cvlc \"" + audio_path + "\" --play-and-exit &>/dev/null &";
-	system(system_command.c_str());
+	if (system(system_command.c_str()) != 0) {
+		std::cerr << "vlc terminated with non zero exit code " << std::endl;
+	}
 }
 
 void AudioVisualizer::run(const InformationContainer& information_container, const std::string& audio_filename) {
@@ -140,7 +142,9 @@ void AudioVisualizer::run(const InformationContainer& information_container, con
 		glfwPollEvents();
 	}
 
-	system("pkill vlc");
+	if (system("pkill vlc") != 0) {
+		std::cerr << "failed to kill vlc" << std::endl;
+	}
 
 	shape_heap.close();
 

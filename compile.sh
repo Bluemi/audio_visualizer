@@ -7,4 +7,5 @@ tput reset
 mkdir -p $build_directory
 cd $build_directory
 cmake -g "Unix Makefiles" ..
-unbuffer make -j$(nproc) | head -n 67
+# unbuffer make -j$(nproc) | head -n 67
+make -j$(nproc)

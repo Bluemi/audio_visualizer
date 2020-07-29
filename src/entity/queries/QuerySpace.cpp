@@ -4,7 +4,7 @@
 #include "../Movable.hpp"
 
 QuerySpace::QuerySpace()
-	: _set(false), _center(0.f, 0.f, 0.f), _size(0.f, 0.f, 0.f)
+	: _center(0.f, 0.f, 0.f), _size(0.f, 0.f, 0.f), _set(false)
 {}
 
 QuerySpace::QuerySpace(const glm::vec3& center, const glm::vec3& size)

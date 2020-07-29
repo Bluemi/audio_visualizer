@@ -100,7 +100,7 @@ bool InformationBuilder::compute_data_generators(std::vector<DataGenerator>* gen
 	for (auto& g : *generators) {
 		try {
 			compute_generator(g);
-		} catch (essentia::EssentiaException e) {
+		} catch (const essentia::EssentiaException& e) {
 			std::cout << "Error.\n\n" << e.what() << std::endl;
 			return false;
 		}

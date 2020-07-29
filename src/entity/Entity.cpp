@@ -6,7 +6,7 @@
 #include "../misc/Misc.hpp"
 
 Entity::Entity(const visualizer::Shape& shape)
-	: _shape(shape), _size(1.f, 1.f, 1.f), _position(0.f, 0.f, 0.f), _color(0.f, 0.f, 0.f)
+	: _shape(shape), _position(0.f, 0.f, 0.f), _size(1.f, 1.f, 1.f), _color(0.f, 0.f, 0.f)
 {}
 
 void Entity::render(visualizer::ShaderProgram& shader_program) const {
