@@ -1,9 +1,10 @@
 #ifndef __ACCELERATIONFIELDHANDLER_CLASS__
 #define __ACCELERATIONFIELDHANDLER_CLASS__
 
-#include "entity/movement/GroupMovement.hpp"
-
 #include "BaseHandler.hpp"
+
+#include "entity/movement/AccelerationField.hpp"
+#include "entity/movement/PlainForce.hpp"
 
 class BeatEvent;
 

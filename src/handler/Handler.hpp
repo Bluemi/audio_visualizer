@@ -9,12 +9,16 @@
 #include "ValenceArousalDebugHandler.hpp"
 #include "AccelerationFieldHandler.hpp"
 #include "DragHandler.hpp"
+#include "LetterHandler.hpp"
 
-using Handler = std::variant<BeatEventHandler,
-							 ColorHandler,
-							 ValenceArousalDebugHandler,
-							 AccelerationFieldHandler,
-							 DragHandler>;
+using Handler = std::variant<
+	BeatEventHandler,
+	ColorHandler,
+	ValenceArousalDebugHandler,
+	AccelerationFieldHandler,
+	DragHandler,
+	LetterHandler
+>;
 
 using HandlerList = std::vector<Handler>;
 

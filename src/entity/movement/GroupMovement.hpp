@@ -11,6 +11,7 @@
 #include "ColorDrag.hpp"
 #include "PlainForce.hpp"
 #include "RandomPaths.hpp"
+#include "LetterMovement.hpp"
 
 using _GroupMovementVar = std::variant<
 	Circle,
@@ -18,7 +19,8 @@ using _GroupMovementVar = std::variant<
 	VelocityDrag,
 	ColorDrag,
 	PlainForce,
-	RandomPaths
+	RandomPaths,
+	LetterMovement
 >;
 
 class GroupMovement {

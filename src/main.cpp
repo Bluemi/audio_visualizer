@@ -24,8 +24,16 @@ int main(int argc, char* argv[]) {
 		afh.groups = {"main1", "main2"};
 
 		AudioVisualizer av;
-		av.add_handlers({ ColorHandler(0.1f, 0.03f), /* ValenceArousalDebugHandler(), */ afh, DragHandler(0.12f) });
+		av.add_handlers({ ColorHandler(0.1f, 0.03f), DragHandler(0.12f) });
+		// av.add_handlers({ ValenceArousalDebugHandler() });
+		// av.add_handlers({ afh });
+		av.add_handlers({ BeatEventHandler() });
+
+		LetterHandler letter_handler;
+		av.add_handlers({ letter_handler });
+
 		av.run(*information_container, audio_filename);
+
 	}
 
 	return 0;

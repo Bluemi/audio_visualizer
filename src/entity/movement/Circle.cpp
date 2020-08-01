@@ -7,7 +7,7 @@
 const float MAX_MAGNITUDE = 0.03f;
 
 Circle::Circle()
-	: _radius(1.f)
+	: _center(0.f), _radius(1.f)
 {}
 
 Circle::Circle(const glm::vec3& center, float radius)

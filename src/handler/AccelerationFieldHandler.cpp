@@ -2,6 +2,7 @@
 
 #include <essentia/pool.h>
 
+#include "entity/movement/GroupMovement.hpp"
 #include "../event/BeatEvent.hpp"
 #include "../data/DataIdentifier.hpp"
 
@@ -11,7 +12,7 @@ const float AccelerationFieldHandler::DEFAULT_PLAIN_FORCE = 0.001f;
 const float AccelerationFieldHandler::BEAT_EVENT_AMPLITUDE_SCALE = 0.25f;
 
 AccelerationFieldHandler::AccelerationFieldHandler()
-	: _acceleration_field(AccelerationField()), _plain_force(DEFAULT_PLAIN_FORCE), _beat_event_detected(false)
+	: _plain_force(DEFAULT_PLAIN_FORCE), _beat_event_detected(false)
 {}
 
 void AccelerationFieldHandler::update(const essentia::Pool& pool) {
