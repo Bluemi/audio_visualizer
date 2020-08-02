@@ -3,3 +3,5 @@ run.sh
 compile_commands.json
 res/
 core.*
+/tools/letter_creator/res
+/tools/letter_creator/output
