@@ -8,7 +8,7 @@ class BeatEvent;
 
 class LetterHandler : public BaseHandler {
 	public:
-		LetterHandler();
+		LetterHandler(char letter);
 		void update(const essentia::Pool& pool);
 		USE_BASE_OP;
 	private:

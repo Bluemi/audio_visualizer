@@ -29,8 +29,7 @@ int main(int argc, char* argv[]) {
 		// av.add_handlers({ afh });
 		av.add_handlers({ BeatEventHandler() });
 
-		LetterHandler letter_handler;
-		av.add_handlers({ letter_handler });
+		av.add_handlers({ LetterHandler('A') });
 
 		av.run(*information_container, audio_filename);
 
