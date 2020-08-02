@@ -2,12 +2,13 @@
 #define __AUDIOVISUALIZER_CLASS__
 
 #include <visualizer/visualizer.hpp>
-#include <visualizer/shape/shape_heap.hpp>
 
 #include "information/InformationBuilder.hpp"
 #include "information/InformationContainer.hpp"
 #include "handler/Handler.hpp"
 #include "handler/Compositor.hpp"
+
+namespace visualizer { class ShapeHeap; }
 
 class AudioVisualizer {
 	public:
@@ -19,7 +20,7 @@ class AudioVisualizer {
 	private:
 		EventList get_current_events(const EventList& event_list, double current_time);
 		void handle_events(const EventList& event_list, const essentia::Pool& pool);
-		void setup_handlers(EntityBuffer* entity_buffer);
+		void setup_handlers(EntityBuffer* entity_buffer, visualizer::ShapeHeap& shape_heap);
 		void set_handler_frame_counter(unsigned int frame_counter);
 
 		unsigned int _event_index;

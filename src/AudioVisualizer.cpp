@@ -29,9 +29,8 @@ AudioVisualizer::AudioVisualizer()
 {}
 
 void AudioVisualizer::setup_objects(EntityBuffer* entity_buffer, visualizer::ShapeHeap& shape_heap) {
-	ShapeGenerator shape_gen(&shape_heap, visualizer::SphereSpecification(2), 1.f);
-	shape_gen.with_shape(visualizer::CubeSpecification(), 1.f);
-
+	/*
+	ShapeGenerator shape_gen(&shape_heap, visualizer::CubeSpecification(), 1.f);
 	VectorGenerator pos_gen = VectorGenerator().with_stddev(glm::vec3(5.f, 0.5f, 5.f));
 	VectorGenerator size_gen = VectorGenerator(glm::vec3(0.15f, 0.15f, 0.15f)).with_stddev(glm::vec3(0.01f));
 	VectorGenerator speed_gen = VectorGenerator().with_stddev(glm::vec3(1.f, 1.f, 1.f));
@@ -43,18 +42,17 @@ void AudioVisualizer::setup_objects(EntityBuffer* entity_buffer, visualizer::Sha
 		.with_velocity(speed_gen);
 
 	entity_buffer->insert(creation.create());
+	*/
 
-	creation.with_group("main2");
-
-	entity_buffer->insert(creation.create());
-
+	/*
 	Creation valence_arousal_debug_creation = Creation(&shape_heap, visualizer::SphereSpecification(2), "debug")
 		.with_quantity(6)
 		.with_size(glm::vec3(0.1f, 0.1f, 0.1f))
 		.with_color(glm::vec3(0.4, 0.4, 0.4))
 		.with_tag("va_debug");
 
-	// entity_buffer->insert(valence_arousal_debug_creation.create());
+	entity_buffer->insert(valence_arousal_debug_creation.create());
+	*/
 }
 
 void play_song(const std::string& audio_path) {
@@ -96,7 +94,7 @@ void AudioVisualizer::run(const InformationContainer& information_container, con
 
 	visualizer::ShaderProgram shader_program = *opt_shader_program;
 
-	setup_handlers(&entity_buffer);
+	setup_handlers(&entity_buffer, shape_heap);
 	setup_objects(&entity_buffer, shape_heap);
 
 	play_song(audio_filename);
@@ -165,9 +163,9 @@ void AudioVisualizer::handle_events(const EventList& event_list, const essentia:
 	}
 }
 
-void AudioVisualizer::setup_handlers(EntityBuffer* entity_buffer) {
+void AudioVisualizer::setup_handlers(EntityBuffer* entity_buffer, visualizer::ShapeHeap& shape_heap) {
 	for (Handler& h : _handlers) {
-		std::visit([entity_buffer](auto& handler) { handler.entity_buffer = entity_buffer; }, h);
+		std::visit([entity_buffer, &shape_heap](auto& handler) { handler.entity_buffer = entity_buffer; handler.init(shape_heap); }, h);
 	}
 }
 

@@ -20,16 +20,15 @@ int main(int argc, char* argv[]) {
 	std::optional<InformationContainer> information_container = information_builder.build();
 
 	if (information_container) {
-		AccelerationFieldHandler afh;
-		afh.groups = {"main1", "main2"};
-
 		AudioVisualizer av;
+
 		av.add_handlers({ ColorHandler(0.1f, 0.03f), DragHandler(0.12f) });
 		// av.add_handlers({ ValenceArousalDebugHandler() });
-		// av.add_handlers({ afh });
+		// av.add_handlers({ AccelerationFieldHandler() });
 		av.add_handlers({ BeatEventHandler() });
 
 		av.add_handlers({ LetterHandler('A') });
+		av.add_handlers({ LetterHandler('B') });
 
 		av.run(*information_container, audio_filename);
 

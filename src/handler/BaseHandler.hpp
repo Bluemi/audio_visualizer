@@ -5,11 +5,15 @@ namespace essentia { class Pool; }
 
 #include "entity/EntityBuffer.hpp"
 
+namespace visualizer { class ShapeHeap; }
+
 class BaseHandler {
 	public:
 		template<typename EventType>
 		void operator()(const EventType&) {}
 		void update(const essentia::Pool&) {}
+
+		void init(visualizer::ShapeHeap&) {}
 
 		EntityBuffer* entity_buffer;
 		unsigned int frame_counter;

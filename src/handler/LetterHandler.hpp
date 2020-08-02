@@ -9,10 +9,12 @@ class BeatEvent;
 class LetterHandler : public BaseHandler {
 	public:
 		LetterHandler(char letter);
+		void init(visualizer::ShapeHeap& shape_heap);
 		void update(const essentia::Pool& pool);
 		USE_BASE_OP;
 	private:
 		LetterMovement _letter_movement;
+		char _letter;
 };
 
 #endif
