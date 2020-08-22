@@ -27,19 +27,25 @@ int main(int argc, char* argv[]) {
 		// av.add_handlers({ AccelerationFieldHandler() });
 		av.add_handlers({ BeatEventHandler() });
 
-		av.add_handlers({ LetterHandler('M') });
+		LetterHandler handler1('A');
+		handler1.set_position(glm::vec3(0.f, 0.f, 0.f));
+		av.add_handlers({ handler1 });
 
-		LetterHandler b_handler('o');
-		b_handler.set_position(glm::vec3(0.f, 0.f, 5.f));
-		av.add_handlers({ b_handler });
+		LetterHandler handler2('z');
+		handler2.set_position(glm::vec3(0.f, 0.f, 5.f));
+		av.add_handlers({ handler2 });
 
-		LetterHandler c_handler('n');
-		c_handler.set_position(glm::vec3(0.f, 0.f, 10.f));
-		av.add_handlers({ c_handler });
+		LetterHandler handler3('u');
+		handler3.set_position(glm::vec3(0.f, 0.f, 10.f));
+		av.add_handlers({ handler3 });
 
-		LetterHandler d_handler('a');
-		d_handler.set_position(glm::vec3(0.f, 0.f, 15.f));
-		av.add_handlers({ d_handler });
+		LetterHandler handler4('r');
+		handler4.set_position(glm::vec3(0.f, 0.f, 15.f));
+		av.add_handlers({ handler4 });
+
+		LetterHandler handler5('e');
+		handler5.set_position(glm::vec3(0.f, 0.f, 20.f));
+		av.add_handlers({ handler5 });
 
 		av.run(*information_container, audio_filename);
 
