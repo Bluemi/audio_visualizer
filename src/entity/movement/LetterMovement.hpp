@@ -13,6 +13,9 @@ class LetterMovement {
 
 		void apply_force(std::vector<Movable>& movables);
 		void apply_force(Movable* movable);
+
+		void set_position(const glm::vec3& position);
+		void set_scale(float scale);
 	private:
 		void init_points(char letter);
 

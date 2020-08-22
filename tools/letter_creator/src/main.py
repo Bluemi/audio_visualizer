@@ -1,8 +1,12 @@
 #!/usr/bin/python3
 
 import sys
-import cv2
 import os.path
+import string
+
+import numpy as np
+import cv2
+from tqdm import tqdm
 
 
 def print_usage():
@@ -15,31 +19,50 @@ def format_float(f):
     return str(f) + 'f'
 
 
-def main():
-    if len(sys.argv) != 2:
-        print_usage()
-        return
+def create_img(letter):
+    img = np.zeros((64, 64), np.uint8)
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    bottomLeftCornerOfText = (7,54)
+    fontScale = 2
+    fontColor = (255,255,255)
+    lineType = 1
 
-    img_path = sys.argv[1]
-    img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+    cv2.putText(
+        img,
+        letter, 
+        bottomLeftCornerOfText, 
+        font, 
+        fontScale,
+        fontColor,
+        lineType
+    )
+    return img
+
+
+def add_letter(output_file, letter):
+    img = create_img(letter)
 
     points = []
     for y, line in enumerate(img):
         for x, pixel in enumerate(line):
-            if pixel < 128:
+            if pixel > 128:
                 xf = x/img.shape[1]
                 yf = 1.0 - y/img.shape[0]
                 points.append((xf, yf))
 
-    os.makedirs('output', exist_ok=True)
+    output_file.write('\tif (letter == \'{}\') {{\n'.format(letter))
+    for point in points:
+        output_file.write('\t\t_points.push_back(glm::vec4(0.f, {}, {}, 1.f));\n'.format(format_float(point[1]), format_float(point[0])))
+    output_file.write('\t}\n')
 
-    output_filename = os.path.join('output', os.path.splitext(os.path.basename(img_path))[0] + '.cpp')
-    if os.path.exists(output_filename):
-        raise Exception('output file "{}" already exists'.format(output_filename))
 
-    with open(output_filename, 'w') as f:
-        for point in points:
-            f.write('\t_points.push_back(glm::vec3(0.f, {}, {}));\n'.format(format_float(point[1]), format_float(point[0])))
+def main():
+
+    output_filename = 'output/letters.cpp'
+
+    with open(output_filename, 'w') as output_file:
+        for letter in tqdm(string.ascii_letters):
+            add_letter(output_file, letter)
 
 if __name__ == '__main__':
     main()

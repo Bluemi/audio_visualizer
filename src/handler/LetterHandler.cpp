@@ -19,7 +19,7 @@ void LetterHandler::init(visualizer::ShapeHeap& shape_heap) {
 	VectorGenerator speed_gen = VectorGenerator().with_stddev(glm::vec3(1.f, 1.f, 1.f));
 
 	Creation creation = Creation(shape_gen, group)
-		.with_quantity(400)
+		.with_quantity(2000)
 		.with_position(pos_gen)
 		.with_size(size_gen)
 		.with_velocity(speed_gen);
@@ -29,4 +29,12 @@ void LetterHandler::init(visualizer::ShapeHeap& shape_heap) {
 
 void LetterHandler::update(const essentia::Pool& pool) {
 	GroupMovement::apply_group_movement_to(entity_buffer, _letter_movement, groups);
+}
+
+void LetterHandler::set_position(const glm::vec3& position) {
+	_letter_movement.set_position(position);
+}
+
+void LetterHandler::set_scale(float scale) {
+	_letter_movement.set_scale(scale);
 }

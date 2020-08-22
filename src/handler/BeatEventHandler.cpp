@@ -14,7 +14,7 @@ void BeatEventHandler::operator()(const BeatEvent& beat_event) {
 
 	float b = 0.01f*value;
 	float v = 0.01f*value;
-	Movement r_acc(new RandomAcceleration(.2f*value));
+	Movement r_acc(new RandomAcceleration(.4f*value));
 	Movement cube_random_color(new RandomColor(VectorGenerator(glm::vec3(b*3, -b, -b)).with_stddev(glm::vec3(v, v, v))));
 
 	for (Movable& m : EntityIterator::iter(entity_buffer)) {

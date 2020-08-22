@@ -12,6 +12,9 @@ class LetterHandler : public BaseHandler {
 		void init(visualizer::ShapeHeap& shape_heap);
 		void update(const essentia::Pool& pool);
 		USE_BASE_OP;
+
+		void set_position(const glm::vec3& position);
+		void set_scale(float scale);
 	private:
 		LetterMovement _letter_movement;
 		char _letter;
