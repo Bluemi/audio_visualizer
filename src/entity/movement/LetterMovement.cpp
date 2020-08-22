@@ -4,9 +4,9 @@
 
 #include <glm/gtx/norm.hpp>
 
-constexpr float MAX_MAGNITUDE = 0.02f;
+constexpr float MAX_MAGNITUDE = 0.05f;
 
-LetterMovement::LetterMovement(char letter): _position(0.f), _scale(10.f) {
+LetterMovement::LetterMovement(char letter, float scale): _position(0.f), _scale(scale), _letter(letter) {
 	init_points(letter);
 }
 
@@ -17,6 +17,9 @@ void LetterMovement::apply_force(std::vector<Movable>& movables) {
 }
 
 void LetterMovement::apply_force(Movable* movable) {
+	if (_points.empty()) {
+		return;
+	}
 	glm::mat4 model(1.f);
 	model = glm::translate(model, _position);
 	model = glm::scale(model, glm::vec3(_scale));
@@ -45,6 +48,10 @@ void LetterMovement::set_position(const glm::vec3& position) {
 
 void LetterMovement::set_scale(float scale) {
 	_scale = scale;
+}
+
+const glm::vec3& LetterMovement::get_position() const {
+	return _position;
 }
 
 void LetterMovement::init_points(char letter) {
@@ -4807,4 +4814,167 @@ void LetterMovement::init_points(char letter) {
 		_points.push_back(glm::vec4(0.f, 0.15625f, 0.625f, 1.f));
 		_points.push_back(glm::vec4(0.f, 0.15625f, 0.640625f, 1.f));
 	}
+}
+
+float get_letter_width(char letter) {
+	if (letter == 'a') {
+		return 0.475f;
+	}
+	if (letter == 'b') {
+		return 0.475f;
+	}
+	if (letter == 'c') {
+		return 0.475f;
+	}
+	if (letter == 'd') {
+		return 0.475f;
+	}
+	if (letter == 'e') {
+		return 0.475f;
+	}
+	if (letter == 'f') {
+		return 0.35f;
+	}
+	if (letter == 'g') {
+		return 0.475f;
+	}
+	if (letter == 'h') {
+		return 0.44375f;
+	}
+	if (letter == 'i') {
+		return 0.1625f;
+	}
+	if (letter == 'j') {
+		return 0.1625f;
+	}
+	if (letter == 'k') {
+		return 0.44375f;
+	}
+	if (letter == 'l') {
+		return 0.1f;
+	}
+	if (letter == 'm') {
+		return 0.7875f;
+	}
+	if (letter == 'n') {
+		return 0.44375f;
+	}
+	if (letter == 'o') {
+		return 0.50625f;
+	}
+	if (letter == 'p') {
+		return 0.475f;
+	}
+	if (letter == 'q') {
+		return 0.475f;
+	}
+	if (letter == 'r') {
+		return 0.35f;
+	}
+	if (letter == 's') {
+		return 0.44375f;
+	}
+	if (letter == 't') {
+		return 0.35f;
+	}
+	if (letter == 'u') {
+		return 0.44375f;
+	}
+	if (letter == 'v') {
+		return 0.475f;
+	}
+	if (letter == 'w') {
+		return 0.6f;
+	}
+	if (letter == 'x') {
+		return 0.44375f;
+	}
+	if (letter == 'y') {
+		return 0.475f;
+	}
+	if (letter == 'z') {
+		return 0.44375f;
+	}
+	if (letter == 'A') {
+		return 0.6f;
+	}
+	if (letter == 'B') {
+		return 0.5375f;
+	}
+	if (letter == 'C') {
+		return 0.56875f;
+	}
+	if (letter == 'D') {
+		return 0.5375f;
+	}
+	if (letter == 'E') {
+		return 0.50625f;
+	}
+	if (letter == 'F') {
+		return 0.50625f;
+	}
+	if (letter == 'G') {
+		return 0.56875f;
+	}
+	if (letter == 'H') {
+		return 0.5375f;
+	}
+	if (letter == 'I') {
+		return 0.1f;
+	}
+	if (letter == 'J') {
+		return 0.4125f;
+	}
+	if (letter == 'K') {
+		return 0.5375f;
+	}
+	if (letter == 'L') {
+		return 0.475f;
+	}
+	if (letter == 'M') {
+		return 0.6f;
+	}
+	if (letter == 'N') {
+		return 0.5375f;
+	}
+	if (letter == 'O') {
+		return 0.6f;
+	}
+	if (letter == 'P') {
+		return 0.5375f;
+	}
+	if (letter == 'Q') {
+		return 0.6f;
+	}
+	if (letter == 'R') {
+		return 0.5375f;
+	}
+	if (letter == 'S') {
+		return 0.5375f;
+	}
+	if (letter == 'T') {
+		return 0.5375f;
+	}
+	if (letter == 'U') {
+		return 0.5375f;
+	}
+	if (letter == 'V') {
+		return 0.6f;
+	}
+	if (letter == 'W') {
+		return 0.725f;
+	}
+	if (letter == 'X') {
+		return 0.5375f;
+	}
+	if (letter == 'Y') {
+		return 0.6f;
+	}
+	if (letter == 'Z') {
+		return 0.5375f;
+	}
+	if (letter == ' ') {
+		return 0.3;
+	}
+	return 0.f;
 }

@@ -27,28 +27,10 @@ int main(int argc, char* argv[]) {
 		// av.add_handlers({ AccelerationFieldHandler() });
 		av.add_handlers({ BeatEventHandler() });
 
-		LetterHandler handler1('A');
-		handler1.set_position(glm::vec3(0.f, 0.f, 0.f));
-		av.add_handlers({ handler1 });
-
-		LetterHandler handler2('z');
-		handler2.set_position(glm::vec3(0.f, 0.f, 5.f));
-		av.add_handlers({ handler2 });
-
-		LetterHandler handler3('u');
-		handler3.set_position(glm::vec3(0.f, 0.f, 10.f));
-		av.add_handlers({ handler3 });
-
-		LetterHandler handler4('r');
-		handler4.set_position(glm::vec3(0.f, 0.f, 15.f));
-		av.add_handlers({ handler4 });
-
-		LetterHandler handler5('e');
-		handler5.set_position(glm::vec3(0.f, 0.f, 20.f));
-		av.add_handlers({ handler5 });
+		av.add_handlers(to_handler_list(create_string_handlers("Azure Raids", glm::vec3(0.f), 20.f)));
+		av.add_handlers(to_handler_list(create_string_handlers("The Booze", glm::vec3(0.f, -10.f, 10.f), 10.f)));
 
 		av.run(*information_container, audio_filename);
-
 	}
 
 	return 0;

@@ -8,7 +8,8 @@ class BeatEvent;
 
 class LetterHandler : public BaseHandler {
 	public:
-		LetterHandler(char letter);
+		LetterHandler(char letter, int id);
+		LetterHandler(char letter, int id, float scale);
 		void init(visualizer::ShapeHeap& shape_heap);
 		void update(const essentia::Pool& pool);
 		USE_BASE_OP;
@@ -18,6 +19,9 @@ class LetterHandler : public BaseHandler {
 	private:
 		LetterMovement _letter_movement;
 		char _letter;
+		int _id;
 };
+
+std::vector<LetterHandler> create_string_handlers(const std::string& text, const glm::vec3& position, float scale);
 
 #endif

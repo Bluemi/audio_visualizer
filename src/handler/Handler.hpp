@@ -22,4 +22,13 @@ using Handler = std::variant<
 
 using HandlerList = std::vector<Handler>;
 
+template<typename T>
+HandlerList to_handler_list(const std::vector<T>& handlers) {
+	HandlerList handler_list;
+	for (const T& t : handlers) {
+		handler_list.push_back(t);
+	}
+	return handler_list;
+}
+
 #endif
