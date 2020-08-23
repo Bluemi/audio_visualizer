@@ -29,20 +29,18 @@ AudioVisualizer::AudioVisualizer()
 {}
 
 void AudioVisualizer::setup_objects(EntityBuffer* entity_buffer, visualizer::ShapeHeap& shape_heap) {
-	/*
 	ShapeGenerator shape_gen(&shape_heap, visualizer::CubeSpecification(), 1.f);
 	VectorGenerator pos_gen = VectorGenerator().with_stddev(glm::vec3(5.f, 0.5f, 5.f));
 	VectorGenerator size_gen = VectorGenerator(glm::vec3(0.15f, 0.15f, 0.15f)).with_stddev(glm::vec3(0.01f));
 	VectorGenerator speed_gen = VectorGenerator().with_stddev(glm::vec3(1.f, 1.f, 1.f));
 
 	Creation creation = Creation(shape_gen, "main1")
-		.with_quantity(3000)
+		.with_quantity(2000)
 		.with_position(pos_gen)
 		.with_size(size_gen)
 		.with_velocity(speed_gen);
 
 	entity_buffer->insert(creation.create());
-	*/
 
 	/*
 	Creation valence_arousal_debug_creation = Creation(&shape_heap, visualizer::SphereSpecification(2), "debug")

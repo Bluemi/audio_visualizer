@@ -22,7 +22,7 @@ void LetterHandler::init(visualizer::ShapeHeap& shape_heap) {
 	VectorGenerator speed_gen = VectorGenerator().with_stddev(glm::vec3(1.f, 1.f, 1.f));
 
 	Creation creation = Creation(shape_gen, group)
-		.with_quantity(1000)
+		.with_quantity(700)
 		.with_position(pos_gen)
 		.with_size(size_gen)
 		.with_velocity(speed_gen);
@@ -47,11 +47,13 @@ std::vector<LetterHandler> create_string_handlers(const std::string& text, const
 	float z_pos = 0.f;
 	int id = 0;
 	for (char c : text) {
-		LetterHandler handler(c, id, scale);
-		handler.set_position(position + glm::vec3(0.f, 0.f, z_pos));
-		handlers.push_back(handler);
+		if (c != ' ') {
+			LetterHandler handler(c, id, scale);
+			handler.set_position(position + glm::vec3(0.f, 0.f, z_pos));
+			handlers.push_back(handler);
+			id++;
+		}
 		z_pos += 1.2f * get_letter_width(c) * scale;
-		id++;
 	}
 	return handlers;
 }

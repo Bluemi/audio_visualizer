@@ -27,6 +27,11 @@ int main(int argc, char* argv[]) {
 		// av.add_handlers({ AccelerationFieldHandler() });
 		av.add_handlers({ BeatEventHandler() });
 
+		AccelerationFieldHandler afh;
+		afh.groups = { "main1" };
+
+		av.add_handlers({ afh });
+
 		av.add_handlers(to_handler_list(create_string_handlers("Azure Raids", glm::vec3(0.f), 20.f)));
 		av.add_handlers(to_handler_list(create_string_handlers("The Booze", glm::vec3(0.f, -10.f, 10.f), 10.f)));
 

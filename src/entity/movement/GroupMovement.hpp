@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 
 #include "../EntityBuffer.hpp"
 #include "Circle.hpp"
@@ -39,8 +40,12 @@ class GroupMovement {
 				}
 			} else {
 				for (const std::string& group : groups) {
-					std::vector<Movable>& movables = entity_buffer->at(group);
-					movement.apply_force(movables);
+					auto movables = entity_buffer->find(group);
+					if (movables != entity_buffer->end()) {
+						movement.apply_force(movables->second);
+					} else {
+						std::cerr << "Could not find group \"" << group << "\" but required by group movement" << std::endl;
+					}
 				}
 			}
 		}
