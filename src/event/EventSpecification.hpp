@@ -20,12 +20,12 @@ class ValenceEventSpecification {};
 
 class TextEventSpecification {
 	public:
-		TextEventSpecification(const std::vector<std::tuple<float, std::string>>& texts) : _texts(texts) {}
-		const std::vector<std::tuple<float, std::string>>& get_texts() const {
+		TextEventSpecification(const std::vector<std::tuple<float, std::string, bool>>& texts) : _texts(texts) {}
+		const std::vector<std::tuple<float, std::string, bool>>& get_texts() const {
 			return _texts;
 		}
 	private:
-		std::vector<std::tuple<float, std::string>> _texts;
+		std::vector<std::tuple<float, std::string, bool>> _texts;
 };
 
 using EventSpecification = std::variant<TickEventSpecification, BeatEventSpecification, ArousalEventSpecification, ValenceEventSpecification, TextEventSpecification>;

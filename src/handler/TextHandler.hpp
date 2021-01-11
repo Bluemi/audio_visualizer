@@ -1,6 +1,8 @@
 #ifndef __TEXT_HANDLER_CLASS__
 #define __TEXT_HANDLER_CLASS__
 
+#include <random>
+
 #include "BaseHandler.hpp"
 
 class TextEvent;
@@ -16,6 +18,8 @@ class TextHandler : public BaseHandler {
 		int _max_letters;
 		std::string _current_text;
 		bool _initialized;
+		std::default_random_engine _random_generator;
+		std::uniform_real_distribution<float> _random_distribution;
 };
 
 #endif

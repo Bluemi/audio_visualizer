@@ -9,10 +9,10 @@ namespace essentia {
 
 class TextEventGenerator {
 	public:
-		TextEventGenerator(const std::vector<std::tuple<float, std::string>>& texts);
+		TextEventGenerator(const std::vector<std::tuple<float, std::string, bool>>& texts);
 		EventList compute(const essentia::Pool& pool) const;
 	private:
-		std::vector<std::tuple<float, std::string>> _texts;
+		std::vector<std::tuple<float, std::string, bool>> _texts;
 };
 
 #endif

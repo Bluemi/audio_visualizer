@@ -8,14 +8,14 @@
 #include "../../misc/Misc.hpp"
 
 
-TextEventGenerator::TextEventGenerator(const std::vector<std::tuple<float, std::string>>& texts) : _texts(texts) {}
+TextEventGenerator::TextEventGenerator(const std::vector<std::tuple<float, std::string, bool>>& texts) : _texts(texts) {}
 
 EventList TextEventGenerator::compute(const essentia::Pool& pool) const {
 	std::cout << "Generating TextEvents... " << std::flush;
 
 	EventList event_list;
 	for (auto ev : _texts) {
-		Event e(TextEvent(std::get<1>(ev)), std::get<0>(ev));
+		Event e(TextEvent(std::get<1>(ev), std::get<2>(ev)), std::get<0>(ev));
 		event_list.push_back(e);
 	}
 	std::cout << "Done." << std::endl;

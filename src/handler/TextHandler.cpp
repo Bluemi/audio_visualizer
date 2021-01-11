@@ -6,10 +6,11 @@
 #include "../event/TextEvent.hpp"
 
 constexpr float LETTER_WIDTH = 10.0f;
-constexpr float MAX_MAGNITUDE = 0.05f;
+constexpr float MAX_MAGNITUDE = 0.1f;
+constexpr float MAX_EXPLOSION_MAGNITUDE = 2.0f;
 
 TextHandler::TextHandler(int max_letters)
-	: _max_letters(max_letters), _initialized(false)
+	: _max_letters(max_letters), _initialized(false), _random_distribution(-10.f, 10.f)
 {}
 
 void TextHandler::init(visualizer::ShapeHeap& shape_heap) {
@@ -68,6 +69,29 @@ void TextHandler::update(const essentia::Pool& pool) {
 }
 
 void TextHandler::operator()(const TextEvent& text_event) {
+	std::string old_text = _current_text;
 	_current_text = text_event.get_text();
+	if (text_event.is_exploding()) {
+		for (unsigned int i = 0; i < old_text.size(); i++) {
+			if (old_text[i] != ' ' && (i >= _current_text.size() || _current_text[i] == ' ')) {
+				std::string group_name("letter" + std::to_string(i));
+				auto movables = entity_buffer->find(group_name);
+				if (movables != entity_buffer->end()) {
+					for (Movable& movable : movables->second) {
+						glm::vec3 dir = glm::vec3(_random_distribution(_random_generator), _random_distribution(_random_generator), _random_distribution(_random_generator));
+						glm::vec3 update = dir - movable.get_velocity();
+
+						if (glm::length(update) > MAX_EXPLOSION_MAGNITUDE) {
+							update *= MAX_EXPLOSION_MAGNITUDE / glm::length(update);
+						}
+
+						movable.update_acceleration(update);
+					}
+				} else {
+					std::cerr << "Could not find group \"" << group_name << "\" but required by TextHandler movement" << std::endl;
+				}
+			}
+		}
+	}
 	_initialized = true;
 }
