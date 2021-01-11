@@ -7,6 +7,6 @@ include_directories("/usr/local/include" "/usr/include" "/usr/include/eigen3")
 
 target_link_libraries(audio_visualizer
 	"visualizer"
-	"GLU" "glfw" "X11" "Xrandr" "pthread" "Xi" "dl" "Xinerama" "Xcursor"
+	"GLU" "glfw" "X11" "Xrandr" "pthread" "dl" "Xinerama" "Xcursor"
 	"essentia" "fftw3f" "chromaprint" "avcodec" "avutil" "tag" "avformat" "yaml" "samplerate" "avresample" 
 	)

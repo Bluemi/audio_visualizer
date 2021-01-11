@@ -5,7 +5,11 @@
 
 Movable::Movable(const visualizer::Shape& shape)
 	: _entity(shape)
-{}
+{
+	static unsigned int id_counter;
+	_id = id_counter;
+	id_counter++;
+}
 
 void Movable::tick(const double speed) {
 	for (auto iter = _movements.begin(); iter != _movements.end();) {
@@ -124,4 +128,8 @@ void Movable::set_tags(const std::vector<std::string>& tags) {
 
 const std::vector<std::string>& Movable::get_tags() const {
 	return _tags;
+}
+
+unsigned int Movable::get_id() const {
+	return _id;
 }

@@ -14,7 +14,8 @@ class AudioVisualizer {
 	public:
 		AudioVisualizer();
 		void setup_objects(EntityBuffer* entity_buffer, visualizer::ShapeHeap& shape_heap);
-		void run(const InformationContainer& information_container, const std::string& audio_filename);
+		void run(const InformationContainer& information_container, const std::string& audio_filename, bool interactive);
+		void take_screenshot(GLFWwindow* window, unsigned int tick_counter, int screen_width, int screen_height);
 
 		void add_handlers(const HandlerList& handler_list);
 	private:

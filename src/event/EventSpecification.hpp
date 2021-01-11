@@ -2,6 +2,7 @@
 #define __EVENTSPECIFICATION_CLASS__
 
 #include <variant>
+#include <tuple>
 
 #include "../data/DataSpecification.hpp"
 
@@ -17,7 +18,17 @@ class BeatEventSpecification {};
 class ArousalEventSpecification {};
 class ValenceEventSpecification {};
 
-using EventSpecification = std::variant<TickEventSpecification, BeatEventSpecification, ArousalEventSpecification, ValenceEventSpecification>;
+class TextEventSpecification {
+	public:
+		TextEventSpecification(const std::vector<std::tuple<float, std::string>>& texts) : _texts(texts) {}
+		const std::vector<std::tuple<float, std::string>>& get_texts() const {
+			return _texts;
+		}
+	private:
+		std::vector<std::tuple<float, std::string>> _texts;
+};
+
+using EventSpecification = std::variant<TickEventSpecification, BeatEventSpecification, ArousalEventSpecification, ValenceEventSpecification, TextEventSpecification>;
 
 std::vector<DataSpecification> get_needed_data_specifications(const EventSpecification& event_specification);
 

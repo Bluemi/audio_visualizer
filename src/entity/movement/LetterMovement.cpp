@@ -23,6 +23,7 @@ void LetterMovement::apply_force(Movable* movable) {
 	glm::mat4 model(1.f);
 	model = glm::translate(model, _position);
 	model = glm::scale(model, glm::vec3(_scale));
+	/*
 	glm::vec4 target_point = model * _points[0];
 	for (const glm::vec4& point : _points) {
 		glm::vec4 translated_point = model * point;
@@ -31,6 +32,9 @@ void LetterMovement::apply_force(Movable* movable) {
 			target_point = translated_point;
 		}
 	}
+	*/
+	unsigned int point_index = movable->get_id() % _points.size();
+	glm::vec3 target_point = model * _points[point_index];
 
 	glm::vec3 dir = glm::vec3(target_point.x, target_point.y, target_point.z) - movable->get_position();
 	glm::vec3 update = dir - movable->get_velocity();
@@ -55,6 +59,150 @@ const glm::vec3& LetterMovement::get_position() const {
 }
 
 void LetterMovement::init_points(char letter) {
+	if (letter == '-') {
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.234375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.25f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.265625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.28125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.296875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.3125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.328125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.34375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.359375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.390625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.40625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.421875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.4375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.453125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.46875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.484375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.5f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.515625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.53125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.546875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.5625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.578125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.59375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.609375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.640625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.65625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.671875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.6875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.703125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.71875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.734375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.75f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.765625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.78125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.796875f, 1.f));
+	}
+	if (letter == '?') {
+		_points.push_back(glm::vec4(0.f, 0.8125f, 0.328125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.8125f, 0.34375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.8125f, 0.359375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.8125f, 0.375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.8125f, 0.390625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.8125f, 0.40625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.8125f, 0.421875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.8125f, 0.4375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.8125f, 0.453125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.8125f, 0.46875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.796875f, 0.296875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.796875f, 0.3125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.796875f, 0.484375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.796875f, 0.5f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.78125f, 0.265625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.78125f, 0.28125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.78125f, 0.515625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.765625f, 0.25f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.765625f, 0.53125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.75f, 0.234375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.75f, 0.546875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.734375f, 0.234375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.734375f, 0.546875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.71875f, 0.21875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.71875f, 0.5625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.703125f, 0.21875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.703125f, 0.5625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.6875f, 0.203125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.6875f, 0.578125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.671875f, 0.203125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.671875f, 0.578125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.65625f, 0.203125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.65625f, 0.578125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.640625f, 0.578125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.625f, 0.578125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.609375f, 0.578125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.59375f, 0.5625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.578125f, 0.5625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.5625f, 0.546875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.546875f, 0.53125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.53125f, 0.515625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.515625f, 0.484375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.515625f, 0.5f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.5f, 0.453125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.5f, 0.46875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.484375f, 0.421875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.484375f, 0.4375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.46875f, 0.390625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.46875f, 0.40625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.453125f, 0.390625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.4375f, 0.390625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.421875f, 0.390625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.40625f, 0.390625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.390625f, 0.390625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.375f, 0.390625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.21875f, 0.390625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.203125f, 0.375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.203125f, 0.40625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.1875f, 0.359375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.1875f, 0.421875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.171875f, 0.375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.171875f, 0.40625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.15625f, 0.390625f, 1.f));
+	}
+	if (letter == '.') {
+		_points.push_back(glm::vec4(0.f, 0.21875f, 0.265625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.203125f, 0.25f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.203125f, 0.28125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.1875f, 0.234375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.1875f, 0.296875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.171875f, 0.25f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.171875f, 0.28125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.15625f, 0.265625f, 1.f));
+	}
+	if (letter == ',') {
+		_points.push_back(glm::vec4(0.f, 0.21875f, 0.265625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.203125f, 0.25f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.203125f, 0.28125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.1875f, 0.234375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.1875f, 0.296875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.171875f, 0.25f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.171875f, 0.28125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.171875f, 0.296875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.15625f, 0.265625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.15625f, 0.296875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.140625f, 0.296875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.125f, 0.296875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.109375f, 0.296875f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.09375f, 0.28125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.078125f, 0.28125f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.0625f, 0.265625f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.046875f, 0.25f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.03125f, 0.234375f, 1.f));
+	}
+	if (letter == '\'') {
+		_points.push_back(glm::vec4(0.f, 0.8125f, 0.234375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.796875f, 0.234375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.78125f, 0.234375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.765625f, 0.234375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.75f, 0.234375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.734375f, 0.234375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.71875f, 0.234375f, 1.f));
+		_points.push_back(glm::vec4(0.f, 0.703125f, 0.234375f, 1.f));
+	}
 	if (letter == 'a') {
 		_points.push_back(glm::vec4(0.f, 0.59375f, 0.359375f, 1.f));
 		_points.push_back(glm::vec4(0.f, 0.59375f, 0.375f, 1.f));
@@ -4851,7 +4999,7 @@ float get_letter_width(char letter) {
 		return 0.44375f;
 	}
 	if (letter == 'l') {
-		return 0.1f;
+		return 0.17f;
 	}
 	if (letter == 'm') {
 		return 0.7875f;
@@ -4890,13 +5038,13 @@ float get_letter_width(char letter) {
 		return 0.44375f;
 	}
 	if (letter == 'y') {
-		return 0.475f;
+		return 0.4f;
 	}
 	if (letter == 'z') {
 		return 0.44375f;
 	}
 	if (letter == 'A') {
-		return 0.6f;
+		return 0.5f;
 	}
 	if (letter == 'B') {
 		return 0.5375f;
@@ -4920,7 +5068,7 @@ float get_letter_width(char letter) {
 		return 0.5375f;
 	}
 	if (letter == 'I') {
-		return 0.1f;
+		return 0.15f;
 	}
 	if (letter == 'J') {
 		return 0.4125f;
@@ -4950,7 +5098,7 @@ float get_letter_width(char letter) {
 		return 0.5375f;
 	}
 	if (letter == 'S') {
-		return 0.5375f;
+		return 0.53f;
 	}
 	if (letter == 'T') {
 		return 0.5375f;
@@ -4962,7 +5110,7 @@ float get_letter_width(char letter) {
 		return 0.6f;
 	}
 	if (letter == 'W') {
-		return 0.725f;
+		return 0.675f;
 	}
 	if (letter == 'X') {
 		return 0.5375f;
@@ -4975,6 +5123,21 @@ float get_letter_width(char letter) {
 	}
 	if (letter == ' ') {
 		return 0.3;
+	}
+	if (letter == '\'') {
+		return 0.1f;
+	}
+	if (letter == '.') {
+		return 0.1f;
+	}
+	if (letter == ',') {
+		return 0.1f;
+	}
+	if (letter == '?') {
+		return 0.475f;
+	}
+	if (letter == '-') {
+		return 0.6625f;
 	}
 	return 0.f;
 }

@@ -1,0 +1,73 @@
+#include "TextHandler.hpp"
+
+#include "entity/movement/GroupMovement.hpp"
+#include <visualizer/shape/shape_type.hpp>
+#include "entity/creation/Creation.hpp"
+#include "../event/TextEvent.hpp"
+
+constexpr float LETTER_WIDTH = 10.0f;
+constexpr float MAX_MAGNITUDE = 0.05f;
+
+TextHandler::TextHandler(int max_letters)
+	: _max_letters(max_letters), _initialized(false)
+{}
+
+void TextHandler::init(visualizer::ShapeHeap& shape_heap) {
+	ShapeGenerator shape_gen(&shape_heap, visualizer::CubeSpecification(), 1.f);
+	VectorGenerator pos_gen = VectorGenerator().with_mean(glm::vec3(0.f, 0.f, 80.f)).with_stddev(glm::vec3(5.f, 0.5f, 40.f));
+	VectorGenerator size_gen = VectorGenerator(glm::vec3(0.15f, 0.15f, 0.15f)).with_stddev(glm::vec3(0.02f));
+	VectorGenerator speed_gen = VectorGenerator().with_stddev(glm::vec3(1.f, 1.f, 1.f));
+
+	for (int i = 0; i < _max_letters; i++) {
+		std::string letter_group_name = "letter" + std::to_string(i);
+		Creation letter_creation = Creation(shape_gen, letter_group_name)
+			.with_quantity(500)
+			.with_position(pos_gen)
+			.with_size(size_gen)
+			.with_velocity(speed_gen);
+		entity_buffer->insert(letter_creation.create());
+	}
+}
+
+void TextHandler::update(const essentia::Pool& pool) {
+	int index = 0;
+	float z_pos = 0.f;
+	if (_initialized) {
+		for (char c : _current_text) {
+			if (c != ' ') {
+				std::vector<std::string> groups {"letter" + std::to_string(index)};
+				LetterMovement letter_movement(c, LETTER_WIDTH);
+				letter_movement.set_position(glm::vec3(0.f, 0.f, z_pos));
+				GroupMovement::apply_group_movement_to(entity_buffer, letter_movement, groups);
+			}
+			index++;
+			z_pos += 1.2f * get_letter_width(c) * LETTER_WIDTH;
+		}
+	} else {
+		for (int i = 0; i < _max_letters; i++) {
+			std::string group = "letter" + std::to_string(i);
+			auto movables = entity_buffer->find(group);
+			if (movables != entity_buffer->end()) {
+				for (Movable& movable : movables->second) {
+					glm::vec3 target_point = glm::vec3(0.f, 0.f, i*LETTER_WIDTH*0.5f);
+
+					glm::vec3 dir = target_point - movable.get_position();
+					glm::vec3 update = dir - movable.get_velocity();
+
+					if (glm::length(update) > MAX_MAGNITUDE) {
+						update *= MAX_MAGNITUDE / glm::length(update);
+					}
+
+					movable.update_acceleration(update);
+				}
+			} else {
+				std::cerr << "Could not find group \"" << group << "\" but required by TextHandler movement" << std::endl;
+			}
+		}
+	}
+}
+
+void TextHandler::operator()(const TextEvent& text_event) {
+	_current_text = text_event.get_text();
+	_initialized = true;
+}

@@ -50,6 +50,8 @@ class Movable {
 		void set_tags(const std::vector<std::string>& tags);
 		const std::vector<std::string>& get_tags() const;
 
+		unsigned int get_id() const;
+
 		visualizer::ShapeSpecification get_shape_specification() const;
 	private:
 		Entity _entity;
@@ -57,6 +59,7 @@ class Movable {
 		Accelerator _color_accelerator;
 		std::vector<Movement> _movements;
 		std::vector<std::string> _tags;
+		unsigned int _id;
 };
 
 #endif

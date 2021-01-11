@@ -5,3 +5,5 @@ res/
 core*
 /tools/letter_creator/res
 /tools/letter_creator/output
+*.mp4
+/video

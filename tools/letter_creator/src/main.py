@@ -74,7 +74,7 @@ def main():
 
     with open(output_filename, 'w') as output_file:
         with open(width_filename, 'w') as width_file:
-            for letter in tqdm(string.ascii_letters):
+            for letter in tqdm('-'):
                 add_letter(output_file, width_file, letter)
 
 if __name__ == '__main__':

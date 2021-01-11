@@ -7,9 +7,10 @@
 #include "BeatEventGenerator.hpp"
 #include "ArousalEventGenerator.hpp"
 #include "ValenceEventGenerator.hpp"
+#include "TextEventGenerator.hpp"
 #include "../../event/EventSpecification.hpp"
 
-using EventGenerator = std::variant<TickEventGenerator, BeatEventGenerator, ArousalEventGenerator, ValenceEventGenerator>;
+using EventGenerator = std::variant<TickEventGenerator, BeatEventGenerator, ArousalEventGenerator, ValenceEventGenerator, TextEventGenerator>;
 
 EventGenerator create_event_generator(const EventSpecification& event_specification);
 EventList compute_event_generator(const EventGenerator& generator, const essentia::Pool& pool);

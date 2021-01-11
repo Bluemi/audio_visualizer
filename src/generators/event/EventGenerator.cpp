@@ -18,6 +18,10 @@ struct {
 	EventGenerator operator()(const ValenceEventSpecification&) {
 		return ValenceEventGenerator();
 	}
+
+	EventGenerator operator()(const TextEventSpecification& specification) {
+		return TextEventGenerator(specification.get_texts());
+	}
 } _generator_creator;
 
 EventGenerator create_event_generator(const EventSpecification& event_specification) {
