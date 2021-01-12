@@ -7,8 +7,8 @@ struct {
 		return TickEventGenerator();
 	}
 
-	EventGenerator operator()(const BeatEventSpecification&) {
-		return BeatEventGenerator();
+	EventGenerator operator()(const BeatEventSpecification& beat_event_specification) {
+		return BeatEventGenerator(beat_event_specification._accelerations);
 	}
 
 	EventGenerator operator()(const ArousalEventSpecification&) {

@@ -4981,7 +4981,7 @@ float get_letter_width(char letter) {
 		return 0.475f;
 	}
 	if (letter == 'f') {
-		return 0.35f;
+		return 0.32f;
 	}
 	if (letter == 'g') {
 		return 0.475f;
@@ -5029,10 +5029,10 @@ float get_letter_width(char letter) {
 		return 0.44375f;
 	}
 	if (letter == 'v') {
-		return 0.475f;
+		return 0.46f;
 	}
 	if (letter == 'w') {
-		return 0.6f;
+		return 0.55f;
 	}
 	if (letter == 'x') {
 		return 0.44375f;

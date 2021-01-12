@@ -123,10 +123,11 @@ void AudioVisualizer::run(const InformationContainer& information_container, con
 
 	unsigned int tick_counter = 0;
 
+	double start_time = visualizer::Timer::get_global_time();
 	double current_time = 0.0;
 	while (!visualizer::should_close(window)) {
 		if (interactive) {
-			current_time = visualizer::Timer::get_global_time();
+			current_time = visualizer::Timer::get_global_time() - start_time;
 		} else {
 			current_time += OFFSCREEN_FRAME_INTERVAL;
 		}
@@ -200,7 +201,10 @@ void AudioVisualizer::take_screenshot(GLFWwindow* window, unsigned int tick_coun
     sprintf(capture_name, "video/capture/Capture_%06u.png", tick_counter);
 
 	std::vector<std::uint8_t> file_buffer;
-	lodepng::encode(file_buffer, source_buffer, screen_width, screen_height);
+	lodepng::State state;
+	state.encoder.zlibsettings.btype = 2;
+	state.encoder.zlibsettings.use_lz77 = 0;
+	lodepng::encode(file_buffer, source_buffer, screen_width, screen_height, state);
 	lodepng::save_file(file_buffer, capture_name);
 }
 

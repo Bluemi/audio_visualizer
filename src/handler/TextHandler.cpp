@@ -7,7 +7,7 @@
 
 constexpr float LETTER_WIDTH = 10.0f;
 constexpr float MAX_MAGNITUDE = 0.1f;
-constexpr float MAX_EXPLOSION_MAGNITUDE = 2.0f;
+constexpr float MAX_EXPLOSION_MAGNITUDE = 1.0f;
 
 TextHandler::TextHandler(int max_letters)
 	: _max_letters(max_letters), _initialized(false), _random_distribution(-10.f, 10.f)
@@ -16,7 +16,7 @@ TextHandler::TextHandler(int max_letters)
 void TextHandler::init(visualizer::ShapeHeap& shape_heap) {
 	ShapeGenerator shape_gen(&shape_heap, visualizer::CubeSpecification(), 1.f);
 	VectorGenerator pos_gen = VectorGenerator().with_mean(glm::vec3(0.f, 0.f, 80.f)).with_stddev(glm::vec3(5.f, 0.5f, 40.f));
-	VectorGenerator size_gen = VectorGenerator(glm::vec3(0.15f, 0.15f, 0.15f)).with_stddev(glm::vec3(0.02f));
+	VectorGenerator size_gen = VectorGenerator(glm::vec3(0.25f, 0.25f, 0.25f)).with_stddev(glm::vec3(0.02f));
 	VectorGenerator speed_gen = VectorGenerator().with_stddev(glm::vec3(1.f, 1.f, 1.f));
 
 	for (int i = 0; i < _max_letters; i++) {

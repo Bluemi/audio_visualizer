@@ -9,7 +9,9 @@ namespace essentia {
 
 class BeatEventGenerator {
 	public:
+		BeatEventGenerator(const std::vector<std::tuple<float, float>>& accelerations) : _accelerations(accelerations) {}
 		EventList compute(const essentia::Pool& pool) const;
+		std::vector<std::tuple<float, float>> _accelerations;
 };
 
 #endif

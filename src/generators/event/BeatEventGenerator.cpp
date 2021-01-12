@@ -117,8 +117,16 @@ EventList BeatEventGenerator::compute(const essentia::Pool& pool) const {
 
 	EventList event_list;
 
+	float amplitude_factor = 1.f;
+
 	for (const BeatPosition& pos : filtered_positions) {
-		Event e(BeatEvent(pos.value), pos.position*(1024.f / 44100.f)-0.04f);
+		float event_time = pos.position*(1024.f / 44100.f);
+		for (auto& acceleration : _accelerations) {
+			if (std::get<0>(acceleration) < event_time) {
+				amplitude_factor = std::get<1>(acceleration);
+			}
+		}
+		Event e(BeatEvent(pos.value * amplitude_factor), event_time-0.04f);
 		event_list.push_back(e);
 	}
 

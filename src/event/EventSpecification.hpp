@@ -14,7 +14,13 @@ class TickEventSpecification {
 		float _min_amplitude;
 };
 
-class BeatEventSpecification {};
+class BeatEventSpecification {
+	public:
+		BeatEventSpecification() : _accelerations() {}
+		BeatEventSpecification(const std::vector<std::tuple<float, float>>& accelerations) : _accelerations(accelerations) {}
+		std::vector<std::tuple<float, float>> _accelerations;
+};
+
 class ArousalEventSpecification {};
 class ValenceEventSpecification {};
 
