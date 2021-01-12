@@ -5098,7 +5098,7 @@ float get_letter_width(char letter) {
 		return 0.5375f;
 	}
 	if (letter == 'S') {
-		return 0.53f;
+		return 0.5f;
 	}
 	if (letter == 'T') {
 		return 0.5375f;

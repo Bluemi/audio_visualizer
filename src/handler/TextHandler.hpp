@@ -9,13 +9,13 @@ class TextEvent;
 
 class TextHandler : public BaseHandler {
 	public:
-		TextHandler(int max_letters);
+		TextHandler(unsigned int max_letters);
 		void init(visualizer::ShapeHeap& shape_heap);
 		void update(const essentia::Pool& pool);
 		void operator()(const TextEvent& text_event);
 		USE_BASE_OP;
 	private:
-		int _max_letters;
+		unsigned int _max_letters;
 		std::string _current_text;
 		bool _initialized;
 		std::default_random_engine _random_generator;
