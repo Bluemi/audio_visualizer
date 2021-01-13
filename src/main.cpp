@@ -98,6 +98,7 @@ int main(int argc, char* argv[]) {
 		// av.add_handlers(to_handler_list(create_string_handlers("Suzy's Gone", glm::vec3(0.f), 10.f)));
 		// av.add_handlers(to_handler_list(create_string_handlers("Azure Raids", glm::vec3(0.f, -5.f, 5.f), 5.f)));
 		av.add_handlers({ TextHandler(40) });
+		av.add_handlers({ RandomAccelerationHandler(0.04f) });
 
 		av.run(*information_container, audio_filename, true);
 	}
