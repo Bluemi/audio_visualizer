@@ -8,6 +8,8 @@
 constexpr float LETTER_WIDTH = 10.0f;
 constexpr float MAX_MAGNITUDE = 0.1f;
 constexpr float MAX_EXPLOSION_MAGNITUDE = 1.0f;
+constexpr float NON_LETTER_COLOR_MODIFICATION = -0.004f;
+constexpr float LETTER_COLOR_MODIFICATION = 0.01f;
 
 TextHandler::TextHandler(unsigned int max_letters)
 	: _max_letters(max_letters), _initialized(false), _random_distribution(-10.f, 10.f)
@@ -16,7 +18,7 @@ TextHandler::TextHandler(unsigned int max_letters)
 void TextHandler::init(visualizer::ShapeHeap& shape_heap) {
 	ShapeGenerator shape_gen(&shape_heap, visualizer::CubeSpecification(), 1.f);
 	VectorGenerator pos_gen = VectorGenerator().with_mean(glm::vec3(0.f, 0.f, 80.f)).with_stddev(glm::vec3(5.f, 0.5f, 40.f));
-	VectorGenerator size_gen = VectorGenerator(glm::vec3(0.15f, 0.15f, 0.15f)).with_stddev(glm::vec3(0.02f));
+	VectorGenerator size_gen = VectorGenerator(glm::vec3(0.25f, 0.25f, 0.25f)).with_stddev(glm::vec3(0.12f));
 	VectorGenerator speed_gen = VectorGenerator().with_stddev(glm::vec3(1.f, 1.f, 1.f));
 
 	for (unsigned int i = 0; i < _max_letters; i++) {
@@ -41,11 +43,20 @@ void TextHandler::update(const essentia::Pool& pool) {
 				LetterMovement letter_movement(c, LETTER_WIDTH);
 				letter_movement.set_position(glm::vec3(0.f, 0.f, z_pos));
 				GroupMovement::apply_group_movement_to(entity_buffer, letter_movement, groups);
+
+				auto movables = entity_buffer->find(group);
+				if (movables != entity_buffer->end()) {
+					for (Movable& movable : movables->second) {
+						movable.update_color_acceleration(glm::vec3(LETTER_COLOR_MODIFICATION, LETTER_COLOR_MODIFICATION, LETTER_COLOR_MODIFICATION));
+					}
+				} else {
+					std::cerr << "Could not find group \"" << group << "\" but required by TextHandler movement" << std::endl;
+				}
 			} else {
 				auto movables = entity_buffer->find(group);
 				if (movables != entity_buffer->end()) {
 					for (Movable& movable : movables->second) {
-						movable.update_color_acceleration(glm::vec3(-0.01f, -0.01f, -0.01f));
+						movable.update_color_acceleration(glm::vec3(NON_LETTER_COLOR_MODIFICATION, NON_LETTER_COLOR_MODIFICATION, NON_LETTER_COLOR_MODIFICATION));
 					}
 				} else {
 					std::cerr << "Could not find group \"" << group << "\" but required by TextHandler movement" << std::endl;
