@@ -16,16 +16,16 @@ int main(int argc, char* argv[]) {
 	information_builder
 		.with_events({
 			BeatEventSpecification({
-				{0.0f, 2.f},
-				{14.5f, 1.f},
-				{29.0f, 2.f},
-				{58.5f, 4.f},
-				{101.0f, 1.f},
-				{114.8f, 2.f},
-				{144.8f, 0.7f},
-				{158.0f, 2.0f},
-				{172.5f, 4.0f},
-				{189.5f, 20.0f},
+				{0.0f, 1.f},
+				{14.5f, 1.f}, // verse 1
+				{29.0f, 1.3f}, // refrain 1
+				{58.5f, 2.f}, // solo 1
+				{101.0f, 1.f}, // verse 2
+				{114.8f, 1.3f}, // refrain 2
+				{144.8f, 1.3f}, // solo 2
+				{158.0f, 1.5f}, // refrain 3
+				{172.5f, 1.8f}, // refrain 3 part 2
+				{189.5f, 1.0f}, // end
 			}),
 			TextEventSpecification({
 				{2.7f, "       Suzys Gone", false},
