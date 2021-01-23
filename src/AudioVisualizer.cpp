@@ -23,7 +23,7 @@
 #include "entity/movement/RandomColor.hpp"
 #include "misc/lodepng.h"
 
-constexpr float DEFAULT_SPEED = 60.f;
+constexpr float DEFAULT_SPEED = 50.f;
 constexpr unsigned int NUM_LETTER_GROUPS = 10;
 constexpr double OFFSCREEN_FRAME_INTERVAL = 1.0 / 60.0;
 

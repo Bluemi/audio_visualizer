@@ -8,6 +8,8 @@
 constexpr float LETTER_WIDTH = 10.0f;
 constexpr float MAX_MAGNITUDE = 0.1f;
 constexpr float MAX_EXPLOSION_MAGNITUDE = 1.0f;
+constexpr float MOVE_BACK_MAGNITUDE = 0.01f;
+constexpr float MOVE_BACK_RANDOM = 2.f;
 constexpr float NON_LETTER_COLOR_MODIFICATION = -0.004f;
 constexpr float LETTER_COLOR_MODIFICATION = 0.01f;
 
@@ -56,7 +58,20 @@ void TextHandler::update(const essentia::Pool& pool) {
 				auto movables = entity_buffer->find(group);
 				if (movables != entity_buffer->end()) {
 					for (Movable& movable : movables->second) {
+						// make darker
 						movable.update_color_acceleration(glm::vec3(NON_LETTER_COLOR_MODIFICATION, NON_LETTER_COLOR_MODIFICATION, NON_LETTER_COLOR_MODIFICATION));
+
+						// slowly move to start position
+						glm::vec3 target_point = glm::vec3(0.f, 0.f, i*LETTER_WIDTH*0.5f) + glm::vec3(_random_distribution(_random_generator)*MOVE_BACK_RANDOM, _random_distribution(_random_generator)*MOVE_BACK_RANDOM, _random_distribution(_random_generator)*MOVE_BACK_RANDOM);
+
+						glm::vec3 dir = target_point - movable.get_position();
+						glm::vec3 update = dir - movable.get_velocity();
+
+						if (glm::length(update) > MOVE_BACK_MAGNITUDE) {
+							update *= MOVE_BACK_MAGNITUDE / glm::length(update);
+						}
+
+						movable.update_acceleration(update);
 					}
 				} else {
 					std::cerr << "Could not find group \"" << group << "\" but required by TextHandler movement" << std::endl;
@@ -72,7 +87,7 @@ void TextHandler::update(const essentia::Pool& pool) {
 			auto movables = entity_buffer->find(group);
 			if (movables != entity_buffer->end()) {
 				for (Movable& movable : movables->second) {
-					glm::vec3 target_point = glm::vec3(0.f, 0.f, i*LETTER_WIDTH*0.5f);
+					glm::vec3 target_point = glm::vec3(0.f, 0.f, i*LETTER_WIDTH*0.5f) + glm::vec3(_random_distribution(_random_generator)*MOVE_BACK_RANDOM, _random_distribution(_random_generator)*MOVE_BACK_RANDOM, _random_distribution(_random_generator)*MOVE_BACK_RANDOM);
 
 					glm::vec3 dir = target_point - movable.get_position();
 					glm::vec3 update = dir - movable.get_velocity();

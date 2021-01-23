@@ -22,6 +22,10 @@ struct {
 	EventGenerator operator()(const TextEventSpecification& specification) {
 		return TextEventGenerator(specification.get_texts());
 	}
+
+	EventGenerator operator()(const ImageEventSpecification& specification) {
+		return ImageEventGenerator(specification.image_id, specification.start_time, specification.end_time);
+	}
 } _generator_creator;
 
 EventGenerator create_event_generator(const EventSpecification& event_specification) {

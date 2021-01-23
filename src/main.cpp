@@ -15,6 +15,8 @@ int main(int argc, char* argv[]) {
 
 	information_builder
 		.with_events({
+			ImageEventSpecification(0, 60.f, 95.f),
+			ImageEventSpecification(1, 186.f, 200.f),
 			BeatEventSpecification({
 				{0.0f, 1.f},
 				{14.5f, 1.f}, // verse 1
@@ -28,6 +30,7 @@ int main(int argc, char* argv[]) {
 				{189.5f, 1.0f}, // end
 			}),
 			TextEventSpecification({
+				// {0.f, "", false},
 				{2.7f, "       Suzys Gone", false},
 				{6.6f, "       Suzys Gone  -  Azure Raids", false},
 				{10.7f, "", false},
@@ -51,7 +54,7 @@ int main(int argc, char* argv[]) {
 				{101.0f, "This love has seen better days,", false},
 				{104.8f, "but my love won't ever fade away.", false},
 				{108.5f, "You kept in mind I hate goodbye's.", false},
-				{112.0f, "Without a word you went outta my life.", false},
+				{112.0f, "The arrow - it was a shot, it was a hit.", false},
 				{114.8f, "Was it me?", false},
 				{116.5f, "Was it me? Am I", false},
 				{118.5f, "Was it me? Am I the one to blame?", false},
@@ -75,7 +78,8 @@ int main(int argc, char* argv[]) {
 				{174.5f, "Was it mee?", false},
 				{176.0f, "Was it meee?", false},
 				{180.0f, "                   Ohh Suzy", false},
-				{189.5f, "       Suzys Gone  -  Azure Raids", true},
+				{186.0f, "", true},
+				// {189.5f, "       Suzys Gone  -  Azure Raids", true},
 			})
 		})
 		.with_data({ ArousalDataSpecification(), ValenceDataSpecification(), PartsDataSpecification() });
@@ -99,6 +103,12 @@ int main(int argc, char* argv[]) {
 		// av.add_handlers(to_handler_list(create_string_handlers("Azure Raids", glm::vec3(0.f, -5.f, 5.f), 5.f)));
 		av.add_handlers({ TextHandler(40) });
 		av.add_handlers({ RandomAccelerationHandler(0.03f) });
+
+		ImageHandler ih({ "res/azure_raids_logo_small.png", "res/azure_raids_group_foto.png" });
+		for (unsigned int i = 2; i < 38; i++) {
+			ih.groups.push_back("letter" + std::to_string(i));
+		}
+		av.add_handlers({ ih });
 
 		av.run(*information_container, audio_filename, true);
 	}

@@ -12,6 +12,7 @@
 #include "LetterHandler.hpp"
 #include "TextHandler.hpp"
 #include "RandomAccelerationHandler.hpp"
+#include "ImageHandler.hpp"
 
 using Handler = std::variant<
 	BeatEventHandler,
@@ -21,7 +22,8 @@ using Handler = std::variant<
 	DragHandler,
 	LetterHandler,
 	TextHandler,
-	RandomAccelerationHandler
+	RandomAccelerationHandler,
+	ImageHandler
 >;
 
 using HandlerList = std::vector<Handler>;

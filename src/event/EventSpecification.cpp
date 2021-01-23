@@ -20,6 +20,10 @@ struct {
 	std::vector<DataSpecification> operator()(const TextEventSpecification&) {
 		return {};
 	}
+
+	std::vector<DataSpecification> operator()(const ImageEventSpecification&) {
+		return {};
+	}
 } _needed_data_extractor;
 
 std::vector<DataSpecification> get_needed_data_specifications(const EventSpecification& event_specification) {

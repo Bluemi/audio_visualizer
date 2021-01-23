@@ -34,7 +34,15 @@ class TextEventSpecification {
 		std::vector<std::tuple<float, std::string, bool>> _texts;
 };
 
-using EventSpecification = std::variant<TickEventSpecification, BeatEventSpecification, ArousalEventSpecification, ValenceEventSpecification, TextEventSpecification>;
+class ImageEventSpecification {
+	public:
+		ImageEventSpecification(int image_id, float start_time, float end_time) : image_id(image_id), start_time(start_time), end_time(end_time) {}
+		int image_id;
+		float start_time;
+		float end_time;
+};
+
+using EventSpecification = std::variant<TickEventSpecification, BeatEventSpecification, ArousalEventSpecification, ValenceEventSpecification, TextEventSpecification, ImageEventSpecification>;
 
 std::vector<DataSpecification> get_needed_data_specifications(const EventSpecification& event_specification);
 
