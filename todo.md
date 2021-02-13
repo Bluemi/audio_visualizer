@@ -1,4 +1,2 @@
 # TODO
 
-- Letter Movement
-  - Scale

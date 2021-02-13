@@ -26,6 +26,7 @@
 constexpr float DEFAULT_SPEED = 50.f;
 constexpr unsigned int NUM_LETTER_GROUPS = 10;
 constexpr double OFFSCREEN_FRAME_INTERVAL = 1.0 / 60.0;
+constexpr unsigned int NUM_FRAMES = 100;
 
 AudioVisualizer::AudioVisualizer()
 	: _event_index(0)
@@ -89,6 +90,8 @@ void AudioVisualizer::run(const InformationContainer& information_container, con
 
 	visualizer::ShapeHeap shape_heap;
 
+	MovieWriter movie("SuzysGone", window_width, window_height);
+
 	EntityBuffer entity_buffer;
 
 	GLFWwindow* window = visualizer::create_window(window_width, window_height);
@@ -125,7 +128,7 @@ void AudioVisualizer::run(const InformationContainer& information_container, con
 
 	double start_time = visualizer::Timer::get_global_time();
 	double current_time = 0.0;
-	while (!visualizer::should_close(window)) {
+	while (!visualizer::should_close(window) && tick_counter < NUM_FRAMES) {
 		if (interactive) {
 			current_time = visualizer::Timer::get_global_time() - start_time;
 		} else {
@@ -168,13 +171,14 @@ void AudioVisualizer::run(const InformationContainer& information_container, con
 		}
 
 		if (!interactive) {
-			take_screenshot(window, tick_counter, window_width, window_height);
-			tick_counter++;
+			take_screenshot(window, tick_counter, window_width, window_height, movie);
 		}
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+		tick_counter++;
 	}
+	std::cout << tick_counter << " frames" << std::endl;
 
 	if (interactive) {
 		if (system("pkill vlc") != 0) {
@@ -187,25 +191,17 @@ void AudioVisualizer::run(const InformationContainer& information_container, con
 	visualizer::close();
 }
 
-void AudioVisualizer::take_screenshot(GLFWwindow* window, unsigned int tick_counter, int screen_width, int screen_height) {
+void AudioVisualizer::take_screenshot(GLFWwindow* window, unsigned int tick_counter, int screen_width, int screen_height, MovieWriter& movie) {
 	if (tick_counter == 0) {
 		return;
 	}
 	std::vector<std::uint8_t> source_buffer(screen_width*screen_height*4, 0);
 
-    /* Store pixels into tga.pic */
+    // Store pixels into source_buffer
     glReadPixels(0, 0, screen_width, screen_height, GL_RGBA, GL_UNSIGNED_BYTE, source_buffer.data());
 
-    /* Store "Capture_%04lu.tga" + tick_counter into captureName, increase frame count */
-	char capture_name[256];
-    sprintf(capture_name, "video/capture/Capture_%06u.png", tick_counter);
-
-	std::vector<std::uint8_t> file_buffer;
-	lodepng::State state;
-	state.encoder.zlibsettings.btype = 2;
-	state.encoder.zlibsettings.use_lz77 = 0;
-	lodepng::encode(file_buffer, source_buffer, screen_width, screen_height, state);
-	lodepng::save_file(file_buffer, capture_name);
+    // add to movie
+	movie.addFrame(source_buffer.data());
 }
 
 void AudioVisualizer::add_handlers(const HandlerList& handler_list) {

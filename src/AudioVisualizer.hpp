@@ -1,6 +1,7 @@
 #ifndef __AUDIOVISUALIZER_CLASS__
 #define __AUDIOVISUALIZER_CLASS__
 
+#include <movie.h>
 #include <visualizer/visualizer.hpp>
 
 #include "information/InformationBuilder.hpp"
@@ -15,7 +16,7 @@ class AudioVisualizer {
 		AudioVisualizer();
 		void setup_objects(EntityBuffer* entity_buffer, visualizer::ShapeHeap& shape_heap);
 		void run(const InformationContainer& information_container, const std::string& audio_filename, bool interactive);
-		void take_screenshot(GLFWwindow* window, unsigned int tick_counter, int screen_width, int screen_height);
+		void take_screenshot(GLFWwindow* window, unsigned int tick_counter, int screen_width, int screen_height, MovieWriter& movie);
 
 		void add_handlers(const HandlerList& handler_list);
 	private:

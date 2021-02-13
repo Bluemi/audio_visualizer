@@ -110,7 +110,7 @@ int main(int argc, char* argv[]) {
 		}
 		av.add_handlers({ ih });
 
-		av.run(*information_container, audio_filename, true);
+		av.run(*information_container, audio_filename, false);
 	}
 
 	return 0;
